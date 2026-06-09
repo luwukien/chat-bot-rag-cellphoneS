@@ -3,6 +3,7 @@ import json
 from urllib.parse import urljoin
 from typing import List, Dict, Optional
 from playwright.async_api import async_playwright
+from urllib.parse import urlparse
 
 
 async def crawl_cellphones_url_and_name(url: str) -> Dict[str, Optional[str]]:
@@ -31,12 +32,16 @@ async def crawl_cellphones_url_and_name(url: str) -> Dict[str, Optional[str]]:
         elements = await page.locator("a.product__link").all()
         products: List[Dict[str, Optional[str]]] = []
 
+
+
         for el in elements:
             href = await el.get_attribute("href")
             if not href:
                 continue
-            full_url = urljoin(url, href)
+            full_url_phone = urljoin(url, href)
 
+            # Create ID
+            product_id = urlparse(full_url_phone).path.split("/")[-1].replace(".html", "")
             name_locator = el.locator(".product__name")
 
             if await name_locator.count() > 0:
@@ -44,7 +49,8 @@ async def crawl_cellphones_url_and_name(url: str) -> Dict[str, Optional[str]]:
                 name = name.strip()
             else:
                 name = None
-            products.append({"name": name, "url": full_url})
+
+            products.append({"id": product_id, "name": name, "url": full_url_phone})
 
         await browser.close()
         return products

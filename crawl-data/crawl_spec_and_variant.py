@@ -1,103 +1,67 @@
 import asyncio
 import json
-import traceback
-from typing import List, Dict, Any
+from typing import Dict, Any
 from playwright.async_api import async_playwright
-from urllib.parse import urlparse
 
 async def crawls_specs_from_page(page) -> Dict[str, Any]:
-    """Extract specs from all tabs in technical specification modal using Locators.
-
-    Use Locators to avoid ElementHandle adoption errors when the page re-renders DOM.
-    """
+    """Extract specs directly from sections, bypassing redundant tab clicks."""
     full_specs: Dict[str, Any] = {}
 
     try:
         button = page.locator(".button__show-modal-technical")
-        if await button.count() and await button.is_visible():
+        if await button.count() > 0 and await button.is_visible():
             await button.click()
             await page.wait_for_selector(".teleport-modal", timeout=15000)
             await page.wait_for_selector("section.technical-content-section", timeout=15000)
+            
     except Exception as e:
         print(f"  -> Lỗi khi mở modal: {e}")
         return full_specs
 
-    # Use Locators (resolve-on-use) instead of ElementHandles
     try:
-        tabs_locator = page.locator("li.technical-tab-item")
-        tabs_count = await tabs_locator.count()
-        print(f"Debug: tìm thấy {tabs_count} tabs")
+        sections_locator = page.locator("section.technical-content-section")
+        
+        # Wait briefly to ensure DOM has fully populated the sections
+        sections_count = 0
+        for _ in range(5):
+            sections_count = await sections_locator.count()
+            if sections_count > 0:
+                break
+            await page.wait_for_timeout(400)
 
-        for tab_idx in range(tabs_count):
-            try:
-                tab = tabs_locator.nth(tab_idx)
-                if not (await tab.count()):
-                    continue
+        print(f"    Debug: Tìm thấy tổng cộng {sections_count} sections. Đang trích xuất dữ liệu...")
 
-                # Ensure tab is visible
-                try:
-                    await tab.scroll_into_view_if_needed()
-                except Exception:
-                    pass
-
-                # Try clicking with a short timeout, fallback to force click if needed
-                clicked = False
-                try:
-                    await tab.click(timeout=5000)
-                    clicked = True
-                except Exception:
-                    try:
-                        await tab.click(force=True, timeout=3000)
-                        clicked = True
-                    except Exception as e_click:
-                        print(f"-> Không thể click tab {tab_idx}: {e_click}")
-
-                if not clicked:
-                    continue
-
-                # Wait a bit and retry reading sections until they appear (small retry loop)
-                sections_locator = page.locator("section.technical-content-section")
-                sections_count = 0
-                for _ in range(5):
-                    sections_count = await sections_locator.count()
-                    if sections_count:
-                        break
-                    await page.wait_for_timeout(400)
-
-                print(f"Tab {tab_idx}: tìm thấy {sections_count} sections")
-
-                for sec_idx in range(sections_count):
-                    section = sections_locator.nth(sec_idx)
-                    title_locator = section.locator("p.title")
-                    if not (await title_locator.count()):
-                        continue
-                    category_name = (await title_locator.inner_text()).strip()
-
-                    rows_locator = section.locator("table.technical-content tr.technical-content-item")
-                    rows_count = await rows_locator.count()
-                    for row_idx in range(rows_count):
-                        row = rows_locator.nth(row_idx)
-                        key_loc = row.locator("td:nth-child(1)")
-                        val_loc = row.locator("td:nth-child(2)")
-                        
-                        if (await key_loc.count()) and (await val_loc.count()):
-                            key = (await key_loc.inner_text()).strip()
-                            val = (await val_loc.inner_text()).strip()
-                            if key:
-                                full_specs[key] = val
-
-            except Exception as e:
-                print(f" -> Lỗi khi xử lý tab {tab_idx}: {e}")
+        for sec_idx in range(sections_count):
+            section = sections_locator.nth(sec_idx)
+            
+            title_locator = section.locator("p.title")
+            if await title_locator.count() == 0:
                 continue
+                
+            category_name = (await title_locator.first.inner_text()).strip()
+
+            rows_locator = section.locator("table.technical-content tr.technical-content-item")
+            rows_count = await rows_locator.count()
+            
+            for row_idx in range(rows_count):
+                row = rows_locator.nth(row_idx)
+                key_loc = row.locator("td").nth(0)
+                val_loc = row.locator("td").nth(1)
+                
+                if await key_loc.count() > 0 and await val_loc.count() > 0:
+                    key = (await key_loc.first.inner_text()).strip()
+                    val = (await val_loc.first.inner_text()).strip()
+                    
+                    if key:
+                        full_specs[key] = val
 
     except Exception as e:
-        print(f"  -> Lỗi khi lấy tabs: {e}")
+        print(f"  -> Lỗi khi trích xuất dữ liệu: {e}")
 
     return full_specs
 
-
 async def main():
-    file_name = 'test_result.json'
+    file_name = 'list_product_details.json'
     
     try:
         with open(file_name, 'r', encoding='utf-8') as f:
@@ -111,16 +75,12 @@ async def main():
 
     # KHỞI CHẠY TRÌNH DUYỆT
     async with async_playwright() as p: 
-        browser = await p.chromium.launch(headless=False)
+        browser = await p.chromium.launch(headless=True)
 
         for idx, product in enumerate(products):
             url = product.get('url')
             if not url:
                 continue
-
-            # Create ID
-            product_id = urlparse(url).path.split("/")[-1].replace(".html", "")
-            product['id'] = product_id
 
             print(f"[{idx + 1}/{len(products)}] Đang xử lý: {product.get('name')}")
 
