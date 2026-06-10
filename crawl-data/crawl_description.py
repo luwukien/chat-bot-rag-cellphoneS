@@ -3,8 +3,6 @@ import json
 import sys
 from playwright.async_api import async_playwright
 
-sys.stdout.reconfigure(encoding='utf-8')
-
 async def crawl_description_from_page(page) -> str:
     """Extract description directly from the product page."""
     try:

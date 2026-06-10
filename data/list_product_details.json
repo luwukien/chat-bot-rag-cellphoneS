@@ -32,7 +32,30 @@
       "Kích thước": "150 x 71.9 x 8.75 mm",
       "Trọng lượng": "204g",
       "Thời điểm ra mắt": "09/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh Đậm",
+        "price": "33.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Cam Vũ Trụ",
+        "price": "33.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "33.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-17-pro-max",
@@ -69,7 +92,30 @@
       "Kích thước": "163,4 x 78,0 x 8,75 mm",
       "Trọng lượng": "231 g",
       "Thời điểm ra mắt": "09/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh đậm",
+        "price": "36.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "36.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Cam Vũ Trụ",
+        "price": "36.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-17-256gb",
@@ -115,7 +161,44 @@
       "Wi-Fi": "Wi‑Fi 7",
       "Bluetooth": "Bluetooth 6",
       "Thời điểm ra mắt": "09/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đen",
+        "price": "23.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh Lá Xô Thơm",
+        "price": "23.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Tím Oải Hương",
+        "price": "23.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh Lam Khói",
+        "price": "23.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "23.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-air-256gb",
@@ -161,7 +244,37 @@
       "Wi-Fi": "Wi‑Fi 7",
       "Bluetooth": "Bluetooth 6",
       "Thời điểm ra mắt": "09/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh Da Trời",
+        "price": "22.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen Không Gian",
+        "price": "22.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Vàng Nhạt",
+        "price": "22.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng Mây",
+        "price": "22.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15",
@@ -206,7 +319,44 @@
       "Wi-Fi": "Wi-Fi MIMO\nWi-Fi 6\nWi-Fi 802.11 a/b/g/n/ac/ax",
       "Bluetooth": "v5.3",
       "Thời điểm ra mắt": "09/2023"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh dương",
+        "price": "17.690.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "17.690.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "17.690.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "17.690.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "17.690.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-17e",
@@ -248,7 +398,30 @@
       "Tính năng đặc biệt": "Hỗ trợ 5G, Kháng nước, kháng bụi",
       "Wi-Fi": "Wi‑Fi 6 (802.11ax) với 2x2 MIMO",
       "Bluetooth": "5.3"
-    }
+    },
+    "variants": [
+      {
+        "color": "Trắng",
+        "price": "17.390.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "17.390.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "17.390.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16-pro-max",
@@ -292,7 +465,37 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2024"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Đen",
+        "price": "30.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "30.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Sa Mạc",
+        "price": "30.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Trắng",
+        "price": "30.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16-pro-max-512gb",
@@ -335,7 +538,37 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2024"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "37.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Đen",
+        "price": "37.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Trắng",
+        "price": "37.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Sa Mạc",
+        "price": "38.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-17-pro-max-512gb",
@@ -371,7 +604,30 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO11",
       "Bluetooth": "Bluetooth 6",
       "Thời điểm ra mắt": "09/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh Đậm",
+        "price": "42.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Cam Vũ Trụ",
+        "price": "42.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "42.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16e",
@@ -414,7 +670,23 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax) với 2x2 MIMO",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "02/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đen",
+        "price": "13.690.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "13.690.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-17-pro-max-2tb",
@@ -450,7 +722,30 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO11",
       "Bluetooth": "Bluetooth 6",
       "Thời điểm ra mắt": "09/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh Đậm",
+        "price": "60.590.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Cam Vũ Trụ",
+        "price": "60.590.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "60.590.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13",
@@ -492,7 +787,51 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax)",
       "Bluetooth": "v5.0",
       "Thời điểm ra mắt": "09/2021"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đen",
+        "price": "11.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "11.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "12.290.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "12.290.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "12.290.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "12.290.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-17-pro-max-1tb",
@@ -529,7 +868,30 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO11",
       "Bluetooth": "Bluetooth 6",
       "Thời điểm ra mắt": "09/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh Đậm",
+        "price": "49.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "49.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Cam Vũ Trụ",
+        "price": "49.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-17-pro-512gb",
@@ -566,7 +928,30 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO11",
       "Bluetooth": "Bluetooth 6",
       "Thời điểm ra mắt": "09/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "39.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh Đậm",
+        "price": "39.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Cam Vũ Trụ",
+        "price": "39.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16",
@@ -609,7 +994,44 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2024"
-    }
+    },
+    "variants": [
+      {
+        "color": "Hồng",
+        "price": "20.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh Mòng Két",
+        "price": "20.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "20.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh Lưu Ly",
+        "price": "20.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "20.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14",
@@ -654,7 +1076,51 @@
       "Wi-Fi": "Wi-Fi MIMO, Dual-band (2.4 GHz/5 GHz), Wi-Fi 802.11 a/b/g/n/ac/ax, Wi-Fi hotspot",
       "Bluetooth": "v5.3, A2DP, LE",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Trắng",
+        "price": "13.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "13.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh",
+        "price": "13.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "13.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "13.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "13.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15-256gb",
@@ -700,7 +1166,44 @@
       "Wi-Fi": "Wi-Fi MIMO\nWi-Fi 6\nWi-Fi 802.11 a/b/g/n/ac/ax",
       "Bluetooth": "v5.3",
       "Thời điểm ra mắt": "09/2023"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh dương",
+        "price": "20.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "20.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "20.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "20.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "20.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-17-512gb",
@@ -744,7 +1247,44 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO9",
       "Bluetooth": "Bluetooth 6",
       "Thời điểm ra mắt": "09/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh Lam Khói",
+        "price": "29.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Tím Oải Hương",
+        "price": "29.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "29.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh Lá Xô Thơm",
+        "price": "29.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "29.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-pro-max",
@@ -788,7 +1328,37 @@
       "Wi-Fi": "Wi-Fi MIMO, Dual-band (2.4 GHz/5 GHz), Wi-Fi 802.11 a/b/g/n/ac/ax, Wi-Fi hotspot",
       "Bluetooth": "v5.3, A2DP, LE",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "25.590.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "25.590.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "25.590.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "25.590.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-17-pro-1tb",
@@ -824,13 +1394,42 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO11",
       "Bluetooth": "Bluetooth 6",
       "Thời điểm ra mắt": "09/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh Đậm",
+        "price": "44.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "44.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Cam Vũ Trụ",
+        "price": "44.890.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16-pro",
     "name": "iPhone 16 Pro 128GB | Chính hãng VN/A",
     "url": "https://cellphones.com.vn/iphone-16-pro.html",
     "specs": {
+      "Hệ điều hành": "iOS 18",
+      "Chipset": "Apple A18 Pro",
+      "Dung lượng RAM": "8 GB",
+      "Bộ nhớ trong": "128 GB",
+      "Loại CPU": "CPU 6 lõi mới với 2 lõi hiệu năng và 4 lõi tiết kiệm điện",
+      "GPU": "GPU 6 lõi mới",
       "Kích thước màn hình": "6.3 inches",
       "Công nghệ màn hình": "Super Retina XDR OLED",
       "Độ phân giải màn hình": "2622 x 1206 pixels",
@@ -842,33 +1441,56 @@
       "Tính năng camera": "Flash True Tone\nPhotonic Engine\nDeep Fusion\nHDR thông minh thế hệ 5\nHiệu ứng Chiếu Sáng Chân Dung với sáu chế độ\nChế độ Ban Đêm\nChụp ảnh toàn cảnh Panorama (lên đến 63MP)\nPhong Cách Nhiếp Ảnh thế hệ mới nhất\nẢnh không gian",
       "Camera trước": "12MP, ƒ/1.9, Tự động lấy nét theo pha Focus Pixels",
       "Quay video trước": "4K@24 fps, 4K@25 fps, 4K@30 fps, 4K@60 fps\n1080p@25fps, 1080p@30 fps, hoặc 1080p@60 fps",
-      "Chipset": "Apple A18 Pro",
-      "GPU": "GPU 6 lõi mới",
-      "Công nghệ NFC": "Có",
-      "Thẻ SIM": "Sim kép (nano-Sim và e-Sim) - Hỗ trợ 2 e-Sim",
+      "Công nghệ sạc": "Sạc không dây MagSafe lên đến 25W với bộ tiếp hợp 30W trở lên\nSạc không dây Qi2 lên đến 15W\nSạc không dây Qi lên đến 7,5W",
+      "Cổng sạc": "USB Type-C",
       "Hỗ trợ mạng": "5G",
+      "Thẻ SIM": "Sim kép (nano-Sim và e-Sim) - Hỗ trợ 2 e-Sim",
+      "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
+      "Bluetooth": "Bluetooth 5.3",
+      "Công nghệ NFC": "Có",
       "GPS": "GPS, GLONASS, Galileo, QZSS và BeiDou",
-      "Dung lượng RAM": "8 GB",
-      "Bộ nhớ trong": "128 GB",
-      "Hệ điều hành": "iOS 18",
-      "Loại CPU": "CPU 6 lõi mới với 2 lõi hiệu năng và 4 lõi tiết kiệm điện",
-      "Kích thước": "Rộng: 71,5 mm Cao: 149,6 mm Dày: 8,25 mm",
-      "Trọng lượng": "199 gram",
-      "Chất liệu mặt lưng": "Kính",
-      "Chất liệu khung viền": "Titanium",
       "Tương thích": "Tương Thích Với Thiết Bị Trợ Thính",
+      "Các loại cảm biến": "Cảm biến gia tốc, Cảm biến tiệm cận, Cảm biến ánh sáng, La bàn, Con quay hồi chuyển, Cảm biến áp kế, Cảm biến trọng lực",
       "Chỉ số kháng nước, bụi": "IP68 chống nước ở độ sâu tối đa 6 mét trong vòng tối đa 30 phút) theo tiêu chuẩn IEC 60529",
       "Công nghệ - Tiện ích": "Face ID, FaceTime",
       "Tiện ích khác": "Apple Pay\nSOS Khẩn Cấp\nPhát Hiện Va Chạm",
       "Công nghệ âm thanh": "AAC, APAC, MP3, Apple Lossless, FLAC, Dolby Digital, Dolby Digital Plus, và Dolby Atmos",
-      "Công nghệ sạc": "Sạc không dây MagSafe lên đến 25W với bộ tiếp hợp 30W trở lên\nSạc không dây Qi2 lên đến 15W\nSạc không dây Qi lên đến 7,5W",
-      "Cổng sạc": "USB Type-C",
-      "Các loại cảm biến": "Cảm biến gia tốc, Cảm biến tiệm cận, Cảm biến ánh sáng, La bàn, Con quay hồi chuyển, Cảm biến áp kế, Cảm biến trọng lực",
-      "Tính năng đặc biệt": "Hỗ trợ 5G, Sạc không dây, Nhận diện khuôn mặt, Kháng nước, kháng bụi, Điện thoại AI",
-      "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
-      "Bluetooth": "Bluetooth 5.3",
+      "Chất liệu khung viền": "Titanium",
+      "Chất liệu mặt lưng": "Kính",
+      "Kích thước": "Rộng: 71,5 mm Cao: 149,6 mm Dày: 8,25 mm",
+      "Trọng lượng": "199 gram",
       "Thời điểm ra mắt": "09/2024"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Đen",
+        "price": "23.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "23.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Trắng",
+        "price": "23.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Sa Mạc",
+        "price": "23.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16-plus",
@@ -911,7 +1533,44 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2024"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đen",
+        "price": "23.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "23.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh Mòng Két",
+        "price": "23.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh Lưu Ly",
+        "price": "23.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "23.790.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15-pro-max",
@@ -959,7 +1618,37 @@
       "Wi-Fi": "Wi‑Fi 6E (802.11ax)",
       "Bluetooth": "v5.3",
       "Thời điểm ra mắt": "09/2023"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Đen",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Trắng",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Xanh",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15-plus",
@@ -1004,7 +1693,44 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax)",
       "Bluetooth": "v5.3",
       "Thời điểm ra mắt": "09/2023"
-    }
+    },
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "17.690.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "17.690.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "17.690.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "17.690.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "17.690.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16e-256gb",
@@ -1047,7 +1773,23 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax) với 2x2 MIMO",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "02/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đen",
+        "price": "16.190.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "16.190.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16-pro-256gb",
@@ -1090,7 +1832,37 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2024"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "27.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Trắng",
+        "price": "27.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Đen",
+        "price": "27.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Sa Mạc",
+        "price": "27.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16-plus-256gb",
@@ -1132,7 +1904,44 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2024"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh Mòng Két",
+        "price": "26.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "26.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "26.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh Lưu Ly",
+        "price": "26.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "26.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-pro",
@@ -1179,7 +1988,37 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax) with 2x2 MIMO",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đen",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16-pro-max-1tb",
@@ -1222,7 +2061,37 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2024"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "42.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Trắng",
+        "price": "42.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Đen",
+        "price": "42.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Titan Sa Mạc",
+        "price": "42.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15-pro",
@@ -1270,7 +2139,37 @@
       "Wi-Fi": "Wi‑Fi 6E (802.11ax)",
       "Bluetooth": "v5.3",
       "Thời điểm ra mắt": "09/2023"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Xanh",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Trắng",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Đen",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-air-512gb",
@@ -1316,7 +2215,37 @@
       "Wi-Fi": "Wi‑Fi 7",
       "Bluetooth": "Bluetooth 6",
       "Thời điểm ra mắt": "09/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh Da Trời",
+        "price": "28.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen Không Gian",
+        "price": "28.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng Mây",
+        "price": "28.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng Nhạt",
+        "price": "28.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-pro-max-256gb",
@@ -1361,7 +2290,37 @@
       "Wi-Fi": "Dual-band (2.4 GHz/5 GHz), Wi-Fi 802.11 a/b/g/n/ac/ax, Wi-Fi hotspot, Wi-Fi MIMO",
       "Bluetooth": "A2DP, LE, v5.3",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Tím",
+        "price": "26.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "26.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "26.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "26.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16-256gb",
@@ -1403,7 +2362,44 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2024"
-    }
+    },
+    "variants": [
+      {
+        "color": "Trắng",
+        "price": "22.190.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh Mòng Két",
+        "price": "22.190.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh Lưu Ly",
+        "price": "22.190.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "22.190.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "22.190.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-12-pro-max",
@@ -1448,7 +2444,37 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Face ID, cảm biến gia tốc, cảm biến tiệm cận, con quay hồi chuyển, cảm biên sáng"
-    }
+    },
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "23.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "23.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "23.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "23.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-256gb",
@@ -1490,7 +2516,51 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax)",
       "Bluetooth": "v5.0",
       "Thời điểm ra mắt": "09/2021"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đỏ",
+        "price": "14.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "14.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "14.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "14.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "14.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "14.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15-pro-256gb",
@@ -1538,7 +2608,37 @@
       "Wi-Fi": "Wi‑Fi 6E (802.11ax)",
       "Bluetooth": "5.3",
       "Thời điểm ra mắt": "09/2023"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Xanh",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Trắng",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Đen",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15-pro-max-512gb",
@@ -1586,7 +2686,37 @@
       "Wi-Fi": "Wi‑Fi 6E (802.11ax)",
       "Bluetooth": "v5.3",
       "Thời điểm ra mắt": "9/2023"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Trắng",
+        "price": "28.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "28.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Xanh",
+        "price": "28.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Đen",
+        "price": "28.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15-plus-256gb",
@@ -1631,7 +2761,44 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax)",
       "Bluetooth": "v5.3",
       "Thời điểm ra mắt": "09/2023"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh dương",
+        "price": "21.290.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "21.290.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "21.290.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "21.290.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "21.290.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16-pro-512gb",
@@ -1674,7 +2841,37 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2024"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Trắng",
+        "price": "31.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Sa Mạc",
+        "price": "31.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "31.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Đen",
+        "price": "31.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-17e-512gb",
@@ -1715,7 +2912,30 @@
       "Tính năng đặc biệt": "Hỗ trợ 5G, Kháng nước, kháng bụi",
       "Wi-Fi": "Wi‑Fi 6 (802.11ax) với 2x2 MIMO",
       "Bluetooth": "5.3"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đen",
+        "price": "22.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "22.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "22.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-11",
@@ -1760,7 +2980,23 @@
       "Wi-Fi": "802.11ax Wi‑Fi 6 with 2x2 MIMO",
       "Bluetooth": "5.0",
       "Cảm biến": "FaceID, Con quay hồi chuyển, Gia tốc kế, Cảm biến tiệm cận, Cảm biến ánh sáng xung quanh"
-    }
+    },
+    "variants": [
+      {
+        "color": "Trắng",
+        "price": "8.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "8.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16-512gb",
@@ -1802,7 +3038,44 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2024"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đen",
+        "price": "26.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "26.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh Mòng Két",
+        "price": "26.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh Lưu Ly",
+        "price": "26.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "26.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-11-pro-max-256gb",
@@ -1845,7 +3118,37 @@
       "Wi-Fi": "802.11ax Wi‑Fi 6 with 2x2 MIMO",
       "Bluetooth": "5.0",
       "Cảm biến": "FaceID, Con quay hồi chuyển, Gia tốc kế, Cảm biến tiệm cận, Cảm biến ánh sáng xung quanh"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "32.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "27.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "32.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "27.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16-pro-1tb",
@@ -1888,7 +3191,37 @@
       "Wi-Fi": "Wi‑Fi 7 (802.11be) với 2x2 MIMO7",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2024"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Đen",
+        "price": "35.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Sa Mạc",
+        "price": "35.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Trắng",
+        "price": "35.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "35.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-pro-max",
@@ -1931,7 +3264,44 @@
       "Wi-Fi": "Wi-Fi MIMO, Wi-Fi hotspot, Wi-Fi 802.11 a/b/g/n/ac/ax, Dual-band (2.4 GHz/5 GHz)",
       "Bluetooth": "v5.0, LE, A2DP",
       "Thời điểm ra mắt": "09/2021"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "22.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-pro-256gb",
@@ -1976,7 +3346,37 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax) with 2x2 MIMO",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Tím",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "27.390.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "27.390.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-plus",
@@ -2023,7 +3423,51 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax)",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Trắng",
+        "price": "15.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "15.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "15.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "15.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh",
+        "price": "15.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "15.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-11-128gb",
@@ -2068,7 +3512,51 @@
       "Wi-Fi": "802.11ax Wi‑Fi 6 with 2x2 MIMO",
       "Bluetooth": "5.0",
       "Cảm biến": "FaceID, Con quay hồi chuyển, Gia tốc kế, Cảm biến tiệm cận, Cảm biến ánh sáng xung quanh"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh lá",
+        "price": "13.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "8.490.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "13.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "13.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "13.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "8.490.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-11-pro-max",
@@ -2111,7 +3599,37 @@
       "Wi-Fi": "802.11ax Wi‑Fi 6 with 2x2 MIMO",
       "Bluetooth": "5.0",
       "Cảm biến": "FaceID, Con quay hồi chuyển, Gia tốc kế, Cảm biến tiệm cận, Cảm biến ánh sáng xung quanh"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "29.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "29.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "29.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "29.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-16-plus-512gb",
@@ -2152,7 +3670,44 @@
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2024",
       "Tính năng đặc biệt": "Hỗ trợ 5G, Sạc không dây, Nhận diện khuôn mặt, Kháng nước, kháng bụi, Điện thoại AI"
-    }
+    },
+    "variants": [
+      {
+        "color": "Hồng",
+        "price": "28.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh Lưu Ly",
+        "price": "28.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "28.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "28.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh Mòng Két",
+        "price": "28.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-12-mini",
@@ -2197,7 +3752,51 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Face ID, cảm biến gia tốc, cảm biến tiệm cận, con quay hồi chuyển, cảm biên sáng"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đỏ",
+        "price": "12.690.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "12.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "12.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "12.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "9.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh",
+        "price": "12.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-12-128gb",
@@ -2242,7 +3841,51 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Face ID, cảm biến gia tốc, cảm biến tiệm cận, con quay hồi chuyển, cảm biên sáng"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh dương",
+        "price": "9.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "9.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh",
+        "price": "9.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "9.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "9.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "9.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-pro-max-256gb",
@@ -2285,7 +3928,44 @@
       "Wi-Fi": "Wi-Fi MIMO, Wi-Fi hotspot, Wi-Fi 802.11 a/b/g/n/ac/ax, Dual-band (2.4 GHz/5 GHz)",
       "Bluetooth": "v5.0, LE, A2DP",
       "Thời điểm ra mắt": "09/2021"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh lá",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-se-2022",
@@ -2325,7 +4005,30 @@
       "Tính năng đặc biệt": "Hỗ trợ 5G, Sạc không dây, Bảo mật vân tay, Kháng nước, kháng bụi",
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n",
       "Bluetooth": "5.0"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đen",
+        "price": "10.190.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "9.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "9.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-air-1tb",
@@ -2371,7 +4074,37 @@
       "Wi-Fi": "Wi‑Fi 7",
       "Bluetooth": "Bluetooth 6",
       "Thời điểm ra mắt": "09/2025"
-    }
+    },
+    "variants": [
+      {
+        "color": "Trắng Mây",
+        "price": "33.590.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen Không Gian",
+        "price": "33.590.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh Da Trời",
+        "price": "33.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Vàng Nhạt",
+        "price": "33.590.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-pro-max-512gb",
@@ -2415,7 +4148,44 @@
       "Wi-Fi": "Wi-Fi MIMO, Wi-Fi hotspot, Wi-Fi 802.11 a/b/g/n/ac/ax, Dual-band (2.4 GHz/5 GHz)",
       "Bluetooth": "v5.0",
       "Thời điểm ra mắt": "09/2021"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh dương",
+        "price": "25.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "25.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "25.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "25.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "25.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-pro-max-1tb",
@@ -2458,7 +4228,44 @@
       "Wi-Fi": "Dual-band (2.4 GHz/5 GHz)\nWi-Fi 802.11 a/b/g/n/ac/ax\nWi-Fi MIMO\nWi-Fi hotspot",
       "Bluetooth": "v5.0",
       "Thời điểm ra mắt": "09/2021"
-    }
+    },
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "33.390.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "33.390.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "33.390.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "33.390.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "33.390.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-12-pro-256gb",
@@ -2503,7 +4310,37 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Face ID, cảm biến gia tốc, cảm biến tiệm cận, con quay hồi chuyển, cảm biên sáng"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xám",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "24.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-se-2",
@@ -2544,7 +4381,30 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/ax, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Cảm biến vân tay, cảm biến tiệm cận, gia tốc kế, la bàn, con quay hồi chuyển"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đỏ",
+        "price": "8.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "8.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "8.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-256gb",
@@ -2589,7 +4449,51 @@
       "Wi-Fi": "Wi-Fi MIMO, Dual-band (2.4 GHz/5 GHz), Wi-Fi 802.11 a/b/g/n/ac/ax, Wi-Fi hotspot",
       "Bluetooth": "v5.3, A2DP, LE",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "16.290.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "16.390.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "16.290.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "16.290.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh",
+        "price": "16.390.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "16.290.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-8-plus-128gb-chinh-hang-vn-a",
@@ -2631,7 +4535,30 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Vân tay, gia tốc, la bàn, khoảng cách, con quay quy hồi, phong vũ biểu"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "13.920.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "13.920.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "13.920.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-12-pro",
@@ -2676,7 +4603,37 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Face ID, cảm biến gia tốc, cảm biến tiệm cận, con quay hồi chuyển, cảm biên sáng"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "24.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "24.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "24.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "24.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-12",
@@ -2720,7 +4677,51 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Face ID, cảm biến gia tốc, cảm biến tiệm cận, con quay hồi chuyển, cảm biên sáng"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đỏ",
+        "price": "7.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "7.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "7.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "7.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "7.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "7.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15-pro-max-1tb",
@@ -2768,7 +4769,37 @@
       "Wi-Fi": "Wi‑Fi 6E (802.11ax)",
       "Bluetooth": "5.3",
       "Thời điểm ra mắt": "09/2023"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "31.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Xanh",
+        "price": "31.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Trắng",
+        "price": "31.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Đen",
+        "price": "31.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-pro",
@@ -2812,7 +4843,44 @@
       "Wi-Fi": "WiFi 6E",
       "Bluetooth": "v5.0",
       "Thời điểm ra mắt": "09/2021"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "21.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "21.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "21.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "21.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "21.990.000₫",
+        "stock": [
+          "Còn hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-pro-max-512gb",
@@ -2858,7 +4926,37 @@
       "Wi-Fi": "Dual-band (2.4 GHz/5 GHz), Wi-Fi 802.11 a/b/g/n/ac/ax, Wi-Fi hotspot, Wi-Fi MIMO",
       "Bluetooth": "A2DP, LE, v5.3",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "35.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "35.190.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "35.390.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "35.190.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-12-pro-max-256gb",
@@ -2903,7 +5001,37 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Face ID, cảm biến gia tốc, cảm biến tiệm cận, con quay hồi chuyển, cảm biên sáng"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "27.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "27.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "27.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "27.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-plus-256gb",
@@ -2948,7 +5076,51 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax)",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "17.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "17.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh",
+        "price": "17.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "17.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "17.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "17.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-mini",
@@ -2987,13 +5159,131 @@
       "Tính năng đặc biệt": "Hỗ trợ 5G, Sạc không dây, Nhận diện khuôn mặt, Kháng nước, kháng bụi",
       "Wi-Fi": "WiFi 6E",
       "Bluetooth": "v5.0"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh lá",
+        "price": "17.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "17.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "17.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "17.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "17.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "17.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-pro-256gb",
     "name": "iPhone 13 Pro 256GB | Chính hãng VN/A",
     "url": "https://cellphones.com.vn/iphone-13-pro-256gb.html",
-    "specs": {}
+    "specs": {
+      "Kích thước màn hình": "6.1 inches",
+      "Công nghệ màn hình": "Super Retina XDR OLED",
+      "Độ phân giải màn hình": "1170 x 2532 pixels",
+      "Tính năng màn hình": "Tần số quét 120Hz, 1200 nits, Super Retina XDR với ProMotion 6.1‑inch, OLED, 460 pp, HDR display, True Tone, Wide color (P3), Haptic Touch",
+      "Tần số quét": "120Hz",
+      "Kiểu màn hình": "Tai thỏ",
+      "Camera sau": "Camera góc rộng: 12MP, ƒ/1.5\nCamera góc siêu rộng: 12MP, ƒ/1.8\nCamera tele : 12MP, /2.8",
+      "Quay video": "4K@24/25/30/60fps\n1080p HD @25/30/60fps\n720p HD@30fps",
+      "Tính năng camera": "Chạm lấy nét\nHDR\nNhận diện khuôn mặt\nQuay chậm (Slow Motion)\nToàn cảnh (Panorama)\nTự động lấy nét (AF)\nXóa phông\nNhãn dán (AR Stickers)\nNhận diện khuôn mặt",
+      "Camera trước": "12MP, ƒ/2.2",
+      "Chipset": "Apple A15 Bionic 6 nhân",
+      "GPU": "Apple GPU 4 nhân",
+      "Công nghệ NFC": "Có",
+      "Thẻ SIM": "2 SIM (nano‑SIM và eSIM)",
+      "Hỗ trợ mạng": "5G",
+      "GPS": "GPS, GLONASS, Galileo, QZSS, and BeiDou",
+      "Dung lượng RAM": "6 GB",
+      "Bộ nhớ trong": "256 GB",
+      "Khe cắm thẻ nhớ": "Không",
+      "Pin": "3095 mAh",
+      "Công nghệ sạc": "Sạc nhanh 20W, Sạc không dây, Sạc ngược không dây 15W, Sạc pin nhanh, Tiết kiệm pin",
+      "Cổng sạc": "Lightning",
+      "Hệ điều hành": "iOS 15",
+      "Loại CPU": "3.22 GHz",
+      "Kích thước": "146,7 x 71.5 x 7,65mm",
+      "Trọng lượng": "204g",
+      "Chất liệu mặt lưng": "Kính",
+      "Chất liệu khung viền": "Kim loại",
+      "Chỉ số kháng nước, bụi": "IP68",
+      "Công nghệ - Tiện ích": "Mở khoá khuôn mặt Face ID",
+      "Công nghệ âm thanh": "Ghi âm có microphone chuyên dụng chống ồn",
+      "Các loại cảm biến": "Cảm biến gia tốc, Cảm biến tiệm cận, Cảm biến ánh sáng, Con quay hồi chuyển, Cảm biến áp kế",
+      "Tính năng đặc biệt": "Hỗ trợ 5G, Sạc không dây, Nhận diện khuôn mặt, Kháng nước, kháng bụi, Điện thoại AI",
+      "Wi-Fi": "WiFi 6E",
+      "Bluetooth": "v5.0",
+      "Thời điểm ra mắt": "09/2021"
+    },
+    "variants": [
+      {
+        "color": "Xanh lá",
+        "price": "24.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "24.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "24.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "24.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "24.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-pro-max-1tb",
@@ -3038,7 +5328,37 @@
       "Wi-Fi": "Dual-band (2.4 GHz/5 GHz), Wi-Fi 802.11 a/b/g/n/ac/ax, Wi-Fi hotspot, Wi-Fi MIMO",
       "Bluetooth": "A2DP, LE, v5.3",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "41.790.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "41.790.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "41.790.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "41.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-11-pro",
@@ -3081,12 +5401,96 @@
       "Wi-Fi": "802.11ax Wi‑Fi 6 with 2x2 MIMO",
       "Bluetooth": "5.0",
       "Cảm biến": "FaceID, Con quay hồi chuyển, Gia tốc kế, Cảm biến tiệm cận, Cảm biến ánh sáng xung quanh"
-    }
+    },
+    "variants": [
+      {
+        "color": "Gold",
+        "price": "25.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "25.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "25.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "25.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-8-plus-64-gb-chinh-hang-vn",
     "name": "iPhone 8 Plus 64GB I Chính hãng VN/A",
-    "url": "https://cellphones.com.vn/apple-iphone-8-plus-64-gb-chinh-hang-vn.html"
+    "url": "https://cellphones.com.vn/apple-iphone-8-plus-64-gb-chinh-hang-vn.html",
+    "specs": {
+      "Kích thước màn hình": "5.5 inches",
+      "Công nghệ màn hình": "Cảm ứng điện dung LED-backlit IPS LCD, 16 triệu màu",
+      "Độ phân giải màn hình": "1080 x 1920 pixels (FullHD)",
+      "Tần số quét": "60Hz",
+      "Camera sau": "12 MP (f/1.8, 28mm, OIS) + 12 MP (f/2.8, 57mm), tự động lấy nét nhận diện theo giai đoạn, zoom quang 2x, 4 LED flash (2 tone)",
+      "Quay video": "2160p@24/30/60fps, 1080p@30/60/120/240fps",
+      "Camera trước": "7 MP (f/2.2, 32mm), 1080p@30fps, 720p@240fps, nhận diện khuôn mặt, HDR",
+      "Chipset": "Apple A11 Bionic APL1W72",
+      "GPU": "Apple GPU (3 lõi đồ họa)",
+      "Bộ nhớ trong": "64 GB",
+      "Khe cắm thẻ nhớ": "Không",
+      "Pin": "Li-ion 2691 mAh",
+      "Thẻ SIM": "Nano-SIM",
+      "GPS": "A-GPS, GLONASS, GALILEO, QZSS",
+      "Hệ điều hành": "11",
+      "Loại CPU": "2x 2.39 GHz Monsoon & 4x 2.39 GHz Mistral",
+      "Kích thước": "158.4 x 78.1 x 7.5 mm (6.24 x 3.07 x 0.30 in)",
+      "Trọng lượng": "202 g (7.13 oz)",
+      "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac, dual-band, hotspot",
+      "Bluetooth": "5.0, A2DP, LE",
+      "Tính năng đặc biệt": "Sạc không dây",
+      "Cảm biến": "Vân tay, gia tốc, la bàn, khoảng cách, con quay quy hồi, phong vũ biểu"
+    },
+    "variants": [
+      {
+        "color": "Xám",
+        "price": "15.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "13.210.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "15.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "15.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-pro-512gb",
@@ -3129,7 +5533,44 @@
       "Wi-Fi": "Wi-Fi MIMO, Wi-Fi hotspot, Wi-Fi 802.11 a/b/g/n/ac/ax, Dual-band (2.4 GHz/5 GHz)",
       "Bluetooth": "v5.0",
       "Thời điểm ra mắt": "09/2021"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh lá",
+        "price": "25.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "25.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "25.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "25.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "25.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-11-pro-max-512gb",
@@ -3159,7 +5600,37 @@
       "Bluetooth": "5.0",
       "Tính năng đặc biệt": "Nhận diện khuôn mặt, Kháng nước, kháng bụi",
       "Cảm biến": "FaceID, Con quay hồi chuyển, Gia tốc kế, Cảm biến tiệm cận, Cảm biến ánh sáng xung quanh"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xám",
+        "price": "35.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "35.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "35.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "35.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-mini-256gb",
@@ -3198,7 +5669,51 @@
       "Tính năng đặc biệt": "Hỗ trợ 5G, Sạc không dây, Nhận diện khuôn mặt, Kháng nước, kháng bụi",
       "Wi-Fi": "WiFi 6E",
       "Bluetooth": "v5.0"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh lá",
+        "price": "21.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-12-mini-128gb",
@@ -3243,7 +5758,51 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Face ID, cảm biến gia tốc, cảm biến tiệm cận, con quay hồi chuyển, cảm biên sáng"
-    }
+    },
+    "variants": [
+      {
+        "color": "Trắng",
+        "price": "14.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "14.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "14.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "14.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh",
+        "price": "14.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "14.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-11-256gb",
@@ -3288,7 +5847,51 @@
       "Wi-Fi": "802.11ax Wi‑Fi 6 with 2x2 MIMO",
       "Bluetooth": "5.0",
       "Cảm biến": "FaceID, Con quay hồi chuyển, Gia tốc kế, Cảm biến tiệm cận, Cảm biến ánh sáng xung quanh"
-    }
+    },
+    "variants": [
+      {
+        "color": "Trắng",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-12-pro-512gb",
@@ -3333,7 +5936,37 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Face ID, cảm biến gia tốc, cảm biến tiệm cận, con quay hồi chuyển, cảm biên sáng"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xám",
+        "price": "27.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "27.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "27.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "27.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-pro-1tb",
@@ -3380,7 +6013,37 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax) with 2x2 MIMO",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "34.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "34.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "34.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "34.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15-512gb",
@@ -3427,7 +6090,44 @@
       "Wi-Fi": "Wi-Fi MIMO\nWi-Fi 6\nWi-Fi 802.11 a/b/g/n/ac/ax",
       "Bluetooth": "v5.3",
       "Thời điểm ra mắt": "09/2023"
-    }
+    },
+    "variants": [
+      {
+        "color": "Hồng",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-pro-512gb",
@@ -3472,7 +6172,37 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax) with 2x2 MIMO",
       "Bluetooth": "Bluetooth 5.3",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "28.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "32.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "32.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "32.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15-plus-512gb",
@@ -3520,13 +6250,122 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax)",
       "Bluetooth": "v5.3",
       "Thời điểm ra mắt": "09/2023"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh dương",
+        "price": "27.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "21.290.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "27.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "27.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "27.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15-pro-512gb",
     "name": "iPhone 15 Pro 512GB | Chính hãng VN/A",
     "url": "https://cellphones.com.vn/iphone-15-pro-512gb.html",
-    "specs": {}
+    "specs": {
+      "Kích thước màn hình": "6.1 inches",
+      "Công nghệ màn hình": "Super Retina XDR OLED",
+      "Độ phân giải màn hình": "2556 x 1179 pixels",
+      "Tính năng màn hình": "Tốc độ làm mới 120Hz\n460 ppi\nHDR\nTrue Tone\nDải màu rộng (P3)\nHaptic Touch\nTỷ lệ tương phản 2.000.000:1",
+      "Tần số quét": "120Hz",
+      "Kiểu màn hình": "Dynamic Island",
+      "Camera sau": "Camera chính: 48MP, 24 mm, ƒ/1.78,\nCamera góc siêu rộng: 12 MP, 13 mm, ƒ/2.2\nCamera Tele 3x: 12 MP, 77 mm, ƒ/2.8",
+      "Quay video": "4K@24/25/30/60 fps\nHD 1080p@25/30/60 fps\nHD 720p@30 fps",
+      "Tính năng camera": "Flash True Tone Thích Ứng\nPhotonic Engine\nDeep Fusion\nHDR thông minh thế hệ 5\nẢnh chân dung thế hệ mới với Focus và Depth Control\nHiệu ứng Chiếu Sáng Chân Dung với sáu chế độ\nChế độ Ban Đêm",
+      "Camera trước": "12MP, ƒ/1.9",
+      "Quay video trước": "4K@24/25/30/60 fps\nHD 1080p@25/30/60 fps",
+      "Chipset": "Apple A17 Pro 6 nhân",
+      "GPU": "GPU 6 nhân mới",
+      "Công nghệ NFC": "Có",
+      "Thẻ SIM": "2 SIM (nano‑SIM và eSIM)",
+      "Hồng ngoại": "Có",
+      "Jack tai nghe 3.5": "Không",
+      "Hỗ trợ mạng": "5G",
+      "GPS": "GPS tần số kép chính xác (GPS, GLONASS, Galileo, QZSS, BeiDou và NavIC)",
+      "Dung lượng RAM": "8 GB",
+      "Bộ nhớ trong": "512 GB",
+      "Khe cắm thẻ nhớ": "Không",
+      "Pin": "3274 mAh",
+      "Công nghệ sạc": "Sạc nhanh 20W\nSạc không dây 15W\nSạc không dây Qi 7.5W",
+      "Cổng sạc": "USB Type-C",
+      "Hệ điều hành": "iOS 17",
+      "Loại CPU": "CPU 6 lõi mới với 2 lõi hiệu năng và 4 lõi hiệu suất",
+      "Kích thước": "146,6 x 70,6 x 8,25 mm",
+      "Trọng lượng": "187 g",
+      "Chất liệu mặt lưng": "Kính",
+      "Chất liệu khung viền": "Titanium",
+      "Chỉ số kháng nước, bụi": "Đạt mức IP68 (chống nước ở độ sâu tối đa 6 mét trong vòng tối đa 30 phút)",
+      "Công nghệ - Tiện ích": "Camera TrueDepth hỗ trợ nhận diện khuôn mặt",
+      "Tiện ích khác": "SOS Khẩn Cấp\nPhát Hiện Va Chạm\nMở khoá khuôn mặt Face ID",
+      "Công nghệ âm thanh": "AAC, MP3, Apple Lossless, FLAC, Dolby Digital, Dolby Digital Plus và Dolby Atmos",
+      "Cảm biến vân tay": "Không",
+      "Các loại cảm biến": "Cảm biến gia tốc, Cảm biến tiệm cận, Cảm biến ánh sáng, La bàn, Con quay hồi chuyển, Cảm biến áp kế, Cảm biến trọng lực",
+      "Tính năng đặc biệt": "Hỗ trợ 5G, Sạc không dây, Nhận diện khuôn mặt, Kháng nước, kháng bụi",
+      "Wi-Fi": "Wi‑Fi 6E (802.11ax)",
+      "Bluetooth": "5.3",
+      "Thời điểm ra mắt": "09/2023"
+    },
+    "variants": [
+      {
+        "color": "Titan Xanh",
+        "price": "29.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Đen",
+        "price": "29.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "29.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Trắng",
+        "price": "29.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-12-pro-max-512gb",
@@ -3571,7 +6410,37 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Face ID, cảm biến gia tốc, cảm biến tiệm cận, con quay hồi chuyển, cảm biên sáng"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xám",
+        "price": "33.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "33.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "31.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "33.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-xs-max-64-gb-chinh-hang-vn",
@@ -3599,7 +6468,30 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac, Dual-band, Wi-Fi hotspot",
       "Bluetooth": "LE, A2DP, v5.0",
       "Tính năng đặc biệt": "Nhận diện khuôn mặt"
-    }
+    },
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "25.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "25.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "25.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-11-pro-512gb",
@@ -3629,7 +6521,37 @@
       "Bluetooth": "5.0",
       "Tính năng đặc biệt": "Sạc không dây, Nhận diện khuôn mặt, Kháng nước, kháng bụi",
       "Cảm biến": "FaceID, Con quay hồi chuyển, Gia tốc kế, Cảm biến tiệm cận, Cảm biến ánh sáng xung quanh"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "30.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "30.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "30.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "30.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-512gb",
@@ -3671,7 +6593,51 @@
       "Wi-Fi": "Wi‑Fi 6 (802.11ax)",
       "Bluetooth": "v5.0",
       "Thời điểm ra mắt": "09/2021"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh dương",
+        "price": "25.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "20.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "25.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "24.390.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "25.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "25.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-8-64-gb-chinh-hang-vn",
@@ -3699,7 +6665,37 @@
       "Bluetooth": "5.0, A2DP, LE",
       "Tính năng đặc biệt": "Sạc không dây, Bảo mật vân tay, Kháng nước, kháng bụi",
       "Cảm biến": "Vân tay, gia tốc, la bàn, khoảng cách, con quay quy hồi, phong vũ biểu"
-    }
+    },
+    "variants": [
+      {
+        "color": "Gold",
+        "price": "14.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "14.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "14.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "14.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-mini-512gb",
@@ -3738,7 +6734,51 @@
       "Tính năng đặc biệt": "Hỗ trợ 5G, Sạc không dây, Nhận diện khuôn mặt, Kháng nước, kháng bụi",
       "Wi-Fi": "WiFi 6E",
       "Bluetooth": "v5.0"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh lá",
+        "price": "27.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "23.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "23.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "23.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "23.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "23.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-se-2022-256gb",
@@ -3778,7 +6818,30 @@
       "Tính năng đặc biệt": "Hỗ trợ 5G, Sạc không dây, Bảo mật vân tay, Kháng nước, kháng bụi",
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n",
       "Bluetooth": "5.0"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đỏ",
+        "price": "15.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "15.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "15.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-12-256gb",
@@ -3823,7 +6886,51 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Face ID, cảm biến gia tốc, cảm biến tiệm cận, con quay hồi chuyển, cảm biên sáng"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh dương",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "23.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-12-mini-256gb",
@@ -3868,7 +6975,51 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot",
       "Bluetooth": "5.0, A2DP, LE",
       "Cảm biến": "Face ID, cảm biến gia tốc, cảm biến tiệm cận, con quay hồi chuyển, cảm biên sáng"
-    }
+    },
+    "variants": [
+      {
+        "color": "Tím",
+        "price": "15.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "15.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "10.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "15.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh",
+        "price": "15.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "15.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-15-pro-1tb",
@@ -3916,7 +7067,37 @@
       "Wi-Fi": "Wi‑Fi 6E (802.11ax)",
       "Bluetooth": "v5.3",
       "Thời điểm ra mắt": "09/2023"
-    }
+    },
+    "variants": [
+      {
+        "color": "Titan Xanh",
+        "price": "34.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Trắng",
+        "price": "34.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Đen",
+        "price": "34.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Titan Tự Nhiên",
+        "price": "34.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-se-2020-128gb",
@@ -3957,7 +7138,30 @@
       "Wi-Fi": "Wi-Fi 802.11 b/g/n, Wi-Fi hotspot",
       "Bluetooth": "A2DP, LE, v4.2",
       "Cảm biến": "Mở khóa bằng vân tay"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đen",
+        "price": "9.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "9.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "9.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-xr-64-gb-chinh-hang-vn",
@@ -3999,7 +7203,44 @@
       "Tính năng đặc biệt": "Sạc không dây, Nhận diện khuôn mặt, Kháng nước, kháng bụi",
       "Wi-Fi": "802.11 a/b/g/n/ac, 2 ăng-ten, điểm truy cập cá nhân",
       "Bluetooth": "v5.0, A2DP, LE"
-    }
+    },
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "14.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Cam",
+        "price": "14.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "11.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "11.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "11.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-se-2022-128gb",
@@ -4040,7 +7281,30 @@
       "Tính năng đặc biệt": "Hỗ trợ 5G, Sạc không dây, Bảo mật vân tay, Kháng nước, kháng bụi",
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n",
       "Bluetooth": "5.0"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đỏ",
+        "price": "11.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "11.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "11.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-13-pro-1tb",
@@ -4085,7 +7349,44 @@
       "Wi-Fi": "Wi-Fi MIMO, Wi-Fi hotspot, Wi-Fi 802.11 a/b/g/n/ac/ax, Dual-band (2.4 GHz/5 GHz)",
       "Bluetooth": "v5.0",
       "Thời điểm ra mắt": "09/2021"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xanh lá",
+        "price": "25.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "25.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "25.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "25.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "25.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-se-2020-256gb",
@@ -4115,7 +7416,30 @@
       "Bluetooth": "A2DP, LE, v4.2",
       "Tính năng đặc biệt": "Sạc không dây",
       "Cảm biến": "Mở khóa bằng vân tay"
-    }
+    },
+    "variants": [
+      {
+        "color": "Trắng",
+        "price": "16.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "16.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "16.490.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-11-pro-256gb",
@@ -4159,7 +7483,37 @@
       "Wi-Fi": "802.11ax Wi‑Fi 6 with 2x2 MIMO",
       "Bluetooth": "5.0",
       "Cảm biến": "FaceID, Con quay hồi chuyển, Gia tốc kế, Cảm biến tiệm cận, Cảm biến ánh sáng xung quanh"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xám",
+        "price": "28.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "28.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "28.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh lá",
+        "price": "28.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-7-plus-128-gb-cty-vn",
@@ -4193,8 +7547,51 @@
       "Kích thước": "158.2 x 77.9 x 7.3 mm (6.23 x 3.07 x 0.29 in)",
       "Trọng lượng": "188 g (6.63 oz)",
       "Chất liệu mặt lưng": "Kim loại",
-      "Chất liệu khung viền": "Kim loại"
-    }
+      "Chất liệu khung viền": "Kim loại",
+      "Cảm biến vân tay": "Cảm biến vân tay trước màn hình",
+      "Các loại cảm biến": "Cảm biến gia tốc, Cảm biến tiệm cận, Cảm biến ánh sáng, La bàn, Con quay hồi chuyển, Cảm biến áp kế",
+      "Tính năng đặc biệt": "Sạc không dây, Bảo mật vân tay, Kháng nước, kháng bụi",
+      "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac, dual-band, hotspot",
+      "Bluetooth": "4.2, A2DP, LE",
+      "Cảm biến": "Vân tay, gia tốc, la bàn, khoảng cách, con quay quy hồi, phong vũ biểu"
+    },
+    "variants": [
+      {
+        "color": "Hồng",
+        "price": "9.480.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "9.480.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "10.020.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen bóng",
+        "price": "10.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "10.520.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-512gb",
@@ -4238,7 +7635,51 @@
       "Wi-Fi": "Wi-Fi MIMO, Dual-band (2.4 GHz/5 GHz), Wi-Fi 802.11 a/b/g/n/ac/ax, Wi-Fi hotspot",
       "Bluetooth": "v5.3, A2DP, LE",
       "Thời điểm ra mắt": "09/2022"
-    }
+    },
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "21.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "21.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "21.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "21.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "21.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh",
+        "price": "21.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-xr-128-gb-chinh-hang-vn",
@@ -4280,77 +7721,108 @@
       "Tính năng đặc biệt": "Sạc không dây, Nhận diện khuôn mặt, Kháng nước, kháng bụi",
       "Wi-Fi": "802.11 a/b/g/n/ac, 2 ăng-ten, điểm truy cập cá nhân",
       "Bluetooth": "v5.0, A2DP, LE"
-    }
+    },
+    "variants": [
+      {
+        "color": "Đen",
+        "price": "16.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "16.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "16.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "16.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "16.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Cam",
+        "price": "16.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-14-plus-512gb",
     "name": "iPhone 14 Plus 512GB | Chính hãng VN/A",
     "url": "https://cellphones.com.vn/iphone-14-plus-512gb.html",
-    "specs": {
-      "Kích thước màn hình": "6.7 inches",
-      "Công nghệ màn hình": "Super Retina XDR OLED",
-      "Độ phân giải màn hình": "2778 x 1284 pixel",
-      "Tính năng màn hình": "Tần số quét 60 Hz, 458 ppi, HDR, True Tone, độ sáng 1200 nits , màn hình chống bám vân tay, 2,000,000:1\nKính cường lực Ceramic Shield",
-      "Tần số quét": "60Hz",
-      "Kiểu màn hình": "Tai thỏ",
-      "Camera sau": "Camera chính: 12MP, 26 mm, ƒ/1.5\nCamera góc siêu rộng: 12MP, 13 mm, ƒ/2.4, 120°",
-      "Quay video": "4K / Full HD 60FPS\n720p 30FPS\nSlow-mo Full HD 240FPS",
-      "Tính năng camera": "Deep Fusion, Smart HDR 4,Panorama, Chụp đêm, Chân dung, QuickTake video, Time‑lapse, Slo-mo video",
-      "Camera trước": "12MP khẩu độ f/1.9, Autofocus",
-      "Quay video trước": "4K / Full HD 60FPS\n720p 30FPS\nSlow-mo Full HD 120FPS",
-      "Chipset": "Apple A15 Bionic",
-      "GPU": "5 nhân GPU",
-      "Công nghệ NFC": "Có",
-      "Thẻ SIM": "2 SIM (nano‑SIM và eSIM)",
-      "Hồng ngoại": "Không",
-      "Hỗ trợ mạng": "5G",
-      "GPS": "GPS, GLONASS, Galileo, QZSS, BeiDou",
-      "Dung lượng RAM": "6 GB",
-      "Bộ nhớ trong": "512 GB",
-      "Pin": "4325 mAh",
-      "Công nghệ sạc": "Sạc nhanh 20W\nSạc không dây chuẩn Magsafe 15w\nSạc không dây",
-      "Cổng sạc": "Lightning",
-      "Hệ điều hành": "iOS 16",
-      "Loại CPU": "6 nhân",
-      "Kích thước": "Dọc 160.8 x Ngang 78.1 x Dày 7.8mm",
-      "Trọng lượng": "203gr",
-      "Chất liệu mặt lưng": "Kính",
-      "Chất liệu khung viền": "Kim loại",
-      "Chỉ số kháng nước, bụi": "IP68",
-      "Công nghệ - Tiện ích": "Mở khoá khuôn mặt Face ID",
-      "Tiện ích khác": "Phát hiện va chạm (Crash Detection)\nChạm 2 lần sáng màn hình\nApple Pay\nSOS Khẩn Cấp",
-      "Công nghệ âm thanh": "Loa kép",
-      "Các loại cảm biến": "Cảm biến tiệm cận, Cảm biến ánh sáng, Con quay hồi chuyển, Cảm biến áp kế",
-      "Tính năng đặc biệt": "Hỗ trợ 5G, Sạc không dây, Nhận diện khuôn mặt, Kháng nước, kháng bụi",
-      "Wi-Fi": "Wi‑Fi 6 (802.11ax)",
-      "Bluetooth": "Bluetooth 5.3",
-      "Thời điểm ra mắt": "09/2022"
-    }
+    "specs": {},
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "25.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "25.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "25.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh",
+        "price": "25.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "25.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Tím",
+        "price": "25.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-5s-16-gb",
     "name": "Apple iPhone 5S 16GB",
     "url": "https://cellphones.com.vn/iphone-5s-16-gb.html",
-    "specs": {
-      "Kích thước màn hình": "4.0 inches",
-      "Độ phân giải màn hình": "640 x 1136 pixels",
-      "Camera sau": "8 MP (f/2.2, 29mm, 1/3\", 1.5 µm), tự động lấy nét, LED flash kép (2 tone)",
-      "Quay video": "1080p@30fps, 720p@120fps",
-      "Camera trước": "1.2 MP (f/2.4, 31mm), 720p@30fps, nhận diện khuôn mặt, HDR, FaceTime",
-      "Chipset": "Apple A7 APL0698",
-      "GPU": "PowerVR G6430 (4 lõi đồ họa)",
-      "Bộ nhớ trong": "16 GB",
-      "Khe cắm thẻ nhớ": "Không",
-      "Pin": "Li-Po 1560 mAh",
-      "Thẻ SIM": "Nano-SIM",
-      "GPS": "A-GPS, GLONASS",
-      "Hệ điều hành": "11",
-      "Loại CPU": "2x 1.3 GHz Cyclone (nền tảng ARM v8)",
-      "Kích thước": "123.8 x 58.6 x 7.6 mm (4.87 x 2.31 x 0.30 in)",
-      "Trọng lượng": "112 g (3.95 oz)",
-      "Wi-Fi": "Wi-Fi 802.11 a/b/g/n, dual-band, hotspot",
-      "Bluetooth": "4.0, A2DP"
-    }
+    "specs": {},
+    "variants": []
   },
   {
     "id": "iphone-15-pro-max-2tb-68865",
@@ -4380,7 +7852,8 @@
       "Wi-Fi": "Wi‑Fi 6E (802.11ax)",
       "Bluetooth": "5.3",
       "Công nghệ âm thanh": "AAC, MP3, Apple Lossless, FLAC, Dolby Digital, Dolby Digital Plus và Dolby Atmos"
-    }
+    },
+    "variants": []
   },
   {
     "id": "iphone-6-32-gb-cty-vn",
@@ -4407,7 +7880,30 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac, dual-band, hotspot",
       "Bluetooth": "4.0, A2DP, LE",
       "Cảm biến": "Vân tay, gia tốc, la bàn, khoảng cách, con quay quy hồi, phong vũ biểu"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xám",
+        "price": "7.290.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "5.900.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "7.290.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-8-256-gb-chinh-hang-vn",
@@ -4436,7 +7932,37 @@
       "Bluetooth": "5.0, A2DP, LE",
       "Tính năng đặc biệt": "Sạc không dây, Bảo mật vân tay, Kháng nước, kháng bụi",
       "Cảm biến": "Vân tay, gia tốc, la bàn, khoảng cách, con quay quy hồi, phong vũ biểu"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "14.020.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "14.020.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "16.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "14.020.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-7-plus-32-gb-cty-vn",
@@ -4465,7 +7991,44 @@
       "Bluetooth": "4.2, A2DP, LE",
       "Tính năng đặc biệt": "Sạc không dây, Bảo mật vân tay, Kháng nước, kháng bụi",
       "Cảm biến": "Vân tay, gia tốc, la bàn, khoảng cách, con quay quy hồi, phong vũ biểu"
-    }
+    },
+    "variants": [
+      {
+        "color": "Gold",
+        "price": "9.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "9.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen bóng",
+        "price": "9.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "9.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "9.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-x-256-gb-chinh-hang-vn-10229",
@@ -4495,7 +8058,23 @@
       "Bluetooth": "5.0, A2DP, LE",
       "Tính năng đặc biệt": "Sạc không dây, Nhận diện khuôn mặt",
       "Cảm biến": "Nhận diện khuôn mặt, gia tốc, la bàn, khoảng cách, con quay quy hồi, phong vũ biểu"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xám",
+        "price": "22.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "22.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-xs-max-256-gb-chinh-hang-vn",
@@ -4523,7 +8102,30 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac, Dual-band, Wi-Fi hotspot",
       "Bluetooth": "LE, A2DP, v5.0",
       "Tính năng đặc biệt": "Nhận diện khuôn mặt, Kháng nước, kháng bụi"
-    }
+    },
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "28.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "28.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "28.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-xr-256-gb-chinh-hang-vn",
@@ -4548,7 +8150,51 @@
       "Trọng lượng": "194 g",
       "Wi-Fi": "802.11 a/b/g/n/ac, 2 ăng-ten, điểm truy cập cá nhân",
       "Bluetooth": "v5.0, A2DP, LE"
-    }
+    },
+    "variants": [
+      {
+        "color": "Cam",
+        "price": "20.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đỏ",
+        "price": "20.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Trắng",
+        "price": "20.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xanh dương",
+        "price": "20.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Đen",
+        "price": "20.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "20.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-8-128gb-chinh-hang-vn-a",
@@ -4578,7 +8224,30 @@
       "Bluetooth": "5.0, A2DP, LE",
       "Tính năng đặc biệt": "Sạc không dây, Bảo mật vân tay, Kháng nước, kháng bụi",
       "Cảm biến": "Vân tay, gia tốc, la bàn, khoảng cách, con quay quy hồi, phong vũ biểu"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xám",
+        "price": "13.620.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "13.620.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "13.620.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-xs-max-512-gb-chinh-hang-vn",
@@ -4606,7 +8275,30 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac, Dual-band, Wi-Fi hotspot",
       "Bluetooth": "LE, A2DP, v5.0",
       "Tính năng đặc biệt": "Nhận diện khuôn mặt, Kháng nước, kháng bụi"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "28.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "28.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "28.500.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-xs-64-gb-chinh-hang-vn",
@@ -4634,7 +8326,30 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac, Dual-band, Wi-Fi hotspot",
       "Bluetooth": "LE, A2DP, v5.0",
       "Tính năng đặc biệt": "Sạc không dây"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xám",
+        "price": "22.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "15.930.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "22.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-8-plus-256-gb-chinh-hang-vn",
@@ -4663,7 +8378,30 @@
       "Bluetooth": "5.0, A2DP, LE",
       "Tính năng đặc biệt": "Bảo mật vân tay",
       "Cảm biến": "Vân tay, gia tốc, la bàn, khoảng cách, con quay quy hồi, phong vũ biểu"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xám",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Gold",
+        "price": "19.990.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-x-64-gb-chinh-hang-vn",
@@ -4693,7 +8431,23 @@
       "Bluetooth": "5.0, A2DP, LE",
       "Tính năng đặc biệt": "Nhận diện khuôn mặt, Kháng nước, kháng bụi",
       "Cảm biến": "Nhận diện khuôn mặt, gia tốc, la bàn, khoảng cách, con quay quy hồi, phong vũ biểu"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "19.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "19.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-xs-512-gb-chinh-hang-vn",
@@ -4721,7 +8475,30 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac, Dual-band, Wi-Fi hotspot",
       "Bluetooth": "LE, A2DP, v5.0",
       "Tính năng đặc biệt": "Sạc không dây"
-    }
+    },
+    "variants": [
+      {
+        "color": "Vàng",
+        "price": "24.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "24.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "24.590.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "iphone-6s-32-gb-chinh-hang-vn-a",
@@ -4750,7 +8527,37 @@
       "Bluetooth": "4.2, A2DP, LE",
       "Tính năng đặc biệt": "Bảo mật vân tay, Kháng nước, kháng bụi",
       "Cảm biến": "Vân tay, gia tốc, la bàn, khoảng cách, con quay quy hồi, phong vũ biểu"
-    }
+    },
+    "variants": [
+      {
+        "color": "Bạc",
+        "price": "7.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Xám",
+        "price": "7.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "7.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Hồng",
+        "price": "7.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   },
   {
     "id": "apple-iphone-xs-256-gb-chinh-hang-vn",
@@ -4778,6 +8585,29 @@
       "Wi-Fi": "Wi-Fi 802.11 a/b/g/n/ac, Dual-band, Wi-Fi hotspot",
       "Bluetooth": "LE, A2DP, v5.0",
       "Tính năng đặc biệt": "Sạc không dây"
-    }
+    },
+    "variants": [
+      {
+        "color": "Xám",
+        "price": "19.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Vàng",
+        "price": "19.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      },
+      {
+        "color": "Bạc",
+        "price": "19.000.000₫",
+        "stock": [
+          "Tạm hết hàng"
+        ]
+      }
+    ]
   }
 ]
