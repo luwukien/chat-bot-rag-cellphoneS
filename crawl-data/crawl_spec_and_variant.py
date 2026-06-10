@@ -100,7 +100,7 @@ async def crawls_variants_from_page(page) -> List[Dict[str, Any]]:
     return variants
 
 async def main():
-    file_name = './data/test_product_details.json'
+    file_name = './data/list_product_details.json'
     
     try:
         with open(file_name, 'r', encoding='utf-8') as f:
@@ -135,7 +135,6 @@ async def main():
             for attempt in range(max_attempts):
                 page = await context.new_page()
                 try:
-                    # Đợi domcontentloaded thay vì load hoàn toàn để tránh treo vì script quảng cáo/tracking
                     await page.goto(url, wait_until="domcontentloaded", timeout=45000)
                     
                     # Chờ thêm 2 giây để các component React/JS được kích hoạt đầy đủ
@@ -203,7 +202,7 @@ async def main():
         
         # Kiểm tra xem tất cả các variant có phải đều không có giá và tạm hết hàng hay không
         all_variants_empty_or_inactive = all(
-            (v.get("price", "").strip() == "") and (v.get("stock") == "Tạm hết hàng")
+            (v.get("price").strip() == "") and (v.get("stock") == "Tạm hết hàng")
             for v in p.get("variants")
         )
         
