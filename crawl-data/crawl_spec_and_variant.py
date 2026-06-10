@@ -21,7 +21,7 @@ async def crawls_specs_from_page(page) -> Dict[str, Any]:
     try:
         sections_locator = page.locator("section.technical-content-section")
         
-        # Wait briefly to ensure DOM has fully populated the sections
+        # Đợi một chút để DOM render đầy đủ các section specs
         sections_count = 0
         for _ in range(5):
             sections_count = await sections_locator.count()
@@ -81,14 +81,14 @@ async def crawls_variants_from_page(page) -> List[Dict[str, Any]]:
             if await price_loc.count() > 0:
                 price = (await price_loc.first.inner_text()).strip()
             
-            # Get stock of this variant
-            stock = []
+            # Trạng thái hàng của variant này
+            stock = ""
             out_of_stock_locator = page.locator(".order-button:has-text('TẠM HẾT HÀNG')")
             is_out_of_stock = await out_of_stock_locator.is_visible()
             if not is_out_of_stock:
-                stock = ["Còn hàng"]
+                stock = "Còn hàng"
             else:
-                stock = ["Tạm hết hàng"]
+                stock = "Tạm hết hàng"
             variants.append({
                 "color": color_name,
                 "price": price,
@@ -100,7 +100,7 @@ async def crawls_variants_from_page(page) -> List[Dict[str, Any]]:
     return variants
 
 async def main():
-    file_name = './data/list_product_details.json'
+    file_name = './data/test_product_details.json'
     
     try:
         with open(file_name, 'r', encoding='utf-8') as f:
@@ -112,9 +112,16 @@ async def main():
         print("The list spec is empty. Cannot crawl anything!")
         return
 
-    # KHỞI CHẠY TRÌNH DUYỆT
+    # KHỞI CHẠY TRÌNH DUYỆT VỚI CONTEXT GIẢ LẬP TRÌNH DUYỆT THẬT
     async with async_playwright() as p: 
         browser = await p.chromium.launch(headless=True)
+        context = await browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            viewport={"width": 1280, "height": 800},
+            extra_http_headers={
+                "Accept-Language": "vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7",
+            }
+        )
 
         for idx, product in enumerate(products):
             url = product.get('url')
@@ -123,41 +130,89 @@ async def main():
 
             print(f"[{idx + 1}/{len(products)}] Đang xử lý: {product.get('name')}")
 
-            page = await browser.new_page()
-
-            
-            try:
-                await page.goto(url, wait_until="load", timeout=60000)
-                print(f"  -> Bắt đầu cào specs và variants cho {url}")
-
-                # Gọi hàm cào dữ liệu và gán vào field 'specs' và 'variants'
-                product['specs'] = await crawls_specs_from_page(page)
-                product['variants'] = await crawls_variants_from_page(page)
-
-                if not product['specs']:
-                    print(f"  -> Cảnh báo: specs trống cho {url}")
-                if not product['variants']:
-                    print(f"  -> Cảnh báo: variants trống cho {url}")
-
-            except Exception as e:
+            success = False
+            max_attempts = 3
+            for attempt in range(max_attempts):
+                page = await context.new_page()
                 try:
-                    await browser.close()
-                except Exception:
-                    pass
-                # recreate browser to continue
-                browser = await p.chromium.launch(headless=True)
-            finally:
-                try:
+                    # Đợi domcontentloaded thay vì load hoàn toàn để tránh treo vì script quảng cáo/tracking
+                    await page.goto(url, wait_until="domcontentloaded", timeout=45000)
+                    
+                    # Chờ thêm 2 giây để các component React/JS được kích hoạt đầy đủ
+                    await page.wait_for_timeout(2000)
+                    
+                    print(f"  -> Bắt đầu cào specs và variants cho {url} (Lần thử {attempt + 1})")
+
+                    # Gọi hàm cào dữ liệu và gán vào field 'specs' và 'variants'
+                    specs = await crawls_specs_from_page(page)
+                    variants = await crawls_variants_from_page(page)
+
+                    if not specs:
+                        print(f"  -> Specs trống ở lần thử {attempt + 1}.")
+                        await page.close()
+                        continue
+                        
+                    if not variants:
+                        print(f"  -> Variants trống ở lần thử {attempt + 1}.")
+                        await page.close()
+                        continue
+
+                    product['specs'] = specs
+                    product['variants'] = variants
+                    success = True
                     await page.close()
-                except Exception:
-                    pass
+                    break # Thành công, thoát khỏi vòng lặp thử lại cho URL này
+
+                except Exception as e:
+                    print(f"  -> Lỗi ở lần thử {attempt + 1}: {e}")
+                    try:
+                        await page.close()
+                    except Exception:
+                        pass
+                    
+                    # Khởi tạo lại browser/context nếu trình duyệt bị crash hoặc bị đóng đột ngột
+                    if "Target page, context or browser has been closed" in str(e) or "Target closed" in str(e):
+                        try:
+                            await browser.close()
+                        except Exception:
+                            pass
+                        browser = await p.chromium.launch(headless=True)
+                        context = await browser.new_context(
+                            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                            viewport={"width": 1280, "height": 800},
+                            extra_http_headers={
+                                "Accept-Language": "vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7",
+                            }
+                        )
+                    await asyncio.sleep(2) # Đợi một lát trước khi thử lại
+
+            if not success:
+                print(f"  -> Thất bại sau {max_attempts} lần thử cho {url}.")
+
         try:
             await browser.close()
         except Exception:
             pass
 
+    # Lọc lại danh sách sản phẩm hợp lệ trước khi lưu file JSON
+    valid_products = []
+    for p in products:
+        # Phải có specs và variants
+        if not p.get("specs") or not p.get("variants"):
+            continue
+        
+        # Kiểm tra xem tất cả các variant có phải đều không có giá và tạm hết hàng hay không
+        all_variants_empty_or_inactive = all(
+            (v.get("price", "").strip() == "") and (v.get("stock") == "Tạm hết hàng")
+            for v in p.get("variants")
+        )
+        
+        # Nếu KHÔNG PHẢI tất cả đều trống/hết hàng (tức là còn ít nhất 1 variant hoạt động hoặc có giá), giữ lại sản phẩm
+        if not all_variants_empty_or_inactive:
+            valid_products.append(p)
+    
     with open(file_name, 'w', encoding='utf-8') as f:
-        json.dump(products, f, ensure_ascii=False, indent=2)
+        json.dump(valid_products, f, ensure_ascii=False, indent=2)
     
     print("FINISH")
 

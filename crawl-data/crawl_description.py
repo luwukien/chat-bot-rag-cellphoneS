@@ -30,7 +30,7 @@ async def main():
   
   # Khởi chạy trình duyệt
   async with async_playwright() as p:
-      browser = await p.chromium.launch(headless=True)
+      browser = await p.chromium.launch(headless=False)
       for idx, product in enumerate(products):
         url = product.get('url')
         if not url:
@@ -43,14 +43,15 @@ async def main():
           # Gọi hàm cào dữ liệu và gán vào field 'description'
           product['description'] = await crawl_description_from_page(page)
           if not product['description'] or not product['description'].get('description'):
-            print(f"  -> Cảnh báo: description trống cho {url}")
+            print(f"  ->description trống cho {url}")
+            continue;
         except Exception as e:
           try:
             await browser.close()
           except Exception:
             pass
           # Recreate browser to continue
-          browser = await p.chromium.launch(headless=True)
+          browser = await p.chromium.launch(headless=False)
         finally:
           try:
             await page.close()
