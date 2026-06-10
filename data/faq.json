@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "id": "iphone-17-pro",
+    "name": "iPhone 17 Pro 256GB | Chính hãng",
+    "faq": {
+      "iPhone 17 Pro pin bao nhiêu?": "iPhone 17 Pro được trang bị pin lithium-ion cho thời gian xem video đến 31 giờ. Máy còn được trang bị sạc nhanh có dây 40W và sạc  MagSafe 30W",
+      "iPhone 17 Pro màn hình bao nhiêu inch?": "iPhone 17 Pro sở hữu màn hình OLED 6,3 inch cùng công nghệ  ProMotion, tốc độ làm mới 120Hz cùng độ sáng cao 3000 nit (ngoài trời)",
+      "iPhone 17 Pro có mấy màu?": "Điện thoại iPhone 17 Pro khi ra mắt có ba màu, gồm Xanh đậm, Bạc và một màu mới là Cam vũ trụ.",
+      "iPhone 17 Pro khi nào ra mắt?": "iPhone 17 Pro đã chính thức được Apple cho ra mắt vào 10 giờ ngày 9/9/2025 giờ Mỹ, tức 0h sáng ngày 10/9/2025 giờ Việt Nam"
+    }
+  },
+  {
+    "id": "iphone-17-pro-max",
+    "name": "iPhone 17 Pro Max 256GB | Chính hãng",
+    "faq": {
+      "iPhone 17 Pro Max sạc nhanh bao nhiêu W?": "Theo thông tin từ Apple, iPhone 17 Pro Max hỗ trợ sạc nhanh lên đến 50% trong 20 phút với bộ tiếp hợp 40W trở lên.",
+      "iPhone 17 Pro Max có mấy phiên bản GB?": "iPhone 17 Pro max có tất cả 4 tùy chọn dung lượng bộ nhớ trong bao gồm 256GB, 512GB, 1TB và 2TB.",
+      "iPhone 17 Pro Max pin bao nhiêu?": "Mặc dù không đề cập đến dung lượng pin cụ thể, nhưng Apple cũng đã công bố thời gian xem video trên iPhone 17 Pro Max có thể lên đến 37 giờ, dài hơn đến 8 giờ so với iPhone 15 Pro Max.",
+      "iPhone 17 Pro Max bao nhiêu inch?": "iPhone 17 Pro Max được trang bị màn hình Super Retina XDR kích thước 6.9 inch với thiết kế viền siêu mỏng, mang lại không gian hiển thị rộng rãi và thoải mái cho nhiều mục đích sử dụng khác nhau như làm việc, học tập hay giải trí.",
+      "iPhone 17 Pro Max có mấy màu?": "iPhone 17 Pro Max có 3 tùy chọn màu sắc bao gồm: Cam Vũ Trụ, Bạc và Xanh Đậm."
+    }
+  }
+]

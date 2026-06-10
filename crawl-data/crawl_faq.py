@@ -7,32 +7,45 @@ async def crawl_faq(page) -> Dict[str, str]:
   faq = {}
   
   try:
-    # Locating all items under the main container of the FAQ section.
-    # Adjust the selector based on the actual structure you see.
+    # Cuộn xuống cuối trang để kích hoạt Lazy Loading của phần FAQ
+    await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+    await page.wait_for_timeout(1500)
+    
     faq_questions = page.locator('.accordion-item')
+    # Đợi cho phần tử FAQ đầu tiên xuất hiện trong DOM
+    try:
+      await faq_questions.first.wait_for(state="attached", timeout=3000)
+    except Exception:
+      # Nếu quá 3 giây không tìm thấy .accordion-item, trang này không có FAQ
+      return faq
+    
     for i in range(await faq_questions.count()):
-      # Expanding the FAQ item to reveal the answer
       faq_item = faq_questions.nth(i)
+      # Click để mở rộng accordion lấy câu trả lời
       await faq_item.click()
-      await page.wait_for_timeout(1000)
+      await page.wait_for_timeout(500)
       
-      # Extracting question text
-      question_locator = faq_item.locator('.accordion-label') # Adjust selector if needed
-      question_text = await question_locator.first.wait_for(state="visible")
+      # Lấy selector câu hỏi và câu trả lời
+      q_locator = faq_item.locator('.accordion-label')
+      a_locator = faq_item.locator('.accordion-content')
       
-      # Extracting answer text
-      answer_locator = faq_item.locator('.accordion-content') # Adjust selector if needed
-      answer_text = await answer_locator.first.wait_for(state="visible")
+      # Đợi hai phần tử này hiển thị rõ ràng trên UI
+      await q_locator.first.wait_for(state="visible", timeout=2000)
+      await a_locator.first.wait_for(state="visible", timeout=2000)
       
-      faq[question_text.inner_text().strip()] = answer_text.inner_text().strip()
+      q_text = await q_locator.first.inner_text()
+      a_text = await a_locator.first.inner_text()
+      
+      if q_text.strip() and a_text.strip():
+        faq[q_text.strip()] = a_text.strip()
       
   except Exception as e:
     print(f"Lỗi khi crawl FAQ: {e}")
-
+ 
   return faq
 
 async def main():
-  input_file = './data/test_product_details.json'
+  input_file = './data/list_product_details.json'
   output_file = './data/faq.json'
   
   try:
