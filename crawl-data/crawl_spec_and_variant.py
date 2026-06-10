@@ -1,6 +1,7 @@
 import asyncio
 import json
-from typing import Dict, Any
+import re
+from typing import Dict, Any, List
 from playwright.async_api import async_playwright
 
 async def crawls_specs_from_page(page) -> Dict[str, Any]:
@@ -38,8 +39,6 @@ async def crawls_specs_from_page(page) -> Dict[str, Any]:
             if await title_locator.count() == 0:
                 continue
                 
-            category_name = (await title_locator.first.inner_text()).strip()
-
             rows_locator = section.locator("table.technical-content tr.technical-content-item")
             rows_count = await rows_locator.count()
             
@@ -60,8 +59,41 @@ async def crawls_specs_from_page(page) -> Dict[str, Any]:
 
     return full_specs
 
+async def crawls_variants_from_page(page) -> List[Dict[str, Any]]:
+    """Extract color and price variants directly from the product page."""
+    variants: List[Dict[str, Any]] = []
+    try:
+        # Tìm tất cả các phần tử variant màu sắc
+        variant_locators = page.locator("a.button__change-color")
+        count = await variant_locators.count()
+        
+        for idx in range(count):
+            loc = variant_locators.nth(idx)
+            
+            # Lấy tên màu
+            name_loc = loc.locator(".item-variant-name")
+            color_name = ""
+            if await name_loc.count() > 0:
+                color_name = (await name_loc.first.inner_text()).strip()
+            
+            # Lấy giá
+            price_loc = loc.locator(".item-variant-price")
+            price = ""
+            if await price_loc.count() > 0:
+                price = (await price_loc.first.inner_text()).strip()
+            
+            
+            variants.append({
+                "color": color_name,
+                "price": price
+            })
+    except Exception as e:
+        print(f"  -> Lỗi khi trích xuất variants: {e}")
+        
+    return variants
+
 async def main():
-    file_name = 'list_product_details.json'
+    file_name = './data/test_product_details.json'
     
     try:
         with open(file_name, 'r', encoding='utf-8') as f:
@@ -89,13 +121,16 @@ async def main():
             
             try:
                 await page.goto(url, wait_until="load", timeout=60000)
-                print(f"  -> Bắt đầu cào specs cho {url}")
+                print(f"  -> Bắt đầu cào specs và variants cho {url}")
 
-                # Gọi hàm cào dữ liệu và gán vào field 'specs'
+                # Gọi hàm cào dữ liệu và gán vào field 'specs' và 'variants'
                 product['specs'] = await crawls_specs_from_page(page)
+                product['variants'] = await crawls_variants_from_page(page)
 
                 if not product['specs']:
                     print(f"  -> Cảnh báo: specs trống cho {url}")
+                if not product['variants']:
+                    print(f"  -> Cảnh báo: variants trống cho {url}")
 
             except Exception as e:
                 try:

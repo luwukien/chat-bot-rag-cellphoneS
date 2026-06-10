@@ -1,0 +1,3 @@
+.venv
+*.json
+crawl-data/__pycache__
