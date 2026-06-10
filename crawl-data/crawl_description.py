@@ -5,27 +5,24 @@ from playwright.async_api import async_playwright
 
 async def crawl_description_from_page(page) -> str:
     """Extract description directly from the product page."""
-    text = ""
-    # Danh sách các selectors mô tả sản phẩm trên CellphoneS
-    selectors = ["#cpsKsp", ".ksp-content"]
-    
-    for selector in selectors:
-        try:
-            locator = page.locator(selector)
-            # Đợi tối đa 2 giây cho selector xuất hiện
-            await locator.first.wait_for(state="visible", timeout=2000)
-            text = await locator.first.inner_text()
-            text = text.strip()
-            if text:
-                break # Nếu đã lấy được mô tả, thoát vòng lặp
-        except Exception:
-            continue
-            
-    return text
+    # Thử quét cả hai selector mỗi 200ms trong tối đa 5 giây
+    for _ in range(25):
+        for selector in ["#cpsKsp", ".ksp-content"]:
+            try:
+                locator = page.locator(selector)
+                if await locator.count() > 0:
+                    text = (await locator.first.inner_text()).strip()
+                    if text:
+                        return text
+            except Exception:
+                pass
+        await page.wait_for_timeout(200)
+        
+    return ""
 
 
 async def main():
-  file_name = './data/test_product_details.json'
+  file_name = './data/list_product_details.json'
   
   try:
       with open(file_name, 'r', encoding='utf-8') as f:
@@ -50,10 +47,11 @@ async def main():
           await page.goto(url, wait_until="domcontentloaded", timeout=60000)
           print(f"  -> Bắt đầu cào description cho {url}")
           # Gọi hàm cào dữ liệu và gán vào field 'description'
-          product['description'] = await crawl_description_from_page(page)
-          if not product['description'] or not product['description'].get('description'):
+          desc_text = await crawl_description_from_page(page)
+          if not desc_text:
             print(f"  ->description trống cho {url}")
             continue
+          product['description'] = desc_text
         except Exception as e:
           try:
             await browser.close()

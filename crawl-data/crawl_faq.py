@@ -18,13 +18,13 @@ async def crawl_faq(page) -> Dict[str, str]:
       
       # Extracting question text
       question_locator = faq_item.locator('.accordion-label') # Adjust selector if needed
-      question_text = await question_locator.inner_text()
+      question_text = await question_locator.first.wait_for(state="visible")
       
       # Extracting answer text
       answer_locator = faq_item.locator('.accordion-content') # Adjust selector if needed
-      answer_text = await answer_locator.inner_text()
+      answer_text = await answer_locator.first.wait_for(state="visible")
       
-      faq[question_text.strip()] = answer_text.strip()
+      faq[question_text.inner_text().strip()] = answer_text.inner_text().strip()
       
   except Exception as e:
     print(f"Lỗi khi crawl FAQ: {e}")
@@ -55,7 +55,7 @@ async def main():
         print(f"[{idx + 1}/{len(products)}] Đang xử lý: {product.get('name')}")
         page = await browser.new_page()
         try:
-          await page.goto(url, wait_until="load", timeout=60000)
+          await page.goto(url, wait_until="domcontentloaded", timeout=60000)
           print(f"  -> Bắt đầu cào FAQ cho {url}")
           # Gọi hàm cào dữ liệu và gán vào field 'faq'
           product['faq'] = await crawl_faq(page)
