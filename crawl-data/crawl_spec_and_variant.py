@@ -1,6 +1,5 @@
 import asyncio
 import json
-import re
 from typing import Dict, Any, List
 from playwright.async_api import async_playwright
 
@@ -82,10 +81,18 @@ async def crawls_variants_from_page(page) -> List[Dict[str, Any]]:
             if await price_loc.count() > 0:
                 price = (await price_loc.first.inner_text()).strip()
             
-            
+            # Get stock of this variant
+            stock = []
+            out_of_stock_locator = page.locator(".order-button:has-text('TẠM HẾT HÀNG')")
+            is_out_of_stock = await out_of_stock_locator.is_visible()
+            if not is_out_of_stock:
+                stock = ["Còn hàng"]
+            else:
+                stock = ["Tạm hết hàng"]
             variants.append({
                 "color": color_name,
-                "price": price
+                "price": price,
+                "stock": stock,
             })
     except Exception as e:
         print(f"  -> Lỗi khi trích xuất variants: {e}")
@@ -93,7 +100,7 @@ async def crawls_variants_from_page(page) -> List[Dict[str, Any]]:
     return variants
 
 async def main():
-    file_name = './data/test_product_details.json'
+    file_name = './data/list_product_details.json'
     
     try:
         with open(file_name, 'r', encoding='utf-8') as f:
