@@ -153,7 +153,7 @@ def process_product_data(input_file, output_file, max_chars=800, overlap=150):
             })
 
         # ----------------------------------------------------
-        # 2. XỬ LÝ PHẦN MÔ TẢ CHI TIẾT (DESCRIPTION)
+        # 3. XỬ LÝ PHẦN MÔ TẢ CHI TIẾT (DESCRIPTION)
         # ----------------------------------------------------
         cleaned_desc = clean_text(description)
         if cleaned_desc:
