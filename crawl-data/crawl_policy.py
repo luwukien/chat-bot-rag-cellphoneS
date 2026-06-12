@@ -24,33 +24,15 @@ def normalize_text(text):
     text = text.replace('●', '•')
     return text
 
-def render_markdown_table(rows):
-    """Render mảng hai chiều thành bảng Markdown chuẩn."""
-    if not rows:
-        return ""
-    col_count = len(rows[0])
-    markdown_lines = []
-    
-    # Hàng tiêu đề
-    markdown_lines.append("| " + " | ".join(rows[0]) + " |")
-    # Dòng phân cách
-    markdown_lines.append("| " + " | ".join(["---"] * col_count) + " |")
-    
-    # Các hàng dữ liệu
-    for row in rows[1:]:
-        markdown_lines.append("| " + " | ".join(row) + " |")
-        
-    return "\n" + "\n".join(markdown_lines) + "\n"
-
 def convert_tab_to_markdown_table(text):
     """
-    Chuyển đổi bảng phân tách bằng tab (\t) thành bảng Markdown.
-    Hỗ trợ gộp các dòng xuống dòng không có tab vào cột cuối cùng.
+    Chuyển đổi văn bản chứa tab (\t) thành bảng Markdown chuẩn.
+    Giải quyết chính xác lỗi lệch cột: dòng phụ nối tiếp chỉ được ghép vào
+    cột cuối cùng thực tế của hàng đó và chỉ ghép nếu là dấu gạch đầu dòng.
     """
     lines = text.split('\n')
     new_lines = []
-    current_table = []
-    col_count = 0
+    current_table = [] # Lưu các hàng dưới dạng danh sách các cột (chưa đệm cột)
     
     for line in lines:
         stripped = line.strip()
@@ -58,38 +40,56 @@ def convert_tab_to_markdown_table(text):
             if current_table:
                 new_lines.append(render_markdown_table(current_table))
                 current_table = []
-                col_count = 0
             new_lines.append(line)
             continue
             
         if '\t' in line:
+            # Tách cột thô của hàng hiện tại
             columns = [col.strip() for col in line.split('\t')]
-            if not current_table:
-                col_count = len(columns)
-                current_table.append(columns)
-            else:
-                if len(columns) < col_count:
-                    columns += [""] * (col_count - len(columns))
-                else:
-                    columns = columns[:col_count]
-                current_table.append(columns)
+            current_table.append(columns)
         else:
-            if current_table and (stripped.startswith('-') or stripped.startswith('*') or len(stripped) < 150):
+            # Chỉ ghép nếu bảng đang mở và dòng này thực sự bắt đầu bằng dấu gạch đầu dòng list
+            if current_table and (stripped.startswith('-') or stripped.startswith('•') or stripped.startswith('*')):
+                # Ghép vào cột cuối cùng thực tế được cung cấp của hàng trước đó
                 if current_table[-1][-1]:
                     current_table[-1][-1] += "<br>" + stripped
                 else:
                     current_table[-1][-1] = stripped
             else:
+                # Kết thúc bảng nếu gặp tiêu đề phụ hoặc dòng bình thường
                 if current_table:
                     new_lines.append(render_markdown_table(current_table))
                     current_table = []
-                    col_count = 0
                 new_lines.append(line)
                 
     if current_table:
         new_lines.append(render_markdown_table(current_table))
         
     return '\n'.join(new_lines)
+
+def render_markdown_table(rows):
+    """Render mảng hai chiều thành bảng Markdown chuẩn và đệm cột đồng đều."""
+    if not rows:
+        return ""
+    
+    # Tìm số cột lớn nhất của bảng
+    max_cols = max(len(row) for row in rows)
+    
+    markdown_lines = []
+    
+    # Đệm cột cho hàng tiêu đề
+    header = rows[0] + [""] * (max_cols - len(rows[0]))
+    markdown_lines.append("| " + " | ".join(header) + " |")
+    
+    # Dòng phân cách
+    markdown_lines.append("| " + " | ".join(["---"] * max_cols) + " |")
+    
+    # Các hàng dữ liệu được đệm cột đồng đều
+    for row in rows[1:]:
+        padded_row = row + [""] * (max_cols - len(row))
+        markdown_lines.append("| " + " | ".join(padded_row) + " |")
+        
+    return "\n" + "\n".join(markdown_lines) + "\n"
 
 async def crawl_policy():
     try:
