@@ -8,8 +8,8 @@ from sentence_transformers import SentenceTransformer
 
 # Cấu hình đường dẫn
 CHROMA_DB_PATH = "./chroma_db"
-FAISS_INDEX_PATH = "faiss_index.bin"
-METADATA_PKL_PATH = "metadata.pkl"
+FAISS_INDEX_PATH = "./embeddings/faiss_index.bin"
+METADATA_PKL_PATH = "./embeddings/metadata.pkl"
 EMBEDDING_MODEL_NAME = "keepitreal/vietnamese-sbert"
 
 def search_chroma(query_text, collection_name, model, n_results=2):

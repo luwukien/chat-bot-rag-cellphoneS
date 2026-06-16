@@ -6,7 +6,6 @@ from sentence_transformers import SentenceTransformer
 
 # 1. Định cấu hình đường dẫn lưu trữ Database của ChromaDB
 CHROMA_DB_PATH = "./chroma_db"
-# Sử dụng mô hình tiếng Việt chuyên dụng chạy local (không cần API Key, chạy offline 100%)
 EMBEDDING_MODEL_NAME = "keepitreal/vietnamese-sbert"
 
 def main():
