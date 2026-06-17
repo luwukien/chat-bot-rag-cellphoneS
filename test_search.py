@@ -6,7 +6,7 @@ import faiss
 import chromadb
 from sentence_transformers import SentenceTransformer
 from rank_bm25 import BM25Okapi
-from underthesea import word_tokenize
+from underthesea import word_tokenize, text_normalize
 
 # Cấu hình đường dẫn
 CHROMA_DB_PATH = "./chroma_db"
@@ -123,6 +123,67 @@ def classify_query(query_text):
         
     return collection_name, metadata_filter
 
+
+def search_bm25(query_text, collection_name, n_results=5, metadata_filter=None):
+    """Tìm kiếm từ khóa bằng thuật toán BM25 trên tập dữ liệu đã lọc metadata"""
+    # 1. Kết nối ChromaDB
+    chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
+    try:
+        collection = chroma_client.get_collection(name=collection_name)
+    except Exception as e:
+        print(f"Lỗi: Không tìm thấy collection {collection_name}")
+        return []
+        
+    # 2. Lấy danh sách tài liệu thỏa mãn điều kiện lọc metadata
+    # Hàm .get() sẽ lấy văn bản gốc chứ không cần tính toán vector
+    all_data = collection.get(where=metadata_filter)
+    documents = all_data.get('documents', [])
+    metadatas = all_data.get('metadatas', [])
+    
+    # Nếu không có tài liệu nào thỏa mãn bộ lọc, trả về danh sách rỗng
+    if not documents:
+        return []
+
+    #Normalized document and query
+    documents_normalized = [text_normalize(doc) for doc in documents]
+    query_normalized = text_normalize(query_text)
+
+    # 3. Tiến hành tách từ tiếng Việt cho toàn bộ danh sách tài liệu (Corpus)
+    tokenized_corpus = []
+    for doc in documents_normalized:
+        # word_tokenize trả về danh sách các từ đã tách, ví dụ: ["điện thoại", "iphone"]
+        tokens = word_tokenize(doc.lower())
+        tokenized_corpus.append(tokens)
+        
+    # Tách từ tiếng Việt cho câu hỏi (Query)
+    tokenized_query = word_tokenize(query_normalized.lower())
+
+    # 4. Khởi tạo mô hình BM25 và tính điểm mức độ liên quan
+    bm25 = BM25Okapi(tokenized_corpus)
+    scores = bm25.get_scores(tokenized_query)
+
+    # 5. Lấy chỉ số (index) của tài liệu có điểm từ cao xuống thấp
+    top_indices = np.argsort(scores)[::-1]
+    
+    formatted_results = []
+    for idx in top_indices:
+        score = scores[idx]
+        
+        # Chỉ lấy tài liệu có điểm > 0 (có khớp từ khóa)
+        if score > 0:
+            formatted_results.append({
+                "text": documents[idx],
+                "metadata": metadatas[idx],
+                "bm25_score": float(score),
+                "id": metadatas[idx].get("chunk_id", "")
+            })
+            
+            # Dừng lại khi đã đủ số lượng yêu cầu
+            if len(formatted_results) >= n_results:
+                break
+                
+    return formatted_results
+
 def main():
     # Khởi tạo mô hình Embedding cục bộ chung
     print(f"Đang khởi tạo mô hình embedding cục bộ [{EMBEDDING_MODEL_NAME}]...")
@@ -162,6 +223,8 @@ def main():
             print(f"Metadata: {item['metadata']}")
             print(f"Content: {item['text'][:250]}...")
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
+
+
 
