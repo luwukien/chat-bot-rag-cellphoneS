@@ -5,6 +5,8 @@ import numpy as np
 import faiss
 import chromadb
 from sentence_transformers import SentenceTransformer
+from rank_bm25 import BM25Okapi
+from underthesea import word_tokenize
 
 # Cấu hình đường dẫn
 CHROMA_DB_PATH = "./chroma_db"
@@ -12,7 +14,7 @@ FAISS_INDEX_PATH = "./embeddings/faiss_index.bin"
 METADATA_PKL_PATH = "./embeddings/metadata.pkl"
 EMBEDDING_MODEL_NAME = "keepitreal/vietnamese-sbert"
 
-def search_chroma(query_text, collection_name, model, n_results=2):
+def search_chroma(query_text, collection_name, model, n_results=2, metadata_filter=None):
     """Tìm kiếm trên một collection của ChromaDB bằng vector tạo cục bộ"""
     chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
     
@@ -28,7 +30,8 @@ def search_chroma(query_text, collection_name, model, n_results=2):
     # Truy vấn bằng vector
     results = collection.query(
         query_embeddings=[query_vector],
-        n_results=n_results
+        n_results=n_results,
+        where=metadata_filter
     )
     
     formatted_results = []
@@ -72,6 +75,9 @@ def search_faiss(query_text, model, n_results=2):
                 "distance": float(dist)
             })
     return formatted_results
+
+def classify_query(query_text):
+    
 
 def main():
     # Khởi tạo mô hình Embedding cục bộ chung
