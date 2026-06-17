@@ -77,7 +77,51 @@ def search_faiss(query_text, model, n_results=2):
     return formatted_results
 
 def classify_query(query_text):
+    """
+    This method help determine metadata and choose collection for query of user
+    """
+    query_lower = query_text.lower()
     
+    policy_keywords = [
+        "chính sách", "điều khoản", "quy định", "bảo hành", "đổi trả", 
+        "hoàn tiền", "trả góp", "lỗi"
+    ]
+    
+    variant_keywords = [
+        "giá", "mua", "bán", "cửa hàng", "sản phẩm", "dịch vụ", "màu sắc", "còn hàng",
+        "hết hàng"
+    ]
+    specs_keywords = [
+        "thông số", "cấu hình", "ram", "cpu", "chip", "màn hình", 
+        "camera", "pin", "nặng", "kích thước", "bộ nhớ", "rom"
+    ]
+
+
+    # Kiểm tra xem câu hỏi có thuộc nhóm chính sách (policy) không
+    is_policy = any(keyword in query_lower for keyword in policy_keywords)
+    
+    if is_policy:
+        collection_name = "policy_collection"
+        metadata_filter = {"type": "policy"}  # Chỉ lấy các chunk thuộc loại chính sách
+        return collection_name, metadata_filter
+
+    # Mặc định tìm trong product_collection
+    collection_name = "product_collection"
+    metadata_filter = {}
+    
+    # Ưu tiên kiểm tra từ khóa hỏi về Giá/Màu (variants) trước
+    if any(keyword in query_lower for keyword in variant_keywords):
+        metadata_filter = {"type": "variants"}
+        
+    # Tiếp theo kiểm tra từ khóa hỏi về Cấu hình/Thông số (specs)
+    elif any(keyword in query_lower for keyword in specs_keywords):
+        metadata_filter = {"type": "specs"}
+        
+    # Nếu không khớp nhóm nào, mặc định tìm trong phần mô tả chi tiết (description)
+    else:
+        metadata_filter = {"type": "description"}
+        
+    return collection_name, metadata_filter
 
 def main():
     # Khởi tạo mô hình Embedding cục bộ chung
@@ -118,5 +162,6 @@ def main():
             print(f"Metadata: {item['metadata']}")
             print(f"Content: {item['text'][:250]}...")
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
+
