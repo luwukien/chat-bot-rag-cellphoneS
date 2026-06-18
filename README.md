@@ -1,115 +1,184 @@
-# CellphoneS RAG Chatbot - Crawler & Data Preparation
+# CellphoneS RAG Chatbot: End-to-End Crawler, Indexing, and Hybrid Retrieval Pipeline
 
-This repository contains the scraping and data crawling pipeline designed to extract product specifications, variants, pricing, and stock status from the CellphoneS e-commerce website. The crawled data is structured into JSON format to serve as the knowledge base for a Retrieval-Augmented Generation (RAG) chatbot.
+This repository implements a complete, end-to-end Retrieval-Augmented Generation (RAG) backend pipeline for a chatbot representing **CellphoneS**, a leading tech retail store in Vietnam. The pipeline spans web crawling (scraping store policies, product specifications, and FAQs), advanced text preprocessing (context-rich chunking, metadata creation, and table formatting), local database indexing (ChromaDB & FAISS), and a routing-enabled hybrid retrieval engine.
 
-## 📁 Project Structure
+---
+
+## 🤖 System Architecture & Data Flow
+
+The following diagram illustrates both the offline data ingestion process and the online hybrid retrieval pipeline:
+
+```mermaid
+graph TD
+    %% Offline Ingestion
+    subgraph Offline Ingestion Pipeline
+        A[CellphoneS Website] -->|Playwright Scrapers| B[(Raw Data: JSON)]
+        B -->|prepare_products_chunks.py| C[Product Chunks + Context Injection]
+        B -->|prepare_policy.py| D[Policy Chunks + MD Table Parse + Context Injection]
+        C --> E[SentenceTransformer: vietnamese-sbert]
+        D --> E
+        E -->|Generate Vector Embeddings| F[(ChromaDB Collections)]
+        E -->|Generate Vector Embeddings| G[(FAISS Index)]
+    end
+
+    %% Retrieval Pipeline
+    subgraph Online Retrieval Engine
+        H[User Query] --> I[Query Router / Classifier]
+        I -->|Route & Metadata Filter| J{Search Strategy}
+        J -->|ChromaDB Vector Search| K[Semantic Results]
+        J -->|Local Underthesea Tokenizer + BM25| L[Lexical Results]
+        K --> M[Reciprocal Rank Fusion RRF]
+        L --> M
+        M --> N[Top-K Ranked Context Chunks]
+    end
+```
+
+---
+
+## 📁 Directory Structure
 
 ```text
 ├── crawl-data/                    # Python crawler scripts powered by Playwright
-│   ├── crawl_url_and_name.py       # Crawls listing pages to gather product URLs, IDs, and names
-│   ├── crawl_spec_and_variant.py   # Opens each product page to extract tech specs & variants
-│   ├── crawl_description.py        # Extracts detailed promotional descriptions and key features
-│   ├── crawl_faq.py                # (Placeholder) To crawl Frequently Asked Questions (FAQs)
-│   └── list_iphone_links.txt       # Helper text file containing target product links
-├── data/                          # Crawled datasets
-│   ├── list_product_details.json   # Comprehensive crawled data of all products
-│   └── test_product_details.json   # Subset of product data used for testing
-├── .gitignore
-└── README.md                       # Project documentation
+│   ├── crawl_url_and_name.py      # Crawls listing pages to gather product URLs, IDs, and names
+│   ├── crawl_spec_and_variant.py  # Crawls product pages to extract specs & variants (price, stock)
+│   ├── crawl_description.py       # Extracts detailed promotional descriptions and key features
+│   ├── crawl_policy.py            # Crawls store policies & warranty rules from cellphones.com.vn/tos
+│   ├── crawl_faq.py               # Crawls accordion Frequently Asked Questions (FAQs)
+│   └── list_iphone_links.txt      # Helper text file containing target product URLs
+├── data/                          # Crawled datasets and pre-processed chunks
+│   ├── list_product_details.json  # Raw crawled details of all products
+│   ├── test_product_details.json  # Subset of product data used for testing
+│   ├── policy.json                # Raw store policies crawled from TOS
+│   ├── faq.json                   # Product-specific Frequently Asked Questions
+│   ├── prepared_products_chunks.json # Context-injected, ready-to-embed product chunks
+│   └── prepared_policy_chunks.json   # Markdown table parsed, clause-splitted policy chunks
+├── embeddings/                    # FAISS binary search index files
+│   ├── faiss_index.bin            # Binary index storing float32 embeddings
+│   └── metadata.pkl               # Serialized metadata map corresponding to FAISS indices
+├── utils/                         # Processing & Database construction scripts
+│   ├── prepare_products_chunks.py # Converts structured product specs/variants into natural sentences
+│   ├── prepare_policy.py          # Formats policy tables to MD and splits them into logical clauses
+│   ├── build_chroma.py            # Populates two local collections in ChromaDB using local embeddings
+│   └── build_faiss.py             # Computes embeddings and writes the FAISS vector index database
+├── chroma_db/                     # Local ChromaDB persistent database storage (ignored by git)
+├── test_search.py                 # CLI query testing script (Hybrid, Lexical, Semantic comparison)
+├── .env                           # Local environment configuration (ignored by git)
+├── .gitignore                     # Git ignore rules
+└── README.md                      # Project documentation
 ```
 
 ---
 
 ## 🛠️ Prerequisites & Setup
 
-Ensure you have Python 3.8+ installed on your machine.
+Ensure you have Python 3.8+ installed.
 
-1. **Create and Activate a Virtual Environment:**
-   ```bash
-   python -m venv .venv
-   # On Windows (PowerShell):
-   .venv\Scripts\Activate.ps1
-   # On macOS/Linux:
-   source .venv/bin/activate
-   ```
-
-2. **Install Dependencies:**
-   Make sure you have Playwright and its asynchronous dependencies installed:
-   ```bash
-   pip install playwright
-   ```
-
-3. **Install Playwright Browsers:**
-   ```bash
-   playwright install
-   ```
-
----
-
-## 🚀 How to Run the Crawler Pipeline
-
-The crawling process should be executed sequentially:
-
-### Step 1: Gather Product URLs and Names
-Run `crawl_url_and_name.py` to extract all target product URLs from a category page (e.g., Apple mobile products) and generate a base JSON template.
+### 1. Create and Activate a Virtual Environment
 ```bash
-python crawl-data/crawl_url_and_name.py
-```
-*Output: Generates/updates `./data/list_product_details.json`.*
+python -m venv .venv
 
-### Step 2: Crawl Detailed Specifications & Variants
-Run `crawl_spec_and_variant.py` to iterate through the collected product URLs, open their technical modals, and capture specs (CPU, GPU, RAM, screen size, etc.) and variants (price, color, simplified stock status).
+# On Windows (PowerShell):
+.venv\Scripts\Activate.ps1
+
+# On macOS/Linux:
+source .venv/bin/activate
+```
+
+### 2. Install Project Dependencies
 ```bash
-python crawl-data/crawl_spec_and_variant.py
+pip install playwright chromadb faiss-cpu sentence-transformers rank_bm25 underthesea numpy
 ```
-*Output: Appends `specs` and `variants` details inside `./data/list_product_details.json`.*
 
-### Step 3: Crawl Product Key Features & Descriptions
-Run `crawl_description.py` to fetch key highlights/descriptions for your products.
+### 3. Install Playwright Web Browsers
 ```bash
-python crawl-data/crawl_description.py
-```
-*Output: Updates `./data/test_product_details.json`.*
-
----
-
-## 📊 Data Schema Example
-
-Below is the clean JSON structure produced by the crawler pipeline:
-
-```json
-{
-  "id": "iphone-17-pro",
-  "name": "iPhone 17 Pro 256GB | Chính hãng",
-  "url": "https://cellphones.com.vn/iphone-17-pro.html",
-  "specs": {
-    "Hệ điều hành": "iOS 26",
-    "Chipset": "Chip A19 Pro",
-    "Bộ nhớ trong": "256 GB",
-    "Loại CPU": "CPU 6 lõi với 2 lõi hiệu năng...",
-    "Kích thước màn hình": "6.3 inches"
-  },
-  "variants": [
-    {
-      "color": "Bạc",
-      "price": "33.890.000₫",
-      "stock": ["Còn hàng"]
-    },
-    {
-      "color": "Cam Vũ Trụ",
-      "price": "33.790.000₫",
-      "stock": ["Tạm hết hàng"]
-    }
-  ]
-}
+playwright install chromium
 ```
 
 ---
 
-## 🧠 RAG Design & Best Practices
+## 🚀 How to Run the End-to-End Pipeline
 
-When building the vector search/RAG pipeline with this data, keep in mind:
+### Step 1: Gather & Crawl Raw Data
+The scraping scripts in `crawl-data/` should be run in sequence:
+1. **Gather Product URLs**: Scrapes all target product names and URLs into a base template.
+   ```bash
+   python crawl-data/crawl_url_and_name.py
+   ```
+2. **Scrape Specifications & Variants**: Opens each product page to extract technical specifications and variant options (color, price, stock status).
+   ```bash
+   python crawl-data/crawl_spec_and_variant.py
+   ```
+3. **Scrape Features & Descriptions**: Fetches key highlights and textual descriptions.
+   ```bash
+   python crawl-data/crawl_description.py
+   ```
+4. **Scrape Store Policies**: Crawls the official Terms of Service page to extract policies.
+   ```bash
+   python crawl-data/crawl_policy.py
+   ```
+5. **Scrape FAQs**: Iterates over products to extract accordion Q&As.
+   ```bash
+   python crawl-data/crawl_faq.py
+   ```
 
-*   **Stock Status Simplification:** Highly dynamic store addresses have been simplified to generic status lists (e.g., `["Còn hàng"]` or `["Tạm hết hàng"]`) to prevent static vector database chunking issues and out-of-date store listings.
-*   **Document Transformation:** Before embedding the JSON, transform structured nodes into natural language sentences (e.g., *"Sản phẩm iPhone 17 Pro 256GB màu Bạc có giá 33.890.000₫ hiện đang Còn hàng"*). This maintains context (Product Name + Variant + Status) in a single retrieval chunk.
-*   **FAQ Separation:** FAQ data should be stored in a separate collection (`faq.json`) rather than inside product specifications. Each Q&A pair acts as a perfect individual chunk for semantic retrieval.
+### Step 2: Data Preprocessing & Chunking
+Transform the raw, unstructured JSON datasets into structured, context-rich chunks:
+1. **Prepare Products**:
+   ```bash
+   python utils/prepare_products_chunks.py
+   ```
+2. **Prepare Policies**:
+   ```bash
+   python utils/prepare_policy.py
+   ```
+*Outputs: Generates `data/prepared_products_chunks.json` and `data/prepared_policy_chunks.json`.*
+
+### Step 3: Build Vector Indices
+Populate the vector databases using the local embedding model `keepitreal/vietnamese-sbert` (approx. 540MB, automatically downloaded on first run):
+1. **Build ChromaDB**: Populates local Chroma database collections `product_collection` and `policy_collection`.
+   ```bash
+   python utils/build_chroma.py
+   ```
+2. **Build FAISS Index**: Builds a flat L2 index for quick offline lookup.
+   ```bash
+   python utils/build_faiss.py
+   ```
+
+### Step 4: Run Retrieval Tests
+Use the CLI utility to run test queries and compare Lexical (BM25), Semantic (Chroma Vector), and Hybrid (RRF) search:
+```bash
+python test_search.py
+```
+
+---
+
+## 🧠 Core RAG Design & Implementation Details
+
+To achieve high retrieval precision and overcome the typical challenges of Vietnamese e-commerce RAG, the project employs several custom techniques:
+
+### 1. Context Injection
+Naive chunking of tabular specs or lists leads to loss of context (e.g., a chunk containing `"RAM: 8GB"` but missing the product name). 
+- **Product Chunks**: Converts product attributes into natural language sentences:
+  > *Sản phẩm iPhone 16 Pro có thông số Bộ nhớ trong (rom) là 256 GB.*
+  > *Sản phẩm iPhone 16 Pro phiên bản màu Titan Sa Mạc có giá bán là 28.990.000₫ và tình trạng kho hàng là Còn hàng.*
+- **Policy Chunks**: Appends root hierarchy details to each policy chunk:
+  > *[Chính sách CellphoneS] - Chính sách đổi trả*
+  > *Chủ đề: Điều 2. Thời gian đổi trả hàng*
+  > *Nội dung: ...*
+
+### 2. Query Routing & Metadata Filtering
+Before performing vector matching, the system runs the query through a keyword-based classifier in `test_search.py` (`classify_query`):
+- **Policy Queries**: If terms like *warranty, exchange, refund, installment* are detected, queries are routed to `policy_collection` with a `{"type": "policy"}` metadata filter.
+- **Product Queries**: Default to `product_collection`. Based on terms, they are narrow-filtered down to `variants` (price, color, availability), `specs` (CPU, screen, RAM), or `description` (general description).
+This avoids embedding collisions and speeds up search times by narrowing down candidate spaces.
+
+### 3. Hybrid Search & Reciprocal Rank Fusion (RRF)
+To prevent failures where vector search misses exact product names or BM25 misses semantic meaning, we implement a **Hybrid Search** with **RRF (Reciprocal Rank Fusion)**:
+1. **Vector Branch**: Queries ChromaDB with `vietnamese-sbert` local embeddings.
+2. **Lexical Branch**: Performs tokenized keyword matching using a Vietnamese BM25 engine (`underthesea` word tokenizer + `rank_bm25`).
+3. **Fusion**: Re-ranks the top results from both branches using:
+   $$\text{RRF Score}(d) = \sum_{m \in \text{systems}} \frac{1}{k + r_m(d)}$$
+   *(where $k = 60$, and $r_m(d)$ is the rank of document $d$ in retrieval system $m$).*
+
+### 4. Markdown Table Preservation
+Store policies contain detailed rules arranged in tables. If parsed as raw text, structured columns become unreadable. `utils/prepare_policy.py` detects tab-separated text and converts it into formatted Markdown tables (e.g. `| Column 1 | Column 2 |`) with padding to preserve structure for downstream LLM generation.
