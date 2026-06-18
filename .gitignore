@@ -2,3 +2,4 @@
 crawl-data/__pycache__
 data/test_product_details.json
 .env
+chroma_db

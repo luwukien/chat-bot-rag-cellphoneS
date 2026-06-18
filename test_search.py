@@ -241,7 +241,8 @@ def hybrid_search(query_text, collection_name, model, n_results=2, metadata_filt
         hybrid_results.append({
             "text": final_doc["text"],
             "metadata": final_doc["metadata"],
-            "rrf_score": score
+            "rrf_score": score,
+            "id": doc_id
         })
         
     return hybrid_results
@@ -276,7 +277,7 @@ def main():
         if not chroma_res:
             print("   (Không tìm thấy kết quả)")
         for i, item in enumerate(chroma_res):
-            print(f"   [{i+1}] (Distance: {item['distance']:.4f})")
+            print(f"   [{i+1}] (Distance: {item['distance']:.4f} | Chunk ID: {item.get('id', 'N/A')})")
             print(f"       Metadata: {item['metadata']}")
             print(f"       Nội dung: {item['text'][:180]}...")
 
@@ -286,7 +287,7 @@ def main():
         if not bm25_res:
             print("   (Không tìm thấy kết quả)")
         for i, item in enumerate(bm25_res):
-            print(f"   [{i+1}] (BM25 Score: {item['bm25_score']:.2f})")
+            print(f"   [{i+1}] (BM25 Score: {item['bm25_score']:.2f} | Chunk ID: {item.get('id', 'N/A')})")
             print(f"       Metadata: {item['metadata']}")
             print(f"       Nội dung: {item['text'][:180]}...")
 
@@ -296,7 +297,7 @@ def main():
         if not hybrid_res:
             print("   (Không tìm thấy kết quả)")
         for i, item in enumerate(hybrid_res):
-            print(f"   [{i+1}] (RRF Score: {item['rrf_score']:.6f})")
+            print(f"   [{i+1}] (RRF Score: {item['rrf_score']:.6f} | Chunk ID: {item.get('id', 'N/A')})")
             print(f"       Metadata: {item['metadata']}")
             print(f"       Nội dung: {item['text'][:180]}...")
 
