@@ -96,15 +96,38 @@ def process_product_data(input_file, output_file, max_chars=800, overlap=150):
         # 1. XỬ LÝ PHẦN THÔNG SỐ KỸ THUẬT (SPECS)
         # Chuyển specs dạng JSON thành đoạn văn xuôi có cấu trúc ngữ cảnh
         # ----------------------------------------------------
+        # Bản đồ chuẩn hóa key thông số sang từ đồng nghĩa tiếng Việt phổ biến
+        synonyms = {
+            "chipset": "chip xử lý (chipset)",
+            "dung lượng ram": "bộ nhớ ram",
+            "bộ nhớ trong": "bộ nhớ trong (rom)",
+            "camera sau": "camera sau (máy ảnh chính)",
+            "camera trước": "camera trước (máy ảnh selfie)"
+        }
+
+        # ----------------------------------------------------
+        # 1. XỬ LÝ PHẦN THÔNG SỐ KỸ THUẬT (SPECS)
+        # Chuyển specs dạng JSON thành các câu văn tự nhiên tiếng Việt
+        # ----------------------------------------------------
         if specs:
             specs_lines = []
             for key, val in specs.items():
                 if val:
                     # Thay thế dấu xuống dòng trong specs thành dấu phẩy để dữ liệu liền mạch
                     val_cleaned = str(val).replace('\n', ', ')
-                    specs_lines.append(f"- {key}: {val_cleaned}")
+                    
+                    # Chuẩn hóa key thuộc tính
+                    key_lower = key.lower().strip()
+                    normalized_key = synonyms.get(key_lower, key)
+
+                    # Chuẩn hóa giá trị Chipset để luôn chứa từ "Chip" giúp BM25 khớp tốt hơn
+                    if key_lower == "chipset" and not val_cleaned.lower().startswith("chip"):
+                        val_cleaned = f"Chip {val_cleaned}"
+                    
+                    # Tạo câu văn tự nhiên tiếng Việt giúp Embedding và BM25 hoạt động tốt nhất
+                    specs_lines.append(f"Sản phẩm {name} có thông số {normalized_key} là {val_cleaned}.")
             
-            specs_text = f"Thông số kỹ thuật của sản phẩm {name}:\n" + "\n".join(specs_lines)
+            specs_text = f"Thông số kỹ thuật chi tiết của sản phẩm {name}:\n" + "\n".join(specs_lines)
             
             chunk_counter += 1
             all_chunks.append({
@@ -121,7 +144,7 @@ def process_product_data(input_file, output_file, max_chars=800, overlap=150):
 
         # ----------------------------------------------------
         # 2. XỬ LÝ PHẦN BIẾN THỂ (VARIANTS)
-        # Tạo chunk riêng biệt cho giá bán, màu sắc và kho hàng
+        # Tạo chunk riêng biệt cho giá bán, màu sắc và kho hàng dạng câu văn tự nhiên
         # ----------------------------------------------------
         product_variants = product.get("variants", [])
         if product_variants:
@@ -130,14 +153,13 @@ def process_product_data(input_file, output_file, max_chars=800, overlap=150):
                 color = var.get("color", "Không xác định")
                 price = var.get("price", "Liên hệ")
                 stock = var.get("stock", "Hết hàng")
-                # Xử lý nếu stock là một list hoặc string
                 if isinstance(stock, list):
                     stock_str = ", ".join(stock)
                 else:
                     stock_str = str(stock)
-                variant_lines.append(f"- Màu {color}: Giá {price} (Trạng thái: {stock_str})")
+                variant_lines.append(f"Sản phẩm {name} phiên bản màu {color} có giá bán là {price} và tình trạng kho hàng là {stock_str}.")
             
-            variants_text = f"Các phiên bản màu sắc, giá bán và tình trạng kho hàng hiện tại của {name}:\n" + "\n".join(variant_lines)
+            variants_text = f"Các phiên bản màu sắc, giá bán và tình trạng kho hàng hiện tại của sản phẩm {name}:\n" + "\n".join(variant_lines)
             
             chunk_counter += 1
             all_chunks.append({
@@ -204,7 +226,7 @@ def process_product_data(input_file, output_file, max_chars=800, overlap=150):
 
 if __name__ == "__main__":
     input_path = "data/list_product_details.json"
-    output_path = "data/prepared_chunks.json"
+    output_path = "data/prepared_products_chunks.json"
     
     # BẠN CÓ THỂ ĐIỀU CHỈNH 2 THÔNG SỐ NÀY TẠI ĐÂY:
     MAX_CHARS = 800

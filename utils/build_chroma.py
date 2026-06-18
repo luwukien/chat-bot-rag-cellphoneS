@@ -20,8 +20,17 @@ def main():
     print(f"Khởi tạo cơ sở dữ liệu ChromaDB tại: {CHROMA_DB_PATH}")
     chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
 
-    # 4. Khởi tạo 2 collections riêng biệt cho policy và product
-    print("Khởi tạo các collection...")
+    # 4. Làm sạch database cũ bằng cách xóa các collection hiện hành (nếu có)
+    print("Làm sạch các collection cũ để tránh trùng lặp dữ liệu...")
+    for col_name in ["policy_collection", "product_collection"]:
+        try:
+            chroma_client.delete_collection(col_name)
+            print(f"  -> Đã xóa collection cũ: {col_name}")
+        except Exception:
+            pass
+
+    # 5. Khởi tạo các collection mới
+    print("Khởi tạo các collection mới...")
     policy_col = chroma_client.get_or_create_collection(
         name="policy_collection",
         metadata={"hnsw:space": "cosine"} # Sử dụng cosine similarity
@@ -31,9 +40,6 @@ def main():
         name="product_collection",
         metadata={"hnsw:space": "cosine"}
     )
-
-    print(f"  policy_collection  : {policy_col.count()} chunks hiện có")
-    print(f"  product_collection : {product_col.count()} chunks hiện có")
 
     # 5. Nạp dữ liệu offline
     ingest_json_to_chroma("data/prepared_policy_chunks.json", policy_col, model)

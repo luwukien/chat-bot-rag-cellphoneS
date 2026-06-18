@@ -256,8 +256,8 @@ def main():
 
     # 2. Danh sách các câu hỏi test bao trùm nhiều nhóm thông tin khác nhau
     queries = [
-        "iPhone 16 Pro Max 256GB giá bao nhiêu và có những màu gì?",
         "Cấu hình chi tiết camera và chip xử lý của iPhone 16 Pro là gì?",
+        "iPhone 13 Pro giá bao nhiêu và có những màu gì?",
         "Chính sách đổi trả và hoàn tiền của cửa hàng trong 30 ngày đầu như thế nào?"
     ]
 
