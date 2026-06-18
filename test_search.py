@@ -185,7 +185,7 @@ def search_bm25_with_chroma(query_text, collection_name, n_results=5, metadata_f
                 
     return formatted_results
 
-def hybrid_search(query_text, collection_name, model, n_results=2, metadata_filter=None, k=60):
+def hybrid_search(query_text, collection_name, model, n_results=5, metadata_filter=None, k=60):
     """Tìm kiếm kết hợp Vector Search và BM25, dùng thuật toán RRF để dung hợp kết quả"""
     if metadata_filter is None:
         metadata_filter = {}
@@ -262,6 +262,7 @@ def main():
         "Chính sách đổi trả và hoàn tiền của cửa hàng trong 30 ngày đầu như thế nào?"
     ]
 
+    n_results = 5
     for q in queries:
         print("\n" + "="*90)
         print(f"🎯 CÂU HỎI TRUY VẤN: '{q}'")
@@ -272,34 +273,31 @@ def main():
         print(f"[Định tuyến RAG] -> Collection: {collection_name} | Bộ lọc Metadata: {metadata_filter}\n")
 
         # 4. CHẠY THỬ PHƯƠNG PHÁP 1: VECTOR SEARCH (CHROMA)
-        print(">>> 1. KẾT QUẢ TỪ VECTOR SEARCH (CHROMA):")
-        chroma_res = search_chroma(q, collection_name, model, n_results=2, metadata_filter=metadata_filter)
+        print(">>> 1. VECTOR SEARCH (CHROMA):")
+        chroma_res = search_chroma(q, collection_name, model, n_results=n_results, metadata_filter=metadata_filter)
         if not chroma_res:
             print("   (Không tìm thấy kết quả)")
         for i, item in enumerate(chroma_res):
-            print(f"   [{i+1}] (Distance: {item['distance']:.4f} | Chunk ID: {item.get('id', 'N/A')})")
-            print(f"       Metadata: {item['metadata']}")
-            print(f"       Nội dung: {item['text'][:180]}...")
+            snippet = item['text'].replace('\n', ' ')[:100]
+            print(f"   [{i+1}] ID: {item.get('id', 'N/A')} | Dist: {item['distance']:.4f} | Snippet: {snippet}...")
 
         # 5. CHẠY THỬ PHƯƠNG PHÁP 2: KEYWORD SEARCH (BM25)
-        print("\n>>> 2. KẾT QUẢ TỪ KEYWORD SEARCH (BM25):")
-        bm25_res = search_bm25_with_chroma(q, collection_name, n_results=2, metadata_filter=metadata_filter)
+        print("\n>>> 2. KEYWORD SEARCH (BM25):")
+        bm25_res = search_bm25_with_chroma(q, collection_name, n_results=n_results, metadata_filter=metadata_filter)
         if not bm25_res:
             print("   (Không tìm thấy kết quả)")
         for i, item in enumerate(bm25_res):
-            print(f"   [{i+1}] (BM25 Score: {item['bm25_score']:.2f} | Chunk ID: {item.get('id', 'N/A')})")
-            print(f"       Metadata: {item['metadata']}")
-            print(f"       Nội dung: {item['text'][:180]}...")
+            snippet = item['text'].replace('\n', ' ')[:100]
+            print(f"   [{i+1}] ID: {item.get('id', 'N/A')} | BM25: {item['bm25_score']:.2f} | Snippet: {snippet}...")
 
         # 6. CHẠY THỬ PHƯƠNG PHÁP 3: HYBRID SEARCH (RRF FUSION)
-        print("\n>>> 3. KẾT QUẢ TỪ HYBRID SEARCH (RRF DUNG HỢP):")
-        hybrid_res = hybrid_search(q, collection_name, model, n_results=2, metadata_filter=metadata_filter)
+        print("\n>>> 3. HYBRID SEARCH (RRF DUNG HỢP):")
+        hybrid_res = hybrid_search(q, collection_name, model, n_results=n_results, metadata_filter=metadata_filter)
         if not hybrid_res:
             print("   (Không tìm thấy kết quả)")
         for i, item in enumerate(hybrid_res):
-            print(f"   [{i+1}] (RRF Score: {item['rrf_score']:.6f} | Chunk ID: {item.get('id', 'N/A')})")
-            print(f"       Metadata: {item['metadata']}")
-            print(f"       Nội dung: {item['text'][:180]}...")
+            snippet = item['text'].replace('\n', ' ')[:100]
+            print(f"   [{i+1}] ID: {item.get('id', 'N/A')} | RRF: {item['rrf_score']:.6f} | Snippet: {snippet}...")
 
 if __name__ == "__main__":
     main()
