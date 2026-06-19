@@ -7,12 +7,16 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 from rank_bm25 import BM25Okapi
 from underthesea import word_tokenize, text_normalize
+from flashrank import Ranker, RerankRequest
 
 # Cấu hình đường dẫn
 CHROMA_DB_PATH = "./chroma_db"
 FAISS_INDEX_PATH = "./embeddings/faiss_index.bin"
 METADATA_PKL_PATH = "./embeddings/metadata.pkl"
 EMBEDDING_MODEL_NAME = "keepitreal/vietnamese-sbert"
+
+# Khởi tạo ranker (sẽ tự động tải model mini-lm khoảng 4MB trong lần đầu chạy)
+ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2", cache_dir="./opt/flashrank_cache")
 
 def search_chroma(query_text, collection_name, model, n_results=2, metadata_filter=None):
     """Tìm kiếm trên một collection của ChromaDB bằng vector tạo cục bộ"""
@@ -247,6 +251,40 @@ def hybrid_search(query_text, collection_name, model, n_results=5, metadata_filt
         
     return hybrid_results
 
+def rerank_documents(query_text, documents_list, ranker, top_n=3):
+    """
+    Chấm điểm lại danh sách tài liệu dựa trên ngữ nghĩa câu hỏi bằng FlashRank.
+    """
+    if not documents_list:
+        return []
+        
+    from flashrank import RerankRequest
+    
+    # Chuẩn bị dữ liệu đầu vào cho FlashRank
+    passages = []
+    for idx, item in enumerate(documents_list):
+        # Đảm bảo có ID duy nhất
+        doc_id = item.get("id", f"doc_{idx}")
+        passages.append({
+            "id": doc_id,
+            "text": item["text"],
+            "meta": item.get("metadata", {})
+        })
+        
+    # Gọi mô hình Rerank
+    request = RerankRequest(query=query_text, passages=passages)
+    rerank_results = ranker.rerank(request)
+    
+    # Định dạng lại kết quả đầu ra
+    final_results = []
+    for item in rerank_results[:top_n]:
+        final_results.append({
+            "text": item["text"],
+            "metadata": item["meta"],
+            "rerank_score": float(item["score"])
+        })
+        
+    return final_results
 
 def main():
     # 1. Khởi tạo mô hình Embedding cục bộ
@@ -257,9 +295,9 @@ def main():
 
     # 2. Danh sách các câu hỏi test bao trùm nhiều nhóm thông tin khác nhau
     queries = [
-        "Cấu hình chi tiết camera và chip xử lý của iPhone 16 Pro là gì?",
+        "Cấu hình chi tiết camera và chip xử lý của iPhone 16 Pro 128gb là gì?",
         "iPhone 13 Pro giá bao nhiêu và có những màu gì?",
-        "Chính sách đổi trả và hoàn tiền của cửa hàng trong 30 ngày đầu như thế nào?"
+        "Camera iPhone 13 Pro còn hàng không?"
     ]
 
     n_results = 5
@@ -298,6 +336,16 @@ def main():
         for i, item in enumerate(hybrid_res):
             snippet = item['text'].replace('\n', ' ')[:100]
             print(f"   [{i+1}] ID: {item.get('id', 'N/A')} | RRF: {item['rrf_score']:.6f} | Snippet: {snippet}...")
+
+        # 7. CHẠY THỬ PHƯƠNG PHÁP 4: RERANK (FLASHRANK)
+        print("\n>>> 4. RERANK (FLASH RANK):")
+        rerank_res = rerank_documents(q, hybrid_res, ranker, top_n=n_results)
+        if not rerank_res:
+            print("   (Không tìm thấy kết quả)")
+        for i, item in enumerate(rerank_res):
+            snippet = item['text'].replace('\n', ' ')[:100]
+            print(f"   [{i+1}] ID: {item.get('id', 'N/A')} | RankScore: {item['rerank_score']:.4f} | Snippet: {snippet}...")
+
 
 if __name__ == "__main__":
     main()
