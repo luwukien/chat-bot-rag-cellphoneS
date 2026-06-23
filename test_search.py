@@ -1,26 +1,45 @@
 import os
+import re
+import json
 import pickle
+import sys
 import time
 import numpy as np
 import faiss
 import chromadb
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer, CrossEncoder
 from rank_bm25 import BM25Okapi
 from underthesea import word_tokenize, text_normalize
-from flashrank import Ranker, RerankRequest
+from dotenv import load_dotenv
+from google import genai
+from google.genai import types
 
 # Cấu hình đường dẫn
 CHROMA_DB_PATH = "./chroma_db"
 FAISS_INDEX_PATH = "./embeddings/faiss_index.bin"
 METADATA_PKL_PATH = "./embeddings/metadata.pkl"
 EMBEDDING_MODEL_NAME = "keepitreal/vietnamese-sbert"
+RERANKER_MODEL_NAME = "itdainb/PhoRanker"
 
-# Khởi tạo ranker (sẽ tự động tải model mini-lm khoảng 4MB trong lần đầu chạy)
-ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2", cache_dir="./opt/flashrank_cache")
+
+# Tải biến môi trường từ file .env trong thư mục làm việc hiện tại
+load_dotenv(dotenv_path=os.path.join(os.getcwd(), '.env'))
+# Cấu hình UTF-8 cho Windows Terminal để không bị lỗi mã hóa chữ tiếng Việt
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+except AttributeError:
+    pass
+
+print("Đang khởi tạo Gemini API và nạp các mô hình cục bộ...")
+client = genai.Client()
+embed_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+reranker_model = CrossEncoder(RERANKER_MODEL_NAME, device="cpu")
+print("Đã tải xong các mô hình!")
+
+chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
 
 def search_chroma(query_text, collection_name, model, n_results=2, metadata_filter=None):
     """Tìm kiếm trên một collection của ChromaDB bằng vector tạo cục bộ"""
-    chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
     
     try:
         collection = chroma_client.get_collection(name=collection_name)
@@ -251,106 +270,184 @@ def hybrid_search(query_text, collection_name, model, n_results=5, metadata_filt
         
     return hybrid_results
 
-def rerank_documents(query_text, documents_list, ranker, top_n=3):
+def build_model_mappings():
+    collection = chroma_client.get_collection(name="product_collection")
+    all_data = collection.get()
+    metadatas = all_data.get('metadatas', [])
+    
+    base_to_pids = {}
+    pid_to_name = {}
+    
+    def clean_model_name(name):
+        name = name.replace("Điện thoại ", "")
+        # Tách bỏ phần dung lượng (ví dụ: 128GB) để lấy tên dòng máy gốc
+        parts = re.split(r'\s+\d+(?:GB|TB|gb|tb)', name, flags=re.IGNORECASE)
+        cleaned = parts[0]
+        cleaned = re.split(r'\s*(?:\||I)\s*', cleaned)[0]
+        return cleaned.strip()
+
+    for meta in metadatas:
+        pid = meta.get("product_id")
+        pname = meta.get("product_name")
+        if pid and pname:
+            pid_to_name[pid] = pname
+            base_name = clean_model_name(pname)
+            if base_name not in base_to_pids:
+                base_to_pids[base_name] = set()
+            base_to_pids[base_name].add(pid)
+            
+    sorted_base_names = sorted(base_to_pids.keys(), key=len, reverse=True)
+    return base_to_pids, sorted_base_names, pid_to_name
+
+print("Đang xây dựng ánh xạ sản phẩm...")
+base_to_pids, sorted_base_names, pid_to_name = build_model_mappings()
+
+def llm_decompose_query(query_text):
+    prompt = f"""
+    Bạn là một trợ lý RAG Planner thông minh. Hãy phân rã câu hỏi phức tạp của người dùng thành danh sách các câu hỏi đơn (sub-queries) để tìm kiếm hiệu quả hơn.
+
+    Hướng dẫn phân rã:
+    1. Tách theo thực thể: Nếu câu hỏi hỏi về nhiều sản phẩm (ví dụ: so sánh A và B), hãy tạo các câu hỏi riêng cho từng sản phẩm.
+    2. Tách theo khía cạnh thông tin: Trong cơ sở dữ liệu của chúng tôi:
+    - Thông tin về Giá bán, màu sắc, tình trạng hàng nằm ở phần "Giá/Biến thể" (variants).
+    - Thông tin về Thông số kỹ thuật, camera, chip, pin, màn hình nằm ở phần "Cấu hình/Thông số" (specs).
+    Vì vậy, NẾU câu hỏi hỏi đồng thời cả giá bán VÀ cấu hình/pin/camera, bạn BẮT BUỘC phải tách thành các câu hỏi phụ riêng biệt (một câu hỏi về giá, một câu hỏi về cấu hình/pin). KHÔNG gộp chung giá và cấu hình/pin vào cùng một câu hỏi phụ.
+
+    Ví dụ 1:
+    Câu hỏi: "So sánh iPhone 13 Pro và iPhone 14 Pro về giá và pin"
+    Trả về định dạng JSON:
+    {{
+    "sub_queries": [
+        "iPhone 13 Pro giá bao nhiêu",
+        "iPhone 13 Pro dung lượng pin thế nào",
+        "iPhone 14 Pro giá bao nhiêu",
+        "iPhone 14 Pro dung lượng pin thế nào"
+    ]
+    }}
+
+    Ví dụ 2:
+    Câu hỏi: "Cấu hình chi tiết camera và chip xử lý của iPhone 16 Pro 128gb là gì?"
+    Trả về định dạng JSON:
+    {{
+    "sub_queries": [
+        "cấu hình chi tiết camera iPhone 16 Pro 128gb",
+        "vi xử lý chip của iPhone 16 Pro 128gb"
+    ]
+    }}
+
+    Ví dụ 3:
+    Câu hỏi: "Chính sách bảo hành đổi trả của CellphoneS"
+    Trả về định dạng JSON:
+    {{
+    "sub_queries": [
+        "Chính sách bảo hành đổi trả của CellphoneS"
+    ]
+    }}
+
+    Câu hỏi của người dùng: "{query_text}"
+    Trả về JSON chứa danh sách "sub_queries".
     """
-    Chấm điểm lại danh sách tài liệu dựa trên ngữ nghĩa câu hỏi bằng FlashRank.
-    """
-    if not documents_list:
+    try:
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+            ),
+        )
+        data = json.loads(response.text)
+        return data.get("sub_queries", [query_text])
+    except Exception as e:
+        print(f"Lỗi phân tách truy vấn bằng LLM: {e}")
+        return [query_text]
+
+def retrieve_and_rerank(query_text, n_results=5):
+    # 1. Phân rã câu hỏi bằng Gemini
+    sub_queries = llm_decompose_query(query_text)
+    print(f"   [LLM Planner] Sub-queries generated: {sub_queries}")
+    
+    # 2. Tìm kiếm ứng viên cho từng câu hỏi phụ
+    all_candidates = []
+    retrieved_by = {}  # Đánh dấu: chunk_id -> danh sách các sub_query tìm ra nó
+    
+    for sq in sub_queries:
+        collection_name, metadata_filter = classify_query(sq)
+        candidates = hybrid_search(sq, collection_name, embed_model, n_results=20, metadata_filter=metadata_filter)
+        
+        for cand in candidates:
+            # Lấy hoặc tự tạo unique id cho chunk
+            cid = cand.get("id") or cand.get("metadata", {}).get("chunk_id")
+            if not cid:
+                import hashlib
+                cid = hashlib.md5(cand["text"].encode('utf-8')).hexdigest()
+                cand["id"] = cid
+            
+            # Lưu vết để phục vụ rerank chéo sau này
+            if cid not in retrieved_by:
+                retrieved_by[cid] = []
+                all_candidates.append(cand)
+            retrieved_by[cid].append(sq)
+            
+    print(f"   [Merge] Merged & deduplicated to {len(all_candidates)} unique candidates.")
+    if not all_candidates:
         return []
         
-    from flashrank import RerankRequest
+    # 3. Chuẩn bị các cặp (sub_query, chunk_text) để PhoRanker chấm điểm
+    pairs = []
+    pair_mapping = []
+    for cand in all_candidates:
+        cid = cand["id"]
+        # Chỉ chấm điểm chunk với các sub-query thực tế đã tìm ra nó
+        for sq in retrieved_by[cid]:
+            pairs.append([sq, cand["text"]])
+            pair_mapping.append((cand, sq))
+            
+    # Chạy PhoRanker
+    start_rerank = time.time()
+    scores = reranker_model.predict(pairs)
+    print(f"   [Rerank] Scored {len(pairs)} pairs using PhoRanker in {(time.time() - start_rerank)*1000:.1f} ms")
     
-    # Chuẩn bị dữ liệu đầu vào cho FlashRank
-    passages = []
-    for idx, item in enumerate(documents_list):
-        # Đảm bảo có ID duy nhất
-        doc_id = item.get("id", f"doc_{idx}")
-        passages.append({
-            "id": doc_id,
-            "text": item["text"],
-            "meta": item.get("metadata", {})
-        })
+    # Gán điểm lớn nhất (max) cho mỗi chunk
+    cand_scores = {}
+    for score, (cand, sq) in zip(scores, pair_mapping):
+        cid = cand["id"]
+        cand_scores[cid] = max(cand_scores.get(cid, -9999.0), float(score))
         
-    # Gọi mô hình Rerank
-    request = RerankRequest(query=query_text, passages=passages)
-    rerank_results = ranker.rerank(request)
-    
-    # Định dạng lại kết quả đầu ra
-    final_results = []
-    for item in rerank_results[:top_n]:
-        final_results.append({
-            "text": item["text"],
-            "metadata": item["meta"],
-            "rerank_score": float(item["score"])
-        })
+    for cand in all_candidates:
+        cand["rerank_score"] = cand_scores[cand["id"]]
         
-    return final_results
+    # Sắp xếp và trả về Top N kết quả
+    ranked_results = sorted(all_candidates, key=lambda x: x.get("rerank_score", 0.0), reverse=True)
+    return ranked_results[:n_results]
+
 
 def main():
-    # 1. Khởi tạo mô hình Embedding cục bộ
-    print(f"Đang khởi tạo mô hình embedding cục bộ [{EMBEDDING_MODEL_NAME}]...")
-    start_model = time.time()
-    model = SentenceTransformer(EMBEDDING_MODEL_NAME)
-    print(f"Khởi tạo mô hình thành công sau {time.time() - start_model:.2f} giây!\n")
-
-    # 2. Danh sách các câu hỏi test bao trùm nhiều nhóm thông tin khác nhau
     queries = [
         "Cấu hình chi tiết camera và chip xử lý của iPhone 16 Pro 128gb là gì?",
         "iPhone 13 Pro giá bao nhiêu và có những màu gì?",
-        "Camera iPhone 13 Pro còn hàng không?"
+        "So sánh iPhone 13 Pro và iPhone 14 Pro về giá và pin",
+        "Chính sách bảo hành đổi trả của CellphoneS"
     ]
-
-    n_results = 5
+    
     for q in queries:
         print("\n" + "="*90)
         print(f"🎯 CÂU HỎI TRUY VẤN: '{q}'")
         print("="*90)
-
-        # 3. Phân loại câu hỏi tự động để lấy Collection và Metadata Filter
-        collection_name, metadata_filter = classify_query(q)
-        print(f"[Định tuyến RAG] -> Collection: {collection_name} | Bộ lọc Metadata: {metadata_filter}\n")
-
-        # 4. CHẠY THỬ PHƯƠNG PHÁP 1: VECTOR SEARCH (CHROMA)
-        print(">>> 1. VECTOR SEARCH (CHROMA):")
-        chroma_res = search_chroma(q, collection_name, model, n_results=n_results, metadata_filter=metadata_filter)
-        if not chroma_res:
-            print("   (Không tìm thấy kết quả)")
-        for i, item in enumerate(chroma_res):
+        
+        start_time = time.time()
+        final_results = retrieve_and_rerank(q, n_results=5)
+        duration = time.time() - start_time
+        
+        print(f"\n[Kết quả RAG sau Rerank] - Thời gian xử lý: {duration:.2f} giây")
+        for i, item in enumerate(final_results):
             snippet = item['text'].replace('\n', ' ')[:100]
-            print(f"   [{i+1}] ID: {item.get('id', 'N/A')} | Dist: {item['distance']:.4f} | Snippet: {snippet}...")
-
-        # 5. CHẠY THỬ PHƯƠNG PHÁP 2: KEYWORD SEARCH (BM25)
-        print("\n>>> 2. KEYWORD SEARCH (BM25):")
-        bm25_res = search_bm25_with_chroma(q, collection_name, n_results=n_results, metadata_filter=metadata_filter)
-        if not bm25_res:
-            print("   (Không tìm thấy kết quả)")
-        for i, item in enumerate(bm25_res):
-            snippet = item['text'].replace('\n', ' ')[:100]
-            print(f"   [{i+1}] ID: {item.get('id', 'N/A')} | BM25: {item['bm25_score']:.2f} | Snippet: {snippet}...")
-
-        # 6. CHẠY THỬ PHƯƠNG PHÁP 3: HYBRID SEARCH (RRF FUSION)
-        print("\n>>> 3. HYBRID SEARCH (RRF DUNG HỢP):")
-        hybrid_res = hybrid_search(q, collection_name, model, n_results=n_results, metadata_filter=metadata_filter)
-        if not hybrid_res:
-            print("   (Không tìm thấy kết quả)")
-        for i, item in enumerate(hybrid_res):
-            snippet = item['text'].replace('\n', ' ')[:100]
-            print(f"   [{i+1}] ID: {item.get('id', 'N/A')} | RRF: {item['rrf_score']:.6f} | Snippet: {snippet}...")
-
-        # 7. CHẠY THỬ PHƯƠNG PHÁP 4: RERANK (FLASHRANK)
-        print("\n>>> 4. RERANK (FLASH RANK):")
-        rerank_res = rerank_documents(q, hybrid_res, ranker, top_n=n_results)
-        if not rerank_res:
-            print("   (Không tìm thấy kết quả)")
-        for i, item in enumerate(rerank_res):
-            snippet = item['text'].replace('\n', ' ')[:100]
-            print(f"   [{i+1}] ID: {item.get('id', 'N/A')} | RankScore: {item['rerank_score']:.4f} | Snippet: {snippet}...")
-
+            mtype = item['metadata'].get('type', 'N/A')
+            pid = item['metadata'].get('product_id', 'N/A')
+            score = item.get('rerank_score', 0.0)
+            print(f"   [{i+1}] Score: {score:.4f} | Type: {mtype} | PID: {pid} | Snippet: {snippet}...")
 
 if __name__ == "__main__":
     main()
-    # Nếu muốn test riêng hàm BM25, bạn có thể comment main() và mở comment dòng dưới:
-    # test_search_bm25()
 
 
 
