@@ -75,12 +75,31 @@ def split_text_by_paragraphs(text, max_chars=800, overlap=150):
     return chunks
 
 def process_product_data(input_file, output_file, max_chars=800, overlap=150):
+    import sys
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except AttributeError:
+        pass
+
     if not os.path.exists(input_file):
         print(f"Lỗi: Không tìm thấy file dữ liệu tại {input_file}")
         return
 
     with open(input_file, 'r', encoding='utf-8') as f:
         products = json.load(f)
+
+    # Đọc dữ liệu FAQ từ faq.json
+    faq_file = "data/faq.json"
+    faq_map = {}
+    if os.path.exists(faq_file):
+        try:
+            with open(faq_file, 'r', encoding='utf-8') as f_faq:
+                faq_data = json.load(f_faq)
+                # Map từ product_id -> faq dict
+                faq_map = {p.get("id"): p.get("faq", {}) for p in faq_data if p.get("id")}
+                print(f"Đã đọc {len(faq_map)} sản phẩm có FAQ từ {faq_file}")
+        except Exception as e:
+            print(f"Lỗi khi đọc file faq.json: {e}")
 
     all_chunks = []
     chunk_counter = 0
@@ -208,6 +227,32 @@ def process_product_data(input_file, output_file, max_chars=800, overlap=150):
                         "type": "description"
                     }
                 })
+
+        # ----------------------------------------------------
+        # 4. XỬ LÝ PHẦN HỎI ĐÁP THƯỜNG GẶP (FAQ)
+        # ----------------------------------------------------
+        product_faq = faq_map.get(product_id, {})
+        if product_faq:
+            for q, a in product_faq.items():
+                if q and a:
+                    faq_text = (
+                        f"[FAQ Sản phẩm {name}]\n"
+                        f"Câu hỏi: {q}\n"
+                        f"Trả lời: {a}"
+                    )
+                    
+                    chunk_counter += 1
+                    all_chunks.append({
+                        "chunk_id": f"chunk_{chunk_counter:04d}",
+                        "product_id": product_id,
+                        "text": faq_text,
+                        "metadata": {
+                            "product_id": product_id,
+                            "product_name": name,
+                            "product_url": url,
+                            "type": "faq"
+                        }
+                    })
 
     # Ghi dữ liệu chunk đã chuẩn bị ra file mới
     with open(output_file, 'w', encoding='utf-8') as f:

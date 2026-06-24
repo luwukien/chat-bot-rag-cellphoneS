@@ -9,8 +9,6 @@ from sentence_transformers import SentenceTransformer, CrossEncoder
 from rank_bm25 import BM25Okapi
 from underthesea import word_tokenize, text_normalize
 from dotenv import load_dotenv
-from google import genai
-from google.genai import types
 import logging
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="transformers")
@@ -39,8 +37,7 @@ try:
 except AttributeError:
     pass
 
-print("Đang khởi tạo Gemini API và nạp các mô hình cục bộ...")
-client = genai.Client()
+print("Đang khởi tạo Groq API và nạp các mô hình cục bộ...")
 embed_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
 reranker_model = CrossEncoder(RERANKER_MODEL_NAME, device="cpu")
 print("Đã tải xong các mô hình!")
@@ -89,14 +86,18 @@ def classify_query(query_text):
     ]
     
     variant_keywords = [
-        "giá", "mua", "bán", "cửa hàng", "sản phẩm", "dịch vụ", "màu sắc", "còn hàng",
-        "hết hàng"
+        "giá", "mua", "bán", "cửa hàng", "sản phẩm", "dịch vụ", "màu", "còn hàng",
+        "hết hàng", "bao nhiêu", "tiền", "rẻ", "đắt", "triệu"
     ]
     specs_keywords = [
         "thông số", "cấu hình", "ram", "cpu", "chip", "màn hình", 
-        "camera", "pin", "nặng", "kích thước", "bộ nhớ", "rom"
+        "camera", "pin", "nặng", "kích thước", "bộ nhớ", "rom", "sạc", "miliamp", "mah"
     ]
-
+    faq_keywords = [
+        "tại sao", "vì sao", "thế nào", "như thế nào", "sao lại", "có nên", 
+        "được không", "màu nào", "khi nào", "bao nhiêu inch", "mấy màu",
+        "sạc nhanh", "ưu đãi", "khuyến mãi", "tặng", "khác gì", "so với"
+    ]
 
     # Kiểm tra xem câu hỏi có thuộc nhóm chính sách (policy) không
     is_policy = any(keyword in query_lower for keyword in policy_keywords)
@@ -111,15 +112,22 @@ def classify_query(query_text):
     
     has_variants = any(keyword in query_lower for keyword in variant_keywords)
     has_specs = any(keyword in query_lower for keyword in specs_keywords)
+    has_faq = any(keyword in query_lower for keyword in faq_keywords)
     
-    if has_variants and has_specs:
-        metadata_filter = {"type": {"$in": ["variants", "specs"]}}
-    elif has_variants:
-        metadata_filter = {"type": "variants"}
-    elif has_specs:
-        metadata_filter = {"type": "specs"}
+    selected_types = []
+    if has_variants:
+        selected_types.append("variants")
+    if has_specs:
+        selected_types.append("specs")
+    if has_faq:
+        selected_types.append("faq")
+        
+    if not selected_types:
+        metadata_filter = {"type": {"$in": ["description", "faq"]}}
+    elif len(selected_types) == 1:
+        metadata_filter = {"type": selected_types[0]}
     else:
-        metadata_filter = {"type": "description"}
+        metadata_filter = {"type": {"$in": selected_types}}
         
     return collection_name, metadata_filter
 
@@ -325,47 +333,36 @@ def llm_decompose_query(query_text):
     """
     
     groq_api_key = os.environ.get("GROQ_API_KEY")
-    if groq_api_key:
-        import requests
-        try:
-            headers = {
-                "Authorization": f"Bearer {groq_api_key}",
-                "Content-Type": "application/json"
-            }
-            payload = {
-                "model": "llama-3.3-70b-versatile",
-                "messages": [
-                    {"role": "user", "content": prompt}
-                ],
-                "response_format": {"type": "json_object"}
-            }
-            response = requests.post(
-                "https://api.groq.com/openai/v1/chat/completions",
-                headers=headers,
-                json=payload,
-                timeout=10
-            )
-            response.raise_for_status()
-            res_data = response.json()
-            content = res_data["choices"][0]["message"]["content"]
-            data = json.loads(content)
-            return data.get("sub_queries", [query_text])
-        except Exception as e:
-            print(f"Lỗi phân tách truy vấn bằng Groq: {e}")
-            # Nếu Groq lỗi, tiếp tục thử gọi Gemini bên dưới
-            
+    if not groq_api_key:
+        print("Cảnh báo: GROQ_API_KEY chưa được thiết lập trong biến môi trường. Không thể phân rã câu hỏi.")
+        return [query_text]
+        
+    import requests
     try:
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-            ),
+        headers = {
+            "Authorization": f"Bearer {groq_api_key}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "model": "llama-3.3-70b-versatile",
+            "messages": [
+                {"role": "user", "content": prompt}
+            ],
+            "response_format": {"type": "json_object"}
+        }
+        response = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers=headers,
+            json=payload,
+            timeout=10
         )
-        data = json.loads(response.text)
+        response.raise_for_status()
+        res_data = response.json()
+        content = res_data["choices"][0]["message"]["content"]
+        data = json.loads(content)
         return data.get("sub_queries", [query_text])
     except Exception as e:
-        print(f"Lỗi phân tách truy vấn bằng LLM (Gemini): {e}")
+        print(f"Lỗi phân tách truy vấn bằng Groq: {e}")
         return [query_text]
 
 def check_need_decomposition(query_text):
@@ -489,7 +486,7 @@ def main():
         "iPhone 13 Pro giá bao nhiêu và có những màu gì?",
         "So sánh iPhone 13 Pro và iPhone 14 Pro về giá và pin",
         "Chính sách bảo hành đổi trả của CellphoneS",
-        "iphone 16 plus màu nào đẹp nhất?"
+        "iphone 16 plus màu nào đẹp nhất?",
         "iphone 16 seris bao nhiêu tiền?"
     ]
     

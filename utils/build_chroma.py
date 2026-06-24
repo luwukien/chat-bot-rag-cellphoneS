@@ -9,6 +9,12 @@ CHROMA_DB_PATH = "./chroma_db"
 EMBEDDING_MODEL_NAME = "keepitreal/vietnamese-sbert"
 
 def main():
+    import sys
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except AttributeError:
+        pass
+
     # 2. Khởi tạo mô hình Embedding chạy cục bộ (Tự động tải về máy trong lần chạy đầu tiên)
     print(f"Khởi tạo mô hình Embedding cục bộ [{EMBEDDING_MODEL_NAME}]...")
     print("Lưu ý: Lần chạy đầu tiên sẽ mất vài phút để tải mô hình từ Hugging Face (~540MB).")
