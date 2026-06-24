@@ -4,3 +4,4 @@ data/test_product_details.json
 .env
 chroma_db
 opt
+__pycache__

@@ -1,6 +1,6 @@
 # CellphoneS RAG Chatbot: End-to-End Crawler, Indexing, and Hybrid Retrieval Pipeline
 
-This repository implements a complete, end-to-end Retrieval-Augmented Generation (RAG) backend pipeline for a chatbot representing **CellphoneS**, a leading tech retail store in Vietnam. The pipeline spans web crawling (scraping store policies, product specifications, and FAQs), advanced text preprocessing (context-rich chunking, metadata creation, and table formatting), local database indexing (ChromaDB & FAISS), and a routing-enabled hybrid retrieval engine.
+This repository implements a complete, end-to-end Retrieval-Augmented Generation (RAG) backend pipeline for a chatbot representing **CellphoneS**, a leading tech retail store in Vietnam. The pipeline spans web crawling (scraping store policies, product specifications, and FAQs), advanced text preprocessing (context-rich chunking, metadata creation, and table formatting), local database indexing (ChromaDB & FAISS), and a routing-enabled hybrid retrieval engine with LLM planning and Cross-Encoder reranking.
 
 ---
 
@@ -23,13 +23,13 @@ graph TD
 
     %% Retrieval Pipeline
     subgraph Online Retrieval Engine
-        H[User Query] --> I[Query Router / Classifier]
-        I -->|Route & Metadata Filter| J{Search Strategy}
-        J -->|ChromaDB Vector Search| K[Semantic Results]
-        J -->|Local Underthesea Tokenizer + BM25| L[Lexical Results]
-        K --> M[Reciprocal Rank Fusion RRF]
-        L --> M
-        M --> N[Top-K Ranked Context Chunks]
+        H[User Query] --> Decomp{Need Decomposition?}
+        Decomp -->|Yes| Groq[Groq Llama-3.3-70b]
+        Groq -->|Sub-queries| Router[Query Classifier & Product ID Filter]
+        Decomp -->|No| Router
+        Router -->|Hybrid Search| Hybrid[Vector Search + Lexical BM25]
+        Hybrid -->|Candidates| Rerank[PhoRanker Cross-Encoder Reranker]
+        Rerank --> N[Top-K Ranked Context Chunks]
     end
 ```
 
@@ -86,7 +86,7 @@ source .venv/bin/activate
 
 ### 2. Install Project Dependencies
 ```bash
-pip install playwright chromadb faiss-cpu sentence-transformers rank_bm25 underthesea numpy
+pip install playwright chromadb faiss-cpu sentence-transformers rank_bm25 underthesea numpy requests python-dotenv
 ```
 
 ### 3. Install Playwright Web Browsers
@@ -145,7 +145,12 @@ Populate the vector databases using the local embedding model `keepitreal/vietna
    ```
 
 ### Step 4: Run Retrieval Tests
-Use the CLI utility to run test queries and compare Lexical (BM25), Semantic (Chroma Vector), and Hybrid (RRF) search:
+Configure your `GROQ_API_KEY` in the `.env` file first:
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+Then run the CLI utility to perform test queries and view the beautifully colored search results:
 ```bash
 python test_search.py
 ```
@@ -166,19 +171,32 @@ Naive chunking of tabular specs or lists leads to loss of context (e.g., a chunk
   > *Chủ đề: Điều 2. Thời gian đổi trả hàng*
   > *Nội dung: ...*
 
-### 2. Query Routing & Metadata Filtering
-Before performing vector matching, the system runs the query through a keyword-based classifier in `test_search.py` (`classify_query`):
-- **Policy Queries**: If terms like *warranty, exchange, refund, installment* are detected, queries are routed to `policy_collection` with a `{"type": "policy"}` metadata filter.
-- **Product Queries**: Default to `product_collection`. Based on terms, they are narrow-filtered down to `variants` (price, color, availability), `specs` (CPU, screen, RAM), or `description` (general description).
-This avoids embedding collisions and speeds up search times by narrowing down candidate spaces.
+### 2. Query Decomposition & LLM Planning (Groq Llama-3.3)
+For complex queries (e.g., comparing products or asking multi-aspect questions), a single semantic search query is insufficient.
+- **Decomposition**: The system checks if the query contains comparative terms or references multiple products. If so, it uses the **Groq API** (`llama-3.3-70b-versatile`) to decompose the query into standalone sub-queries.
+  - *Example:* *"So sánh iPhone 13 Pro và 14 Pro về giá và pin"* is split into:
+    1. `"iPhone 13 Pro giá bao nhiêu"`
+    2. `"iPhone 13 Pro dung lượng pin thế nào"`
+    3. `"iPhone 14 Pro giá bao nhiêu"`
+    4. `"iPhone 14 Pro dung lượng pin thế nào"`
 
-### 3. Hybrid Search & Reciprocal Rank Fusion (RRF)
-To prevent failures where vector search misses exact product names or BM25 misses semantic meaning, we implement a **Hybrid Search** with **RRF (Reciprocal Rank Fusion)**:
+### 3. Hard Product ID Filtering
+To prevent confusion between similar models (e.g., "Pro" vs "Pro Max"), the system maps base names in the query to specific `product_ids` and applies metadata filters to the search collections:
+- For each sub-query, the system extracts the target product (e.g. `"iPhone 13 Pro"` matches product IDs `iphone-13-pro` and `iphone-13-pro-1tb`).
+- A hard metadata filter `{"product_id": {"$in": product_ids}}` is sent to ChromaDB. This forces the search engine to only retrieve candidate chunks belonging to the exact models requested, completely eliminating cross-model noise.
+
+### 4. Hybrid Search & Reciprocal Rank Fusion (RRF)
+To ensure high recall (retrieving relevant results even if terms or semantics mismatch):
 1. **Vector Branch**: Queries ChromaDB with `vietnamese-sbert` local embeddings.
 2. **Lexical Branch**: Performs tokenized keyword matching using a Vietnamese BM25 engine (`underthesea` word tokenizer + `rank_bm25`).
 3. **Fusion**: Re-ranks the top results from both branches using:
    $$\text{RRF Score}(d) = \sum_{m \in \text{systems}} \frac{1}{k + r_m(d)}$$
    *(where $k = 60$, and $r_m(d)$ is the rank of document $d$ in retrieval system $m$).*
 
-### 4. Markdown Table Preservation
+### 5. Cross-Encoder Reranking (PhoRanker)
+After merging candidate chunks from the sub-queries, the system applies deep semantic re-ranking using **PhoRanker** (`itdainb/PhoRanker`), a Cross-Encoder fine-tuned for Vietnamese text similarity:
+- The system feeds `[Sub-query, Chunk Text]` pairs into the Cross-Encoder.
+- Chunks are sorted in descending order of their semantic similarity scores, prioritizing chunks that directly answer the query aspects.
+
+### 6. Markdown Table Preservation
 Store policies contain detailed rules arranged in tables. If parsed as raw text, structured columns become unreadable. `utils/prepare_policy.py` detects tab-separated text and converts it into formatted Markdown tables (e.g. `| Column 1 | Column 2 |`) with padding to preserve structure for downstream LLM generation.
