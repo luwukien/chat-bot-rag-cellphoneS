@@ -23,8 +23,6 @@ logging.getLogger("transformers.tokenization_utils_base").setLevel(logging.ERROR
 
 # Cấu hình đường dẫn
 CHROMA_DB_PATH = "./chroma_db"
-FAISS_INDEX_PATH = "./embeddings/faiss_index.bin"
-METADATA_PKL_PATH = "./embeddings/metadata.pkl"
 EMBEDDING_MODEL_NAME = "keepitreal/vietnamese-sbert"
 RERANKER_MODEL_NAME = "itdainb/PhoRanker"
 

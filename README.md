@@ -1,6 +1,6 @@
 # CellphoneS RAG Chatbot: End-to-End Crawler, Indexing, and Hybrid Retrieval Pipeline
 
-This repository implements a complete, end-to-end Retrieval-Augmented Generation (RAG) backend pipeline for a chatbot representing **CellphoneS**, a leading tech retail store in Vietnam. The pipeline spans web crawling (scraping store policies, product specifications, and FAQs), advanced text preprocessing (context-rich chunking, metadata creation, and table formatting), local database indexing (ChromaDB & FAISS), and a routing-enabled hybrid retrieval engine with LLM planning and Cross-Encoder reranking.
+This repository implements a complete, end-to-end Retrieval-Augmented Generation (RAG) backend pipeline for a chatbot representing **CellphoneS**, a leading tech retail store in Vietnam. The pipeline spans web crawling (scraping store policies, product specifications, and FAQs), advanced text preprocessing (context-rich chunking, metadata creation, and table formatting), local database indexing (ChromaDB), and a routing-enabled hybrid retrieval engine with LLM planning and Cross-Encoder reranking.
 
 ---
 
@@ -18,7 +18,6 @@ graph TD
         C --> E[SentenceTransformer: vietnamese-sbert]
         D --> E
         E -->|Generate Vector Embeddings| F[(ChromaDB Collections)]
-        E -->|Generate Vector Embeddings| G[(FAISS Index)]
     end
 
     %% Retrieval Pipeline
@@ -52,14 +51,10 @@ graph TD
 │   ├── faq.json                   # Product-specific Frequently Asked Questions
 │   ├── prepared_products_chunks.json # Context-injected, ready-to-embed product chunks
 │   └── prepared_policy_chunks.json   # Markdown table parsed, clause-splitted policy chunks
-├── embeddings/                    # FAISS binary search index files
-│   ├── faiss_index.bin            # Binary index storing float32 embeddings
-│   └── metadata.pkl               # Serialized metadata map corresponding to FAISS indices
 ├── utils/                         # Processing & Database construction scripts
 │   ├── prepare_products_chunks.py # Converts structured product specs/variants into natural sentences
 │   ├── prepare_policy.py          # Formats policy tables to MD and splits them into logical clauses
-│   ├── build_chroma.py            # Populates two local collections in ChromaDB using local embeddings
-│   └── build_faiss.py             # Computes embeddings and writes the FAISS vector index database
+│   └── build_chroma.py            # Populates two local collections in ChromaDB using local embeddings
 ├── chroma_db/                     # Local ChromaDB persistent database storage (ignored by git)
 ├── test_search.py                 # CLI query testing script (Hybrid, Lexical, Semantic comparison)
 ├── .env                           # Local environment configuration (ignored by git)
@@ -86,7 +81,7 @@ source .venv/bin/activate
 
 ### 2. Install Project Dependencies
 ```bash
-pip install playwright chromadb faiss-cpu sentence-transformers rank_bm25 underthesea numpy requests python-dotenv
+pip install playwright chromadb sentence-transformers rank_bm25 underthesea numpy requests python-dotenv
 ```
 
 ### 3. Install Playwright Web Browsers
@@ -134,14 +129,10 @@ Transform the raw, unstructured JSON datasets into structured, context-rich chun
 *Outputs: Generates `data/prepared_products_chunks.json` and `data/prepared_policy_chunks.json`.*
 
 ### Step 3: Build Vector Indices
-Populate the vector databases using the local embedding model `keepitreal/vietnamese-sbert` (approx. 540MB, automatically downloaded on first run):
+Populate the vector database using the local embedding model `keepitreal/vietnamese-sbert` (approx. 540MB, automatically downloaded on first run):
 1. **Build ChromaDB**: Populates local Chroma database collections `product_collection` and `policy_collection`.
    ```bash
    python utils/build_chroma.py
-   ```
-2. **Build FAISS Index**: Builds a flat L2 index for quick offline lookup.
-   ```bash
-   python utils/build_faiss.py
    ```
 
 ### Step 4: Run Retrieval Tests
@@ -183,7 +174,7 @@ For complex queries (e.g., comparing products or asking multi-aspect questions),
 ### 3. Hard Product ID Filtering
 To prevent confusion between similar models (e.g., "Pro" vs "Pro Max"), the system maps base names in the query to specific `product_ids` and applies metadata filters to the search collections:
 - For each sub-query, the system extracts the target product (e.g. `"iPhone 13 Pro"` matches product IDs `iphone-13-pro` and `iphone-13-pro-1tb`).
-- A hard metadata filter `{"product_id": {"$in": product_ids}}` is sent to ChromaDB. This forces the search engine to only retrieve candidate chunks belonging to the exact models requested, completely eliminating cross-model noise.
+- A hard metadata filter `{"product_id": {"$in": product_ids}}` is sent to ChromaDB. This forces the search engine to only retrieve candidate chunks belonging to the exact models requested, completely elegance eliminating cross-model noise.
 
 ### 4. Hybrid Search & Reciprocal Rank Fusion (RRF)
 To ensure high recall (retrieving relevant results even if terms or semantics mismatch):
