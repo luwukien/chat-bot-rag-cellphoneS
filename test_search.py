@@ -1,11 +1,9 @@
 import os
 import re
 import json
-import pickle
 import sys
 import time
 import numpy as np
-import faiss
 import chromadb
 from sentence_transformers import SentenceTransformer, CrossEncoder
 from rank_bm25 import BM25Okapi
@@ -13,6 +11,17 @@ from underthesea import word_tokenize, text_normalize
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+import logging
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="transformers")
+warnings.filterwarnings("ignore", message=".*overflowing tokens.*")
+
+import transformers
+transformers.logging.set_verbosity_error()
+
+# Tắt cảnh báo trùng lặp token của transformers
+logging.getLogger("transformers.tokenization_utils_base").setLevel(logging.ERROR)
+
 
 # Cấu hình đường dẫn
 CHROMA_DB_PATH = "./chroma_db"
@@ -68,38 +77,6 @@ def search_chroma(query_text, collection_name, model, n_results=2, metadata_filt
             })
     return formatted_results
 
-def search_faiss(query_text, model, n_results=2):
-    """Tìm kiếm trên Index FAISS bằng vector tạo cục bộ"""
-    # 1. Đọc FAISS Index và Metadata
-    if not os.path.exists(FAISS_INDEX_PATH) or not os.path.exists(METADATA_PKL_PATH):
-        print("Lỗi: Không tìm thấy file index của FAISS. Bạn đã chạy build_faiss.py chưa?")
-        return []
-        
-    index = faiss.read_index(FAISS_INDEX_PATH)
-    with open(METADATA_PKL_PATH, "rb") as f:
-        metadatas = pickle.load(f)
-        
-    # 2. Tạo Embedding cho câu hỏi cục bộ
-    query_vector = model.encode(query_text)
-    query_vector = np.array([query_vector], dtype=np.float32)
-    
-    # 3. Thực hiện tìm kiếm L2 trong FAISS
-    distances, indices = index.search(query_vector, n_results)
-    
-    formatted_results = []
-    for dist, idx in zip(distances[0], indices[0]):
-        if idx < len(metadatas):
-            meta = metadatas[idx]
-            # Tạo bản sao sâu để tránh xóa mất trường text của đối tượng gốc lưu trong RAM
-            meta_copy = meta.copy()
-            text = meta_copy.pop("text", "")
-            formatted_results.append({
-                "text": text,
-                "metadata": meta_copy,
-                "distance": float(dist)
-            })
-    return formatted_results
-
 def classify_query(query_text):
     """
     This method help determine metadata and choose collection for query of user
@@ -131,17 +108,16 @@ def classify_query(query_text):
 
     # Mặc định tìm trong product_collection
     collection_name = "product_collection"
-    metadata_filter = {}
     
-    # Ưu tiên kiểm tra từ khóa hỏi về Giá/Màu (variants) trước
-    if any(keyword in query_lower for keyword in variant_keywords):
+    has_variants = any(keyword in query_lower for keyword in variant_keywords)
+    has_specs = any(keyword in query_lower for keyword in specs_keywords)
+    
+    if has_variants and has_specs:
+        metadata_filter = {"type": {"$in": ["variants", "specs"]}}
+    elif has_variants:
         metadata_filter = {"type": "variants"}
-        
-    # Tiếp theo kiểm tra từ khóa hỏi về Cấu hình/Thông số (specs)
-    elif any(keyword in query_lower for keyword in specs_keywords):
+    elif has_specs:
         metadata_filter = {"type": "specs"}
-        
-    # Nếu không khớp nhóm nào, mặc định tìm trong phần mô tả chi tiết (description)
     else:
         metadata_filter = {"type": "description"}
         
@@ -347,6 +323,37 @@ def llm_decompose_query(query_text):
     Câu hỏi của người dùng: "{query_text}"
     Trả về JSON chứa danh sách "sub_queries".
     """
+    
+    groq_api_key = os.environ.get("GROQ_API_KEY")
+    if groq_api_key:
+        import requests
+        try:
+            headers = {
+                "Authorization": f"Bearer {groq_api_key}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "model": "llama-3.3-70b-versatile",
+                "messages": [
+                    {"role": "user", "content": prompt}
+                ],
+                "response_format": {"type": "json_object"}
+            }
+            response = requests.post(
+                "https://api.groq.com/openai/v1/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=10
+            )
+            response.raise_for_status()
+            res_data = response.json()
+            content = res_data["choices"][0]["message"]["content"]
+            data = json.loads(content)
+            return data.get("sub_queries", [query_text])
+        except Exception as e:
+            print(f"Lỗi phân tách truy vấn bằng Groq: {e}")
+            # Nếu Groq lỗi, tiếp tục thử gọi Gemini bên dưới
+            
     try:
         response = client.models.generate_content(
             model='gemini-2.5-flash',
@@ -358,56 +365,113 @@ def llm_decompose_query(query_text):
         data = json.loads(response.text)
         return data.get("sub_queries", [query_text])
     except Exception as e:
-        print(f"Lỗi phân tách truy vấn bằng LLM: {e}")
+        print(f"Lỗi phân tách truy vấn bằng LLM (Gemini): {e}")
         return [query_text]
 
+def check_need_decomposition(query_text):
+    query_lower = query_text.lower()
+    
+    # 1. Kiểm tra từ khóa so sánh
+    compare_keywords = ["so sánh", "khác gì", "vs", "khác nhau", "so với", "sánh với"]
+    if any(kw in query_lower for kw in compare_keywords):
+        return True
+        
+    # 2. Kiểm tra xem có chứa từ 2 dòng sản phẩm trở lên không
+    detected_products = []
+    temp_query = query_lower
+    for base_name in sorted_base_names:
+        name_lower = base_name.lower()
+        if name_lower in temp_query:
+            detected_products.append(base_name)
+            temp_query = temp_query.replace(name_lower, "")
+            
+    if len(set(detected_products)) >= 2:
+        return True
+        
+    return False
+
+def extract_product_ids_from_query(query_text):
+    query_lower = query_text.lower()
+    matched_pids = set()
+    matched_name = None
+    
+    # Duyệt từ dài đến ngắn để tìm sản phẩm khớp chính xác nhất
+    for base_name in sorted_base_names:
+        name_lower = base_name.lower()
+        if name_lower in query_lower:
+            matched_pids.update(base_to_pids[base_name])
+            matched_name = base_name
+            break
+            
+    return list(matched_pids), matched_name
+
 def retrieve_and_rerank(query_text, n_results=5):
-    # 1. Phân rã câu hỏi bằng Gemini
-    sub_queries = llm_decompose_query(query_text)
-    print(f"   [LLM Planner] Sub-queries generated: {sub_queries}")
-    
-    # 2. Tìm kiếm ứng viên cho từng câu hỏi phụ
+    # 1. Router quyết định có phân rã câu hỏi hay không
+    need_decomp = check_need_decomposition(query_text)
+    if need_decomp:
+        sub_queries = llm_decompose_query(query_text)
+        print(f"   [Router] Phức tạp -> Phân rã thành: {sub_queries}")
+    else:
+        sub_queries = [query_text]
+        print(f"   [Router] Đơn giản -> Không phân rã")
+        
     all_candidates = []
-    retrieved_by = {}  # Đánh dấu: chunk_id -> danh sách các sub_query tìm ra nó
+    retrieved_by = {}
     
+    # 2. Tìm kiếm ứng viên cho từng sub-query
     for sq in sub_queries:
-        collection_name, metadata_filter = classify_query(sq)
+        collection_name, base_filter = classify_query(sq)
+        
+        # Áp dụng Metadata Filtering (Lọc cứng) nếu là collection sản phẩm
+        metadata_filter = base_filter
+        extracted_name = None
+        if collection_name == "product_collection":
+            product_ids, extracted_name = extract_product_ids_from_query(sq)
+            if product_ids:
+                if base_filter:
+                    metadata_filter = {
+                        "$and": [
+                            base_filter,
+                            {"product_id": {"$in": product_ids}}
+                        ]
+                    }
+                else:
+                    metadata_filter = {"product_id": {"$in": product_ids}}
+                print(f"   [Filter cứng] Áp bộ lọc cho sản phẩm: {extracted_name} ({len(product_ids)} PIDs)")
+            else:
+                print(f"   [Filter cứng] Không trích xuất được sản phẩm cho: '{sq}'")
+        else:
+            print(f"   [Filter] Collection chính sách: {base_filter}")
+            
         candidates = hybrid_search(sq, collection_name, embed_model, n_results=20, metadata_filter=metadata_filter)
         
         for cand in candidates:
-            # Lấy hoặc tự tạo unique id cho chunk
             cid = cand.get("id") or cand.get("metadata", {}).get("chunk_id")
             if not cid:
                 import hashlib
                 cid = hashlib.md5(cand["text"].encode('utf-8')).hexdigest()
                 cand["id"] = cid
             
-            # Lưu vết để phục vụ rerank chéo sau này
             if cid not in retrieved_by:
                 retrieved_by[cid] = []
                 all_candidates.append(cand)
             retrieved_by[cid].append(sq)
             
-    print(f"   [Merge] Merged & deduplicated to {len(all_candidates)} unique candidates.")
+    print(f"   [Merge] Gộp lại còn {len(all_candidates)} ứng viên.")
     if not all_candidates:
         return []
         
-    # 3. Chuẩn bị các cặp (sub_query, chunk_text) để PhoRanker chấm điểm
+    # 3. Chuẩn bị các cặp để PhoRanker chấm điểm
     pairs = []
     pair_mapping = []
     for cand in all_candidates:
         cid = cand["id"]
-        # Chỉ chấm điểm chunk với các sub-query thực tế đã tìm ra nó
         for sq in retrieved_by[cid]:
             pairs.append([sq, cand["text"]])
             pair_mapping.append((cand, sq))
             
-    # Chạy PhoRanker
-    start_rerank = time.time()
     scores = reranker_model.predict(pairs)
-    print(f"   [Rerank] Scored {len(pairs)} pairs using PhoRanker in {(time.time() - start_rerank)*1000:.1f} ms")
     
-    # Gán điểm lớn nhất (max) cho mỗi chunk
     cand_scores = {}
     for score, (cand, sq) in zip(scores, pair_mapping):
         cid = cand["id"]
@@ -416,17 +480,17 @@ def retrieve_and_rerank(query_text, n_results=5):
     for cand in all_candidates:
         cand["rerank_score"] = cand_scores[cand["id"]]
         
-    # Sắp xếp và trả về Top N kết quả
     ranked_results = sorted(all_candidates, key=lambda x: x.get("rerank_score", 0.0), reverse=True)
     return ranked_results[:n_results]
-
 
 def main():
     queries = [
         "Cấu hình chi tiết camera và chip xử lý của iPhone 16 Pro 128gb là gì?",
         "iPhone 13 Pro giá bao nhiêu và có những màu gì?",
         "So sánh iPhone 13 Pro và iPhone 14 Pro về giá và pin",
-        "Chính sách bảo hành đổi trả của CellphoneS"
+        "Chính sách bảo hành đổi trả của CellphoneS",
+        "iphone 16 plus màu nào đẹp nhất?"
+        "iphone 16 seris bao nhiêu tiền?"
     ]
     
     for q in queries:
@@ -445,6 +509,7 @@ def main():
             pid = item['metadata'].get('product_id', 'N/A')
             score = item.get('rerank_score', 0.0)
             print(f"   [{i+1}] Score: {score:.4f} | Type: {mtype} | PID: {pid} | Snippet: {snippet}...")
+
 
 if __name__ == "__main__":
     main()
