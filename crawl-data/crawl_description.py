@@ -5,9 +5,10 @@ from playwright.async_api import async_playwright
 
 async def crawl_description_from_page(page) -> str:
     """Extract description directly from the product page."""
-    # Thử quét cả hai selector mỗi 200ms trong tối đa 5 giây
+    # Thử quét các selector mỗi 200ms trong tối đa 5 giây
+    selectors = ["#cpsKsp", ".ksp-content", "#cpsContentSEO", "#cpsContent"]
     for _ in range(25):
-        for selector in ["#cpsKsp", ".ksp-content"]:
+        for selector in selectors:
             try:
                 locator = page.locator(selector)
                 if await locator.count() > 0:

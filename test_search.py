@@ -36,6 +36,7 @@ except AttributeError:
     pass
 
 print("Đang khởi tạo Groq API và nạp các mô hình cục bộ...")
+#Chỉ sử dụng tới nhánh Encoder
 embed_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
 reranker_model = CrossEncoder(RERANKER_MODEL_NAME, device="cpu")
 print("Đã tải xong các mô hình!")
@@ -53,7 +54,17 @@ def search_chroma(query_text, collection_name, model, n_results=2, metadata_filt
         
     # Tạo vector cho câu hỏi cục bộ
     query_vector = model.encode(query_text).tolist()
-    
+    #Khi gọi model.encode() thì nó sẽ thực hiện các công việc sau đây:
+    #Tokenizer câu hỏi
+    #Padding/Truncation câu hỏi -> Căn chỉnh kích thước
+    #Chuyển thành tensor
+    #Transformer Encoder xử lý câu hỏi và tài liệu
+    #Content-aware Tokens Embeddings
+    #Poolings
+    #Normalize
+    #Sentence Embeddings
+
+
     # Truy vấn bằng vector
     results = collection.query(
         query_embeddings=[query_vector],
@@ -260,6 +271,7 @@ def build_model_mappings():
     base_to_pids = {}
     pid_to_name = {}
     
+    #Nếu lọc như này thì mất đi bao nhiêu thông tin có ích rồi
     def clean_model_name(name):
         name = name.replace("Điện thoại ", "")
         # Tách bỏ phần dung lượng (ví dụ: 128GB) để lấy tên dòng máy gốc
@@ -390,12 +402,21 @@ def extract_product_ids_from_query(query_text):
     matched_pids = set()
     matched_name = None
     
+    # Kiểm tra xem câu hỏi có đề cập đến dòng sản phẩm/series không
+    is_series = any(w in query_lower for w in ["series", "seris", "dòng"])
+    
     # Duyệt từ dài đến ngắn để tìm sản phẩm khớp chính xác nhất
     for base_name in sorted_base_names:
         name_lower = base_name.lower()
         if name_lower in query_lower:
-            matched_pids.update(base_to_pids[base_name])
             matched_name = base_name
+            if is_series:
+                # Nếu hỏi dòng/series, lấy tất cả sản phẩm chứa/bắt đầu bằng tên dòng máy này
+                for other_base in sorted_base_names:
+                    if base_name.lower() in other_base.lower():
+                        matched_pids.update(base_to_pids[other_base])
+            else:
+                matched_pids.update(base_to_pids[base_name])
             break
             
     return list(matched_pids), matched_name
@@ -481,11 +502,11 @@ def retrieve_and_rerank(query_text, n_results=5):
 def main():
     queries = [
         "Cấu hình chi tiết camera và chip xử lý của iPhone 16 Pro 128gb là gì?",
-        "iPhone 13 Pro giá bao nhiêu và có những màu gì?",
+        "iPhone 13 Pro max giá bao nhiêu và có những màu gì?",
         "So sánh iPhone 13 Pro và iPhone 14 Pro về giá và pin",
         "Chính sách bảo hành đổi trả của CellphoneS",
         "iphone 16 plus màu nào đẹp nhất?",
-        "iphone 16 seris bao nhiêu tiền?"
+        "iphone 16 series bao nhiêu tiền?"
     ]
     
     for q in queries:

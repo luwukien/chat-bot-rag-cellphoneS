@@ -158,6 +158,15 @@ async def main():
 
                     product['specs'] = specs
                     product['variants'] = variants
+                    
+                    # Update product name from H1 if it is empty/None
+                    if not product.get('name'):
+                        h1_locator = page.locator("h1")
+                        if await h1_locator.count() > 0:
+                            product['name'] = (await h1_locator.first.inner_text()).strip()
+                        else:
+                            product['name'] = product.get('id')
+                            
                     success = True
                     await page.close()
                     break # Thành công, thoát khỏi vòng lặp thử lại cho URL này
