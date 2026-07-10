@@ -11,6 +11,12 @@ async def crawl_faq(page) -> Dict[str, str]:
     await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
     await page.wait_for_timeout(1500)
     
+    # Ẩn cookie banner nếu có để tránh che khuất các phần tử khác
+    try:
+      await page.add_style_tag(content="#teleport-modal, .teleport-modal-cookie-consent { display: none !important; }")
+    except Exception:
+      pass
+      
     faq_questions = page.locator('.accordion-item')
     # Đợi cho phần tử FAQ đầu tiên xuất hiện trong DOM
     try:
@@ -21,23 +27,42 @@ async def crawl_faq(page) -> Dict[str, str]:
     
     for i in range(await faq_questions.count()):
       faq_item = faq_questions.nth(i)
-      # Click để mở rộng accordion lấy câu trả lời
-      await faq_item.click()
-      await page.wait_for_timeout(500)
       
       # Lấy selector câu hỏi và câu trả lời
       q_locator = faq_item.locator('.accordion-label')
       a_locator = faq_item.locator('.accordion-content')
       
-      # Đợi hai phần tử này hiển thị rõ ràng trên UI
-      await q_locator.first.wait_for(state="visible", timeout=2000)
-      await a_locator.first.wait_for(state="visible", timeout=2000)
-      
-      q_text = await q_locator.first.inner_text()
-      a_text = await a_locator.first.inner_text()
-      
-      if q_text.strip() and a_text.strip():
-        faq[q_text.strip()] = a_text.strip()
+      try:
+        # Đợi hai phần tử này đính kèm vào DOM
+        await q_locator.first.wait_for(state="attached", timeout=2000)
+        await a_locator.first.wait_for(state="attached", timeout=2000)
+        
+        # Click mở rộng accordion bằng JavaScript để tránh bị che khuất bởi cookie banner/quảng cáo
+        await q_locator.first.evaluate("el => el.click()")
+        await page.wait_for_timeout(300)
+        
+        # Lấy text câu hỏi và câu trả lời
+        q_text = await q_locator.first.inner_text()
+        a_text = await a_locator.first.inner_text()
+        
+        # Nếu inner_text rỗng, thử dùng text_content làm phương án dự phòng
+        if not q_text.strip():
+          q_text = await q_locator.first.text_content() or ""
+        if not a_text.strip():
+          a_text = await a_locator.first.text_content() or ""
+          
+        if q_text.strip() and a_text.strip():
+          faq[q_text.strip()] = a_text.strip()
+      except Exception as item_err:
+        print(f"Lỗi khi cào item FAQ thứ {i}: {item_err}")
+        # Phương án dự phòng cuối cùng nếu có lỗi xảy ra trong quá trình click/đợi
+        try:
+          q_text = await q_locator.first.text_content()
+          a_text = await a_locator.first.text_content()
+          if q_text and a_text and q_text.strip() and a_text.strip():
+            faq[q_text.strip()] = a_text.strip()
+        except Exception:
+          pass
       
   except Exception as e:
     print(f"Lỗi khi crawl FAQ: {e}")
