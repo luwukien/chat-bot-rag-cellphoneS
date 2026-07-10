@@ -296,56 +296,82 @@ def build_model_mappings():
 print("Đang xây dựng ánh xạ sản phẩm...")
 base_to_pids, sorted_base_names, pid_to_name = build_model_mappings()
 
-def llm_decompose_query(query_text):
+def llm_process_query(query_text):
+    """
+    Sử dụng LLM (Groq Llama-3.3) để:
+    1. Sửa lỗi chính tả tiếng Việt, khôi phục dấu và viết tắt chuẩn (ip -> iPhone, pm -> Pro Max, bh -> bảo hành...)
+    2. Phân rã câu hỏi phức tạp thành danh sách các sub-queries đơn giản (đã sửa lỗi)
+    """
     prompt = f"""
-    Bạn là một trợ lý RAG Planner thông minh. Hãy phân rã câu hỏi phức tạp của người dùng thành danh sách các câu hỏi đơn (sub-queries) để tìm kiếm hiệu quả hơn.
+    Bạn là một trợ lý RAG Planner thông minh và chuyên gia chuẩn hóa tiếng Việt cho chatbot của cửa hàng công nghệ CellphoneS.
+    
+    Nhiệm vụ của bạn là nhận vào câu hỏi của người dùng và trả về một đối tượng JSON có cấu trúc như sau:
+    {{
+      "cleaned_query": "Câu hỏi gốc đã được sửa hết lỗi chính tả, viết tắt, và khôi phục dấu tiếng Việt chuẩn",
+      "need_decomposition": true hoặc false (true nếu là câu hỏi phức tạp cần phân rã, false nếu là câu hỏi đơn giản),
+      "sub_queries": [
+         "Danh sách các câu hỏi phụ đơn giản đã được sửa lỗi chính tả. Nếu need_decomposition là false, danh sách này chỉ chứa duy nhất cleaned_query."
+      ]
+    }}
+    
+    Quy tắc chuẩn hóa tiếng Việt và sản phẩm:
+    - Sửa các từ viết tắt thông dụng: "ip", "iphon", "ipone" -> "iPhone"; "pm", "pr max", "promax" -> "Pro Max"; "đt" -> "điện thoại"; "bh" -> "bảo hành"; "dt" -> "điện thoại"; "km" -> "khuyến mãi".
+    - Khôi phục dấu tiếng Việt đầy đủ và tự nhiên.
+    - Giữ nguyên các thông số kỹ thuật (ví dụ: 128GB, 256GB, LTE, 5G).
+    
+    Quy tắc phân rã (decomposition):
+    - Phân rã nếu câu hỏi hỏi về từ 2 sản phẩm trở lên (so sánh, đối chiếu) HOẶC hỏi đồng thời cả giá bán (variants) VÀ cấu hình/pin/camera (specs) của một sản phẩm.
+    - Mỗi sub-query phải là một câu hỏi độc lập, rõ nghĩa và đã được chuẩn hóa.
 
-    Hướng dẫn phân rã:
-    1. Tách theo thực thể: Nếu câu hỏi hỏi về nhiều sản phẩm (ví dụ: so sánh A và B), hãy tạo các câu hỏi riêng cho từng sản phẩm.
-    2. Tách theo khía cạnh thông tin: Trong cơ sở dữ liệu của chúng tôi:
-    - Thông tin về Giá bán, màu sắc, tình trạng hàng nằm ở phần "Giá/Biến thể" (variants).
-    - Thông tin về Thông số kỹ thuật, camera, chip, pin, màn hình nằm ở phần "Cấu hình/Thông số" (specs).
-    Vì vậy, NẾU câu hỏi hỏi đồng thời cả giá bán VÀ cấu hình/pin/camera, bạn BẮT BUỘC phải tách thành các câu hỏi phụ riêng biệt (một câu hỏi về giá, một câu hỏi về cấu hình/pin). KHÔNG gộp chung giá và cấu hình/pin vào cùng một câu hỏi phụ.
-
-    Ví dụ 1:
-    Câu hỏi: "So sánh iPhone 13 Pro và iPhone 14 Pro về giá và pin"
+    Ví dụ 1 (Câu hỏi phức tạp, viết tắt, không dấu):
+    Câu hỏi: "so sanh ip 13 pro vs iphon 14 pro ve gia va pin"
     Trả về định dạng JSON:
     {{
-    "sub_queries": [
+      "cleaned_query": "So sánh iPhone 13 Pro và iPhone 14 Pro về giá bán và dung lượng pin",
+      "need_decomposition": true,
+      "sub_queries": [
         "iPhone 13 Pro giá bao nhiêu",
         "iPhone 13 Pro dung lượng pin thế nào",
         "iPhone 14 Pro giá bao nhiêu",
         "iPhone 14 Pro dung lượng pin thế nào"
-    ]
+      ]
     }}
 
-    Ví dụ 2:
-    Câu hỏi: "Cấu hình chi tiết camera và chip xử lý của iPhone 16 Pro 128gb là gì?"
+    Ví dụ 2 (Câu hỏi đơn giản, viết tắt, sai chính tả):
+    Câu hỏi: "ip16 promax 128gb gia bao nhieu và co bh ko"
     Trả về định dạng JSON:
     {{
-    "sub_queries": [
-        "cấu hình chi tiết camera iPhone 16 Pro 128gb",
-        "vi xử lý chip của iPhone 16 Pro 128gb"
-    ]
+      "cleaned_query": "iPhone 16 Pro Max 128GB giá bao nhiêu và có bảo hành không",
+      "need_decomposition": true,
+      "sub_queries": [
+        "iPhone 16 Pro Max 128GB giá bao nhiêu",
+        "iPhone 16 Pro Max 128GB chính sách bảo hành"
+      ]
     }}
 
-    Ví dụ 3:
-    Câu hỏi: "Chính sách bảo hành đổi trả của CellphoneS"
+    Ví dụ 3 (Câu hỏi chính sách đơn giản):
+    Câu hỏi: "quy dinh doi tra tai cellphones"
     Trả về định dạng JSON:
     {{
-    "sub_queries": [
-        "Chính sách bảo hành đổi trả của CellphoneS"
-    ]
+      "cleaned_query": "Quy định đổi trả tại CellphoneS",
+      "need_decomposition": false,
+      "sub_queries": [
+        "Quy định đổi trả tại CellphoneS"
+      ]
     }}
 
     Câu hỏi của người dùng: "{query_text}"
-    Trả về JSON chứa danh sách "sub_queries".
+    Hãy trả về duy nhất một đối tượng JSON hợp lệ theo đúng cấu trúc trên. Không thêm bất kỳ văn bản giải thích nào ngoài JSON.
     """
     
     groq_api_key = os.environ.get("GROQ_API_KEY")
     if not groq_api_key:
-        print("Cảnh báo: GROQ_API_KEY chưa được thiết lập trong biến môi trường. Không thể phân rã câu hỏi.")
-        return [query_text]
+        print("Cảnh báo: GROQ_API_KEY chưa được thiết lập. Sử dụng câu hỏi gốc không chuẩn hóa.")
+        return {
+            "cleaned_query": query_text,
+            "need_decomposition": False,
+            "sub_queries": [query_text]
+        }
         
     import requests
     try:
@@ -370,10 +396,14 @@ def llm_decompose_query(query_text):
         res_data = response.json()
         content = res_data["choices"][0]["message"]["content"]
         data = json.loads(content)
-        return data.get("sub_queries", [query_text])
+        return data
     except Exception as e:
-        print(f"Lỗi phân tách truy vấn bằng Groq: {e}")
-        return [query_text]
+        print(f"Lỗi chuẩn hóa truy vấn bằng Groq: {e}")
+        return {
+            "cleaned_query": query_text,
+            "need_decomposition": False,
+            "sub_queries": [query_text]
+        }
 
 def check_need_decomposition(query_text):
     query_lower = query_text.lower()
@@ -422,13 +452,18 @@ def extract_product_ids_from_query(query_text):
     return list(matched_pids), matched_name
 
 def retrieve_and_rerank(query_text, n_results=5):
-    # 1. Router quyết định có phân rã câu hỏi hay không
-    need_decomp = check_need_decomposition(query_text)
+    # 1. Gọi LLM để chuẩn hóa câu hỏi và phân rã nếu cần thiết
+    processed = llm_process_query(query_text)
+    cleaned_query = processed.get("cleaned_query", query_text)
+    sub_queries = processed.get("sub_queries", [query_text])
+    need_decomp = processed.get("need_decomposition", False)
+    
+    if cleaned_query.lower() != query_text.lower():
+        print(f"   [Spell Correction] '{query_text}' -> '{cleaned_query}'")
+        
     if need_decomp:
-        sub_queries = llm_decompose_query(query_text)
         print(f"   [Router] Phức tạp -> Phân rã thành: {sub_queries}")
     else:
-        sub_queries = [query_text]
         print(f"   [Router] Đơn giản -> Không phân rã")
         
     all_candidates = []
@@ -506,7 +541,10 @@ def main():
         "So sánh iPhone 13 Pro và iPhone 14 Pro về giá và pin",
         "Chính sách bảo hành đổi trả của CellphoneS",
         "iphone 16 plus màu nào đẹp nhất?",
-        "iphone 16 series bao nhiêu tiền?"
+        "iphone 16 series bao nhiêu tiền?",
+        "so sanh ip 13 pro vs iphon 14 pro ve gia va pin",
+        "ip 16 pr max 128gb gia bao nhieu và co bh ko",
+        "quy dinh doi tra tai cellphones"
     ]
     
     for q in queries:
