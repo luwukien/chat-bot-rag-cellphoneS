@@ -66,11 +66,14 @@ def search_chroma(query_text, collection_name, model, n_results=2, metadata_filt
 
 
     # Truy vấn bằng vector
-    results = collection.query(
-        query_embeddings=[query_vector],
-        n_results=n_results,
-        where=metadata_filter
-    )
+    # Lưu ý: ChromaDB không chấp nhận where={} (dict rỗng), chỉ truyền khi filter có giá trị
+    query_kwargs = {
+        "query_embeddings": [query_vector],
+        "n_results": n_results,
+    }
+    if metadata_filter:
+        query_kwargs["where"] = metadata_filter
+    results = collection.query(**query_kwargs)
     
     formatted_results = []
     if results and 'documents' in results and results['documents']:
@@ -85,7 +88,14 @@ def search_chroma(query_text, collection_name, model, n_results=2, metadata_filt
 
 def classify_query(query_text):
     """
-    This method help determine metadata and choose collection for query of user
+    Xác định collection và bộ lọc metadata phù hợp cho câu hỏi.
+    
+    Chiến lược (Soft Filter):
+    - Nếu câu hỏi rõ ràng là chính sách cửa hàng chung (không nhắc tên sản phẩm cụ thể)
+      -> Định tuyến tới policy_collection.
+    - Còn lại -> Tìm trong product_collection KHÔNG lọc theo type,
+      chỉ lọc theo product_id (nếu trích xuất được).
+      PhoRanker Cross-Encoder sẽ tự quyết định chunk nào phù hợp nhất.
     """
     query_lower = query_text.lower()
     
@@ -93,52 +103,24 @@ def classify_query(query_text):
         "chính sách", "điều khoản", "quy định", "bảo hành", "đổi trả", 
         "hoàn tiền", "trả góp", "lỗi"
     ]
-    
-    variant_keywords = [
-        "giá", "mua", "bán", "cửa hàng", "sản phẩm", "dịch vụ", "màu", "còn hàng",
-        "hết hàng", "bao nhiêu", "tiền", "rẻ", "đắt", "triệu"
-    ]
-    specs_keywords = [
-        "thông số", "cấu hình", "ram", "cpu", "chip", "màn hình", 
-        "camera", "pin", "nặng", "kích thước", "bộ nhớ", "rom", "sạc", "miliamp", "mah"
-    ]
-    faq_keywords = [
-        "tại sao", "vì sao", "thế nào", "như thế nào", "sao lại", "có nên", 
-        "được không", "màu nào", "khi nào", "bao nhiêu inch", "mấy màu",
-        "sạc nhanh", "ưu đãi", "khuyến mãi", "tặng", "khác gì", "so với"
-    ]
 
-    # Kiểm tra xem câu hỏi có thuộc nhóm chính sách (policy) không
+    # Kiểm tra câu hỏi có chứa thực thể sản phẩm nào không
+    has_product = False
+    for base_name in sorted_base_names:
+        if base_name.lower() in query_lower:
+            has_product = True
+            break
+
+    # Chỉ định tuyến sang policy_collection nếu là câu hỏi chính sách CHUNG
+    # (không đề cập tên sản phẩm cụ thể)
     is_policy = any(keyword in query_lower for keyword in policy_keywords)
-    
-    if is_policy:
-        collection_name = "policy_collection"
-        metadata_filter = {"type": "policy"}  # Chỉ lấy các chunk thuộc loại chính sách
-        return collection_name, metadata_filter
+    if is_policy and not has_product:
+        return "policy_collection", {"type": "policy"}
 
-    # Mặc định tìm trong product_collection
-    collection_name = "product_collection"
-    
-    has_variants = any(keyword in query_lower for keyword in variant_keywords)
-    has_specs = any(keyword in query_lower for keyword in specs_keywords)
-    has_faq = any(keyword in query_lower for keyword in faq_keywords)
-    
-    selected_types = []
-    if has_variants:
-        selected_types.append("variants")
-    if has_specs:
-        selected_types.append("specs")
-    if has_faq:
-        selected_types.append("faq")
-        
-    if not selected_types:
-        metadata_filter = {"type": {"$in": ["description", "faq"]}}
-    elif len(selected_types) == 1:
-        metadata_filter = {"type": selected_types[0]}
-    else:
-        metadata_filter = {"type": {"$in": selected_types}}
-        
-    return collection_name, metadata_filter
+    # Mặc định: Tìm trong product_collection, KHÔNG lọc theo type
+    # Để PhoRanker Cross-Encoder tự quyết định chunk nào phù hợp nhất
+    return "product_collection", None
+
 
 def search_bm25_with_chroma(query_text, collection_name, n_results=5, metadata_filter=None):
     """Tìm kiếm từ khóa bằng thuật toán BM25 trên tập dữ liệu đã lọc metadata"""
@@ -152,7 +134,11 @@ def search_bm25_with_chroma(query_text, collection_name, n_results=5, metadata_f
         
     # 2. Lấy danh sách tài liệu thỏa mãn điều kiện lọc metadata
     # Hàm .get() sẽ lấy văn bản gốc chứ không cần tính toán vector
-    all_data = collection.get(where=metadata_filter)
+    # Lưu ý: ChromaDB không chấp nhận where={} (dict rỗng), chỉ truyền khi filter có giá trị
+    get_kwargs = {}
+    if metadata_filter:
+        get_kwargs["where"] = metadata_filter
+    all_data = collection.get(**get_kwargs)
     documents = all_data.get('documents', [])
     metadatas = all_data.get('metadatas', [])
     ids = all_data.get('ids', [])
@@ -203,13 +189,11 @@ def search_bm25_with_chroma(query_text, collection_name, n_results=5, metadata_f
 
 def hybrid_search(query_text, collection_name, model, n_results=5, metadata_filter=None, k=60):
     """Tìm kiếm kết hợp Vector Search và BM25, dùng thuật toán RRF để dung hợp kết quả"""
-    if metadata_filter is None:
-        metadata_filter = {}
-
     # Chạy đồng thời 2 bộ tìm kiếm với tập ứng viên rộng hơn (n_results * 2)
     # Tại sao n_result * 2? Đại khái là nó giúp tìm ra những thằng tiềm năng nó dung hợp cả 2 giữa tìm kiếm theo ngữ nghĩa và tìm kiếm theo bm25
     vector_results = search_chroma(query_text, collection_name, model, n_results=n_results * 2, metadata_filter=metadata_filter)
     bm25_results = search_bm25_with_chroma(query_text, collection_name, n_results=n_results * 2, metadata_filter=metadata_filter)
+
 
     rrf_scores = {}
     doc_map = {}
@@ -318,6 +302,7 @@ def llm_process_query(query_text):
     - Sửa các từ viết tắt thông dụng: "ip", "iphon", "ipone" -> "iPhone"; "pm", "pr max", "promax" -> "Pro Max"; "đt" -> "điện thoại"; "bh" -> "bảo hành"; "dt" -> "điện thoại"; "km" -> "khuyến mãi".
     - Khôi phục dấu tiếng Việt đầy đủ và tự nhiên.
     - Giữ nguyên các thông số kỹ thuật (ví dụ: 128GB, 256GB, LTE, 5G).
+    - Lưu ý đặc biệt về ngữ cảnh công nghệ khi khôi phục dấu: "sac" trong ngữ cảnh điện thoại luôn là "ạc" (đục), KHÔNG phải "ắc" (màu). Ví dụ: "pin va sac" -> "pin và sạc"; "sac nhanh" -> "sạc nhanh"; "cong sac" -> "cổng sạc"; "cap sac" -> "cáp sạc".
     
     Quy tắc phân rã (decomposition):
     - Phân rã nếu câu hỏi hỏi về từ 2 sản phẩm trở lên (so sánh, đối chiếu) HOẶC hỏi đồng thời cả giá bán (variants) VÀ cấu hình/pin/camera (specs) của một sản phẩm.
@@ -511,7 +496,24 @@ def retrieve_and_rerank(query_text, n_results=5):
     print(f"   [Merge] Gộp lại còn {len(all_candidates)} ứng viên.")
     if not all_candidates:
         return []
-        
+
+    # Cân bằng pool ứng viên: giới hạn tối đa 4 chunk type=description để
+    # tránh sản phẩm nhiều mô tả (30+ chunks) lấn át specs/faq/variants.
+    # Giữ toàn bộ specs, variants, faq; chỉ cap description.
+    MAX_DESCRIPTION = 4
+    balanced_candidates = []
+    desc_count = 0
+    for cand in all_candidates:
+        ctype = cand.get("metadata", {}).get("type", "")
+        if ctype == "description":
+            if desc_count < MAX_DESCRIPTION:
+                balanced_candidates.append(cand)
+                desc_count += 1
+        else:
+            balanced_candidates.append(cand)
+    all_candidates = balanced_candidates
+    print(f"   [Balance] Sau cân bằng type: {len(all_candidates)} ứng viên (desc capped={desc_count})")
+
     # 3. Chuẩn bị các cặp để PhoRanker chấm điểm
     pairs = []
     pair_mapping = []
