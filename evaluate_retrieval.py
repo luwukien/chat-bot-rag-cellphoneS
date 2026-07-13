@@ -5,113 +5,109 @@ from test_search import retrieve_and_rerank
 
 # 1. Định nghĩa tập dữ liệu kiểm thử (Golden Dataset)
 # Sử dụng phương án 2: Lấy câu hỏi FAQ gốc và biến đổi viết tắt, lỗi chính tả, không dấu
+# 1. Định nghĩa tập dữ liệu kiểm thử phức tạp (Golden Dataset)
+# Dành cho việc đánh giá khả năng xử lý viết tắt, không dấu, series, và định tuyến hỗn hợp (Product + Policy)
 eval_dataset = [
-    # === VARIANTS (4 queries) ===
+    # === NHÓM 1: GIÁ BÁN & BIẾN THỂ (VARIANTS) - Viết tắt mạnh, sai chính tả, không dấu ===
     {
-        "query": "giá iphone 12 pro max bao nhiêu",
-        "expected_product_id": "iphone-12-pro-max",
-        # Description chunks (Phan 10, 11, 13) chua text "Gia iPhone 12 Pro Max 128GB tai..."
-        # PhoRanker xep chung cao hon variants (0.96 vs 0.85) vi natural language price text
-        "expected_type": "description"
-    },
-    {
-        "query": "ip 15 pro max 256gb gia bao nhieu",
-        "expected_product_id": "iphone-15-pro-max",
+        "query": "ip 16 pr max 128gb gia bao nhieu",
+        "expected_product_id": "iphone-16-pro-max",
         "expected_type": "variants"
     },
     {
-        "query": "iphone 14 pro 128gb con hang khong",
-        "expected_product_id": "iphone-14-pro",
+        "query": "iphone 15 pr 256 gb thoi diem nay con hang mau titan tu nhien k",
+        "expected_product_id": "iphone-15-pro",
         "expected_type": "variants"
     },
     {
-        "query": "gia ban va mau sac cua iphone 13 128gb",
-        "expected_product_id": "iphone-13",
+        "query": "gia ban ip 14 thuong ban thap nhat bn tien",
+        "expected_product_id": "iphone-14",
+        "expected_type": "variants"
+    },
+    {
+        "query": "iphone 16 series ban 256gb gia bao nhieu",
+        "expected_product_id": "iphone-16",  # Tìm kiếm dòng máy (series)
         "expected_type": "variants"
     },
 
-    # === SPECS (12 queries) ===
+    # === NHÓM 2: THÔNG SỐ KỸ THUẬT (SPECS) - Từ lóng công nghệ, không dấu ===
     {
-        "query": "cau hinh chi tiet cua iphone 15 pro max",
-        "expected_product_id": "iphone-15-pro-max",
-        "expected_type": "specs"
-    },
-    {
-        "query": "thong so ky thuat ram chip cua ip 16 pro",
+        "query": "cau hinh chi tiet camera va chip cua ip 16 pr 128gb",
         "expected_product_id": "iphone-16-pro",
         "expected_type": "specs"
     },
     {
-        "query": "dung luong pin va sac cua iphone 13",
-        "expected_product_id": "iphone-13",
-        # FAQ chunk trả lời trực tiếp: "Pin iPhone 13 la bao nhieu? → 3227mAh"
-        # tốt hơn raw specs table cho câu hỏi dạng người dùng này.
-        "expected_type": "faq"
-    },
-    {
-        "query": "kich thuoc va trong luong cua ip 14 pro max",
-        "expected_product_id": "iphone-14-pro-max",
-        "expected_type": "specs"
-    },
-    {
-        "query": "iphone 15 dung chip gi dung luong ram bao nhieu",
-        "expected_product_id": "iphone-15",
-        "expected_type": "specs"
-    },
-    {
-        "query": "camera truoc va sau cua ip 15 plus thong so ntn",
+        "query": "man hinh va chip xu ly cua ip 15 plus thong so ntn",
         "expected_product_id": "iphone-15-plus",
-        # FAQ chunk "Camera iPhone 15 Plus co gi noi bat?" trả lời tốt hơn specs table
-        # cho câu hỏi hỏi về camera theo kiểu mô tả.
+        "expected_type": "specs"
+    },
+    {
+        "query": "trong luong va kich thuoc cua dien thoai ip 13 pro max la bao nhieu",
+        "expected_product_id": "iphone-13-pro-max",
+        "expected_type": "specs"
+    },
+
+    # === NHÓM 3: HỎI ĐÁP FAQ SẢN PHẨM (FAQ) - Câu hỏi tự nhiên về Pin/Sạc/Tính năng ===
+    {
+        "query": "ip 13 thuong co sac nhanh k va pin dung duoc bn lau",
+        "expected_product_id": "iphone-13",
+        "expected_type": "faq"
+    },
+    {
+        "query": "camera cua iphone 15 plus chup dem co tot khong",
+        "expected_product_id": "iphone-15-plus",
+        "expected_type": "faq"
+    },
+    {
+        "query": "iphone 16 pro max sac nhanh toi da bao nhieu w",
+        "expected_product_id": "iphone-16-pro-max",
         "expected_type": "faq"
     },
 
-
-    # === DESCRIPTION (12 queries) ===
+    # === NHÓM 4: MÔ TẢ & TRẢI NGHIỆM (DESCRIPTION) - Đánh giá sâu về thiết kế, chất liệu ===
     {
-        "query": "gioi thieu thiet ke va tinh nang noi bat cua iphone 12",
-        "expected_product_id": "iphone-12",
-        "expected_type": "description"
-    },
-    {
-        "query": "danh gia chi tiet thiet ke mat lung cua iphone 13",
-        "expected_product_id": "iphone-13",
-        "expected_type": "description"
-    },
-    {
-        "query": "iphone 15 pro max co nhung diem doc dao nao trong thiet ke titan",
+        "query": "danh gia chat lieu khung vien titan tren dong ip 15 pro max",
         "expected_product_id": "iphone-15-pro-max",
         "expected_type": "description"
     },
     {
-        "query": "gioi thieu chung ve dien thoai iphone 14 pro",
-        "expected_product_id": "iphone-14-pro",
-        "expected_type": "description"
-    },
-    {
-        "query": "danh gia chat lieu titan tren iphone 16 pro",
-        "expected_product_id": "iphone-16-pro",
-        "expected_type": "description"
-    },
-    {
-        "query": "thong tin tong quan ve dien thoai iphone 15 plus",
-        "expected_product_id": "iphone-15-plus",
-        "expected_type": "description"
-    },
-    {
-        "query": "thiet ke ben ngoai cua iphone 16 thuong co gi thay doi",
+        "query": "thiet ke nut bam camera control moi cua ip 16 co gi dac biet",
         "expected_product_id": "iphone-16",
         "expected_type": "description"
     },
     {
-        "query": "nhung diem moi trong thiet ke cua iphone 17 pro max",
-        "expected_product_id": "iphone-17-pro-max",
+        "query": "trai nghiem cam nam va mau sac moi cua iphone 16 pro ntn",
+        "expected_product_id": "iphone-16-pro",
         "expected_type": "description"
     },
+
+    # === NHÓM 5: CHÍNH SÁCH CHUNG (POLICY) - Viết tắt, không dấu, định tuyến chính sách ===
     {
-        "query": "danh gia chi tiet trai nghiem cam nam iphone 14 plus",
-        "expected_product_id": "iphone-14-plus",
-        "expected_type": "description"
+        "query": "quy dinh doi tra va hoan tien tai cellphones khi may bi loi phan cung",
+        "expected_product_id": "N/A",  # Chính sách chung không thuộc product cụ thể nào
+        "expected_type": "policy"
+    },
+    {
+        "query": "chinh sach bh cua cua hang khi mua dt tra gop",
+        "expected_product_id": "N/A",
+        "expected_type": "policy"
+    },
+    {
+        "query": "huong dan thu tuc doi tra san pham loi trong 30 ngay dau",
+        "expected_product_id": "N/A",
+        "expected_type": "policy"
+    },
+
+    # === NHÓM 6: HỖN HỢP (PRODUCT + POLICY) - Test khả năng phân rã của LLM & routing ===
+    {
+        "query": "ip 16 pr max 128gb gia bao nhieu va co bh 1 doi 1 ko",
+        "expected_product_id": ["iphone-16-pro-max", "N/A"],
+        "expected_type": ["variants", "policy"]
+    },
+    {
+        "query": "mua iphone 15 pro 128gb tra gop duoc ko va thu tuc ntn",
+        "expected_product_id": ["iphone-15-pro", "N/A"],
+        "expected_type": ["variants", "policy"]
     }
 ]
 
@@ -147,8 +143,16 @@ def evaluate_retrieval(dataset, k=3):
     
     for idx, item in enumerate(dataset):
         query = item["query"]
-        expected_pid = item["expected_product_id"]
-        expected_type = item["expected_type"]
+        
+        # Cho phép expected_product_id là list hoặc string
+        expected_pids = item["expected_product_id"]
+        if isinstance(expected_pids, str):
+            expected_pids = [expected_pids]
+            
+        # Cho phép expected_type là list hoặc string
+        expected_types = item["expected_type"]
+        if isinstance(expected_types, str):
+            expected_types = [expected_types]
         
         print(f"[{idx+1}/{total_queries}] Query gốc: '{query}'")
         
@@ -171,20 +175,27 @@ def evaluate_retrieval(dataset, k=3):
             retrieved_pid = meta.get("product_id", "")
             retrieved_type = meta.get("type")
             
-            # Family PID matching: iphone-14-pro-max-256gb pải được chấp nhận
-            # khi expected_pid = iphone-14-pro-max (cùng dòng máy, khác biến thể)
-            pid_matches = (
-                retrieved_pid == expected_pid or
-                retrieved_pid.startswith(expected_pid + "-") or
-                expected_pid.startswith(retrieved_pid + "-")
-            )
+            # Kiểm tra xem retrieved_pid có khớp với bất kỳ exp_pid nào trong list mong đợi
+            pid_matches = False
+            for exp_pid in expected_pids:
+                # Chuẩn hóa các giá trị rỗng/None/N/A về dạng đồng nhất "N/A"
+                norm_retrieved = retrieved_pid if retrieved_pid not in ("", None) else "N/A"
+                norm_expected = exp_pid if exp_pid not in ("", None) else "N/A"
+                
+                if (norm_retrieved == norm_expected or
+                    (exp_pid != "N/A" and exp_pid != "" and (
+                        retrieved_pid.startswith(exp_pid + "-") or
+                        exp_pid.startswith(retrieved_pid + "-")
+                    ))):
+                    pid_matches = True
+                    break
             
             # Gán điểm liên quan (graded relevance):
-            # 2 điểm: Khớp cả mã sản phẩm và loại thông tin
+            # 2 điểm: Khớp cả mã sản phẩm và loại thông tin mong đợi
             # 1 điểm: Khớp mã sản phẩm nhưng sai loại thông tin
             # 0 điểm: Sai hoàn toàn sản phẩm
             if pid_matches:
-                if retrieved_type == expected_type:
+                if retrieved_type in expected_types:
                     rel = 2
                     if not hit_detected:
                         hit_detected = True

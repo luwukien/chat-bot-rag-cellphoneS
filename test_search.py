@@ -78,6 +78,7 @@ def llm_process_query(query_text):
     
     Quy tắc phân rã (decomposition):
     - Phân rã nếu câu hỏi hỏi về từ 2 sản phẩm trở lên (so sánh, đối chiếu) HOẶC hỏi đồng thời cả giá bán (variants) VÀ cấu hình/pin/camera (specs) của một sản phẩm.
+    - ĐẶC BIỆT: Nếu câu hỏi vừa hỏi về sản phẩm cụ thể vừa có từ khóa chính sách chung (ví dụ: bảo hành, đổi trả, trả góp, lỗi kỹ thuật...), hãy phân rã phần chính sách thành một câu hỏi phụ chung chung và LƯỢC BỎ tên sản phẩm cụ thể ra khỏi câu hỏi phụ đó. Ví dụ: chuyển "iPhone 16 bảo hành thế nào" thành "Chính sách bảo hành điện thoại tại CellphoneS" để hệ thống định tuyến đúng đến tài liệu chính sách chung của cửa hàng.
     - Mỗi sub-query phải là một câu hỏi độc lập, rõ nghĩa và đã được chuẩn hóa.
 
     Ví dụ 1 (Câu hỏi phức tạp, viết tắt, không dấu):
@@ -94,7 +95,7 @@ def llm_process_query(query_text):
       ]
     }}
 
-    Ví dụ 2 (Câu hỏi đơn giản, viết tắt, sai chính tả):
+    Ví dụ 2 (Câu hỏi đơn giản vừa hỏi sản phẩm vừa hỏi chính sách):
     Câu hỏi: "ip16 promax 128gb gia bao nhieu và co bh ko"
     Trả về định dạng JSON:
     {{
@@ -102,7 +103,7 @@ def llm_process_query(query_text):
       "need_decomposition": true,
       "sub_queries": [
         "iPhone 16 Pro Max 128GB giá bao nhiêu",
-        "iPhone 16 Pro Max 128GB chính sách bảo hành"
+        "Chính sách bảo hành điện thoại tại CellphoneS"
       ]
     }}
 
@@ -181,7 +182,7 @@ def llm_process_query(query_text):
 # ==========================================
 # 2. XÂY DỰNG BẢN ĐỒ SẢN PHẨM & MAPPING
 # ==========================================
-
+#Đầu tiên sẽ tách tên sản phẩm để có thể tìm kiếm nhiều sản phẩm hơn
 def clean_model_name(name):
     """
     Rút gọn tên sản phẩm về dòng máy gốc (Base Name).
@@ -195,6 +196,8 @@ def clean_model_name(name):
     cleaned = re.split(r'\s*(?:\||I)\s*', cleaned)[0]
     return cleaned.strip()
 
+#Xây dựng cái hàm này để mapping tất cả các product_id của biến thể liên quan
+#Ví dụ iPhone 14 Pro Max -> [iPhone 14 Pro Max 128GB, iPhone 14 Pro Max 256GB, iPhone 14 Pro Max 512GB]
 def build_model_mappings():
     """
     Tải thông tin từ ChromaDB để tạo ánh xạ từ tên dòng máy gốc (base name)
@@ -543,10 +546,7 @@ def retrieve_and_rerank(query_text, n_results=5):
 def main():
     queries = [
         "Cấu hình chi tiết camera và chip xử lý của iPhone 16 Pro 128gb là gì?",
-        "iPhone 13 Pro max giá bao nhiêu và có những màu gì?",
-        "So sánh iPhone 13 Pro và iPhone 14 Pro về giá và pin",
-        "Chính sách bảo hành đổi trả của CellphoneS",
-        "iphone 16 plus màu nào đẹp nhất?",
+        "chính sách bảo hành của iphoen 16 pro max có được đổi trả kh?",
         "iphone 16 series bao nhiêu tiền?",
         "so sanh ip 13 pro vs iphon 14 pro ve gia va pin",
         "ip 16 pr max 128gb gia bao nhieu và co bh ko",
