@@ -45,9 +45,26 @@ graph TD
 
 ---
 
-## 📁 Directory Structure
+## 🖥️ Web User Interface
+
+The project features a modern, responsive web application interface connected to the FastAPI RAG backend:
+
+![CellphoneS AI Chatbot Web UI](docs/images/web_ui.png)
+
+### Key UI Features:
+- **Typo & Accent Handling**: Seamlessly processes shorthand, unaccented, and noisy Vietnamese queries (e.g. `iphone 15 pr 256 gb tchoi diem nay con hang mau titan tu nhien k`).
+- **Real-Time Inventory & Specs**: Provides clear responses regarding color availability, pricing variants, and store stock status.
+- **Source Attribution**: Includes expandable source cards with relevance scores, product metadata, and exact context snippets used for generation.
+- **Interactive Debug Panel**: Toggleable side panel for developers to inspect query normalization, sub-query decomposition, hybrid BM25 + vector search ranks, and PhoRanker cross-encoder scores.
 
 ```text
+├── static/                        # Frontend Web UI files
+│   ├── index.html                 # Main HTML layout for Chatbot app & Debug panel
+│   ├── style.css                  # Custom CSS design system with dark theme & animations
+│   └── app.js                     # Client-side JavaScript handling chat & debug stream
+├── docs/                          # Documentation assets
+│   └── images/                    # UI screenshots for README
+│       └── web_ui.png             # Screenshot of Web UI chatbot response
 ├── crawl-data/                    # Python crawler scripts powered by Playwright
 │   ├── crawl_url_and_name.py      # Crawls listing pages to gather product URLs, IDs, and names
 │   ├── crawl_spec_and_variant.py  # Crawls product pages to extract specs & variants (price, stock)
@@ -67,6 +84,7 @@ graph TD
 │   ├── prepare_policy.py          # Formats policy tables to MD and splits them into logical clauses
 │   └── build_chroma.py            # Populates two local collections in ChromaDB using local embeddings
 ├── chroma_db/                     # Local ChromaDB persistent database storage (ignored by git)
+├── api.py                         # FastAPI backend REST API server & static file host
 ├── run_pipeline.py                # Pipeline automation script to run all crawlers in sequence
 ├── test_search.py                 # CLI query testing script with routing, RRF, and reranking
 ├── evaluate_retrieval.py          # Script to evaluate Hit Rate, MRR, and NDCG on a Golden Dataset
