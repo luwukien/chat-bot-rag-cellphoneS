@@ -144,11 +144,22 @@ python utils/build_chroma.py
 ```
 This clears and rebuilds two collections in ChromaDB: `product_collection` and `policy_collection`.
 
-### Step 4: Run Retrieval Tests
+### Step 4: Run Retrieval Tests (CLI)
 Run the CLI utility to perform test queries and view the query plan (spell-checking, decomposition, routing, filters) and reranked search results:
 ```bash
 python test_search.py
 ```
+
+### Step 5: Launch RESTful API Backend & Chatbot Web UI
+Start the FastAPI web server to expose REST endpoints and serve the frontend Chatbot Widget:
+```bash
+uvicorn api:app --reload --host 0.0.0.0 --port 8000
+```
+Access points:
+- **Chatbot Web UI**: Open [http://localhost:8000](http://localhost:8000) in your browser.
+- **Interactive API Documentation (Swagger)**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Health Check Endpoint**: [http://localhost:8000/api/health](http://localhost:8000/api/health)
+- **Chat REST API**: `POST http://localhost:8000/api/chat` with body `{"message": "iPhone 16 Pro Max giá bao nhiêu?"}`
 
 ---
 

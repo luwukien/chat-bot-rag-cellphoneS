@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CellphoneS AI Assistant</title>
+    <meta name="description" content="Trợ lý AI tư vấn sản phẩm và chính sách CellphoneS, sử dụng RAG Hybrid Search.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <!-- HEADER -->
+        <header class="header" id="appHeader">
+            <div class="header-brand">
+                <div class="brand-logo">C</div>
+                <div>
+                    <h1>CellphoneS AI</h1>
+                    <span class="header-subtitle">
+                        <span class="status-dot"></span> RAG Assistant
+                    </span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button id="debugToggleBtn" class="btn-icon" title="Bật/tắt Debug Panel" aria-label="Toggle debug panel">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+                </button>
+                <button id="clearChatBtn" class="btn-icon" title="Xóa lịch sử chat" aria-label="Clear chat">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN LAYOUT: Chat + Debug side-by-side -->
+        <div class="main-layout">
+            <!-- CHAT PANEL -->
+            <div class="chat-panel">
+                <main class="chat-body" id="chatBody">
+                    <!-- Welcome message -->
+                    <div class="msg msg--bot fade-in">
+                        <div class="msg-bubble">
+                            Xin chào! 👋 Tôi là <strong>trợ lý AI CellphoneS</strong>.<br>
+                            Hỏi tôi về giá, thông số, hoặc chính sách bảo hành / đổi trả.
+                        </div>
+                        <div class="suggestions">
+                            <button class="chip" onclick="sendSuggestion('iPhone 16 Pro Max 128GB giá bao nhiêu?')">📱 iPhone 16 Pro Max giá?</button>
+                            <button class="chip" onclick="sendSuggestion('So sánh iPhone 13 Pro và 14 Pro')">⚖️ So sánh 13 Pro vs 14 Pro</button>
+                            <button class="chip" onclick="sendSuggestion('Chính sách đổi trả tại CellphoneS thế nào?')">🛡️ Chính sách đổi trả</button>
+                        </div>
+                    </div>
+                </main>
+
+                <!-- Typing indicator -->
+                <div id="typingIndicator" class="typing-bar hidden">
+                    <div class="typing-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span class="typing-label">Đang xử lý...</span>
+                </div>
+
+                <!-- Input -->
+                <footer class="chat-input-area">
+                    <form id="chatForm" class="input-form">
+                        <textarea id="userInput" placeholder="Nhập câu hỏi..." rows="1" required></textarea>
+                        <button type="submit" id="sendBtn" class="btn-send" title="Gửi">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                        </button>
+                    </form>
+                    <p class="input-footer-note">RAG Hybrid Search &middot; vietnamese-sbert + BM25 + PhoRanker</p>
+                </footer>
+            </div>
+
+            <!-- DEBUG PANEL (hidden by default) -->
+            <aside class="debug-panel hidden" id="debugPanel">
+                <div class="debug-header">
+                    <h2>🔍 Debug</h2>
+                    <button id="debugCloseBtn" class="btn-icon btn-icon--sm" title="Đóng">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+                <div class="debug-body" id="debugBody">
+                    <p class="debug-empty">Gửi một tin nhắn để xem dữ liệu debug tại đây.</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

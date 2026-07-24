@@ -15,7 +15,7 @@ eval_dataset = [
         "expected_type": "variants"
     },
     {
-        "query": "iphone 15 pr 256 gb thoi diem nay con hang mau titan tu nhien k",
+        "query": "iphone 15 pr 256 gb tchoi diem nay con hang mau titan tu nhien k",
         "expected_product_id": "iphone-15-pro",
         "expected_type": "variants"
     },

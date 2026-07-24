@@ -303,6 +303,16 @@ def search_chroma(query_text, collection_name, model, n_results=5, metadata_filt
         return []
         
     query_vector = model.encode(query_text).tolist()
+    """
+    1. Tokenization
+    2. Convert tokens to IDs
+    3. Padding / Truncation
+    4. Convert to Tensor
+    5. Transformer Encoder (Self-Attention + Feed Forward)
+    6. Context-aware Token Embeddings
+    7. Pooling (Mean Pooling hoặc CLS Pooling, tùy model)
+    8. Sentence Embedding (vector cuối cùng)
+    """
     
     query_kwargs = {
         "query_embeddings": [query_vector],
