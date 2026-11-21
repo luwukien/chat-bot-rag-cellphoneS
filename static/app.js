@@ -30,13 +30,34 @@ function esc(text) {
 
 function formatMarkdown(text) {
     if (!text) return '';
-    let s = esc(text);
-    s = s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    s = s.replace(/__(.*?)__/g, '<strong>$1</strong>');
-    s = s.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    s = s.replace(/^\s*[\-\*]\s+(.*)$/gm, '• $1');
-    s = s.replace(/\n/g, '<br>');
-    return s;
+    const fragment = DOMPurify.sanitize(marked.parse(text, {
+        gfm: true,
+        breaks: true,
+        async: false,
+    }), {
+        ALLOWED_TAGS: [
+            'p', 'br', 'strong', 'em', 'del', 's', 'a', 'code', 'pre',
+            'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li',
+            'blockquote', 'hr', 'table', 'thead', 'tbody', 'tr', 'th', 'td',
+        ],
+        ALLOWED_ATTR: ['href', 'title', 'align', 'start'],
+        RETURN_DOM_FRAGMENT: true,
+    });
+    const content = document.createElement('div');
+    content.appendChild(fragment);
+    content.querySelectorAll('table').forEach(table => {
+        table.querySelectorAll('thead th').forEach(cell => cell.setAttribute('scope', 'col'));
+        const wrapper = document.createElement('div');
+        wrapper.className = 'markdown-table';
+        wrapper.tabIndex = 0;
+        wrapper.setAttribute('role', 'region');
+        const previous = table.previousElementSibling;
+        wrapper.setAttribute('aria-label', previous?.matches('h1,h2,h3,h4,h5,h6')
+            ? previous.textContent : 'Bảng thông tin');
+        table.replaceWith(wrapper);
+        wrapper.appendChild(table);
+    });
+    return content.innerHTML;
 }
 
 function scrollDown() {
@@ -177,7 +198,7 @@ function appendBot(answer, sources = []) {
     }
 
     div.innerHTML = `
-        <div class="msg-bubble">${formatMarkdown(answer)}</div>
+        <div class="msg-bubble markdown-content">${formatMarkdown(answer)}</div>
         ${sourcesHtml}
         <span class="msg-time">${time()}</span>
     `;

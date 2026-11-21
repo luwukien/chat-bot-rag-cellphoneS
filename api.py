@@ -5,6 +5,18 @@ import sys
 import time
 import logging
 import warnings
+from pathlib import Path
+
+from dotenv import load_dotenv
+from utils.product_capacity import ProductCapacityCatalog
+
+# Hugging Face đọc cấu hình cache/offline khi import: nạp .env trước các thư viện ML.
+PROJECT_ROOT = Path(__file__).resolve().parent
+load_dotenv(PROJECT_ROOT / ".env")
+if os.name == "nt":
+    # Cache bằng file thường, tránh WinError 1314 khi Windows không cho tạo symlink.
+    os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS", "1")
+
 import numpy as np
 import chromadb
 import requests
@@ -19,7 +31,6 @@ from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer, CrossEncoder
 from rank_bm25 import BM25Okapi
 from underthesea import word_tokenize, text_normalize
-from dotenv import load_dotenv
 
 # Tắt cảnh báo không cần thiết từ transformers
 warnings.filterwarnings("ignore", category=UserWarning, module="transformers")
@@ -29,13 +40,12 @@ logging.getLogger("transformers.tokenization_utils_base").setLevel(logging.ERROR
 import transformers
 transformers.logging.set_verbosity_error()
 
-# Nạp biến môi trường
-load_dotenv(dotenv_path=os.path.join(os.getcwd(), '.env'))
-
 # Cấu hình đường dẫn & Model
-CHROMA_DB_PATH = "./chroma_db"
+CHROMA_DB_PATH = str(PROJECT_ROOT / "chroma_db")
 EMBEDDING_MODEL_NAME = "keepitreal/vietnamese-sbert"
 RERANKER_MODEL_NAME = "itdainb/PhoRanker"
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b")
+logger = logging.getLogger("uvicorn.error")
 
 # Các biến toàn cục lưu trữ model và database index
 embed_model = None
@@ -44,6 +54,7 @@ chroma_client = None
 base_to_pids = {}
 sorted_base_names = []
 pid_to_name = {}
+capacity_catalog = ProductCapacityCatalog()
 
 # ==========================================
 # 1. KHỞI TẠO BẢN ĐỒ SẢN PHẨM & MODELS
@@ -59,7 +70,7 @@ def clean_model_name(name: str) -> str:
 
 def build_model_mappings():
     """Tạo ánh xạ từ tên dòng máy gốc sang danh sách product_id biến thể."""
-    global base_to_pids, sorted_base_names, pid_to_name
+    global base_to_pids, sorted_base_names, pid_to_name, capacity_catalog
     try:
         collection = chroma_client.get_collection(name="product_collection")
         all_data = collection.get()
@@ -83,17 +94,36 @@ def build_model_mappings():
     base_to_pids = b2p
     pid_to_name = p2n
     sorted_base_names = sorted(base_to_pids.keys(), key=len, reverse=True)
-    logging.info(f"Đã tạo ánh xạ cho {len(base_to_pids)} dòng sản phẩm.")
+    capacity_catalog = ProductCapacityCatalog(
+        {"id": doc_id, "text": document, "metadata": metadata}
+        for doc_id, document, metadata in zip(
+            all_data.get("ids", []), all_data.get("documents", []), metadatas
+        )
+    )
+    logger.info("Mapped %s product families.", len(base_to_pids))
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global embed_model, reranker_model, chroma_client
-    logging.info("Đang khởi tạo các mô hình RAG & kết nối ChromaDB...")
-    embed_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
-    reranker_model = CrossEncoder(RERANKER_MODEL_NAME, device="cpu")
-    chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
-    build_model_mappings()
-    logging.info("Khởi tạo hệ thống thành công!")
+    started = time.perf_counter()
+    logger.info("RAG startup: models must finish loading before the HTTP server accepts requests.")
+    logger.info("First run downloads model weights. To see download progress, stop this server and run: "
+                ".\\.venv\\Scripts\\python.exe utils/download_models.py --http")
+    try:
+        logger.info("[1/3] Loading embedding: %s (downloads if not cached)...", EMBEDDING_MODEL_NAME)
+        embed_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+        logger.info("Embedding ready after %.1fs.", time.perf_counter() - started)
+        logger.info("[2/3] Loading reranker on CPU: %s (downloads if not cached)...", RERANKER_MODEL_NAME)
+        reranker_model = CrossEncoder(RERANKER_MODEL_NAME, device="cpu")
+        logger.info("Reranker ready after %.1fs.", time.perf_counter() - started)
+        logger.info("[3/3] Opening ChromaDB: %s", CHROMA_DB_PATH)
+        chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
+        build_model_mappings()
+    except Exception:
+        logger.exception("RAG startup failed. Run utils/download_models.py --http to prepare the model cache. "
+                         "If HF_HUB_OFFLINE=1, both models must already be fully downloaded.")
+        raise
+    logger.info("RAG ready after %.1fs. Groq model: %s", time.perf_counter() - started, GROQ_MODEL)
     yield
 
 app = FastAPI(
@@ -157,7 +187,7 @@ def llm_process_query(query_text: str) -> dict:
         "Content-Type": "application/json"
     }
     payload = {
-        "model": "llama-3.3-70b-versatile",
+        "model": GROQ_MODEL,
         "messages": [{"role": "user", "content": prompt}],
         "response_format": {"type": "json_object"}
     }
@@ -338,8 +368,15 @@ def hybrid_search(query_text, collection_name, n_results=5, metadata_filter=None
 
 def retrieve_and_rerank(query_text: str, n_results: int = 5):
     processed = llm_process_query(query_text)
-    cleaned_query = processed.get("cleaned_query", query_text)
-    sub_queries = processed.get("sub_queries", [query_text])
+    cleaned_query = processed.get("cleaned_query")
+    if not isinstance(cleaned_query, str) or not cleaned_query.strip():
+        cleaned_query = query_text
+    sub_queries = processed.get("sub_queries")
+    if not isinstance(sub_queries, list):
+        sub_queries = []
+    sub_queries = [sq.strip() for sq in sub_queries if isinstance(sq, str) and sq.strip()]
+    if not sub_queries:
+        sub_queries = [cleaned_query]
 
     all_candidates = []
     retrieved_by = {}
@@ -436,7 +473,7 @@ Nhiệm vụ của bạn là tư vấn thông tin sản phẩm (giá bán, thôn
 QUY TẮC BẮT BUỘC:
 1. CHỈ sử dụng thông tin được cung cấp trong danh sách [Tài liệu ngữ cảnh] bên dưới.
 2. KHÔNG tự bịa đặt giá bán, quà tặng, hay thông số không có trong ngữ cảnh.
-3. Trình bày rõ ràng, dễ đọc (sử dụng gạch đầu dòng, in đậm tên sản phẩm, giá tiền).
+3. Trình bày rõ ràng, dễ đọc (sử dụng gạch đầu dòng, in đậm tên sản phẩm, giá tiền). Khi khách yêu cầu so sánh hoặc yêu cầu bảng, trình bày thông tin có căn cứ trong bảng Markdown chuẩn: mỗi hàng một dòng, dùng dấu | và có dòng phân cách |---|---|. Không tự điền dữ liệu thiếu.
 4. Nếu thông tin không có trong tài liệu ngữ cảnh, hãy trả lời lịch sự rằng hiện tại chưa có thông tin chi tiết và khuyên khách hàng liên hệ tổng đài 1800.2097 hoặc tới cửa hàng CellphoneS gần nhất.
 5. Luôn giữ thái độ thân thiện, lịch sự chuẩn tư vấn viên CellphoneS.
 """
@@ -456,7 +493,7 @@ Hãy trả lời câu hỏi của khách hàng một cách chi tiết và chính
         "Content-Type": "application/json"
     }
     payload = {
-        "model": "llama-3.3-70b-versatile",
+        "model": GROQ_MODEL,
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
@@ -545,11 +582,19 @@ async def chat_endpoint(request: ChatRequest):
     if not user_msg:
         raise HTTPException(status_code=400, detail="Nội dung tin nhắn không được để trống.")
 
-    # Luồng RAG
-    results, cleaned_query, sub_queries = retrieve_and_rerank(user_msg, n_results=5)
-
-    # Sinh câu trả lời
-    answer = generate_answer(cleaned_query, results)
+    # Kiểm tra dung lượng trước khi tìm kiếm/sinh câu trả lời.
+    correction = capacity_catalog.resolve_price_query(user_msg)
+    if correction:
+        answer, results = correction
+        cleaned_query, sub_queries = user_msg, [user_msg]
+    else:
+        results, cleaned_query, sub_queries = retrieve_and_rerank(user_msg, n_results=5)
+        # Planner có thể vừa chuẩn hóa tên sản phẩm viết sai/viết tắt.
+        correction = capacity_catalog.resolve_price_query(cleaned_query)
+        if correction:
+            answer, results = correction
+        else:
+            answer = generate_answer(cleaned_query, results)
 
     # Format nguồn tham khảo
     sources = []

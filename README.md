@@ -4,6 +4,62 @@ This repository implements a complete, end-to-end Retrieval-Augmented Generation
 
 Additionally, this project includes a robust evaluation suite assessing both retrieval performance (Hit Rate, MRR, NDCG) and generation trustworthiness (LLM-as-a-judge Faithfulness evaluation).
 
+## Chạy demo nhanh trên Windows
+
+Nếu máy đã có `.venv`, `.env` và `chroma_db`, mở PowerShell tại thư mục project và chạy:
+
+```powershell
+cd D:\Projects\rag-chatbot-cellphones
+.\.venv\Scripts\python.exe -m uvicorn api:app --host 127.0.0.1 --port 8000
+```
+
+Không cần activate môi trường Python. Giữ terminal này mở; nhấn `Ctrl+C` để dừng.
+Lần đầu khởi động cần tải hai model từ Hugging Face nên có thể chờ lâu tùy mạng.
+Chỉ mở demo sau khi terminal hiện `Application startup complete`.
+
+Nếu terminal dừng lâu ở `Waiting for application startup`, hai model có thể chưa tải xong.
+Cảnh báo thiếu `HF_TOKEN` không phải lỗi với hai model public này.
+Nhấn `Ctrl+C` để dừng server và dừng các lượt tải/server trùng trước khi chạy:
+
+```powershell
+.\.venv\Scripts\python.exe utils/download_models.py --http
+```
+
+Lệnh này hiện tiến độ tải và dùng lại cache/file tải dở khi máy chủ hỗ trợ tải tiếp.
+Đợi dòng `Done. Both model snapshots are cached`, rồi chạy lại lệnh uvicorn ở trên.
+Nếu tải bị ngắt, chạy lại cùng lệnh; không cần xóa cache hay tạo lại ChromaDB.
+Sau khi đã tải đủ cả hai model, có thể thêm `HF_HUB_OFFLINE=1` vào `.env` để những lần khởi động sau chỉ đọc cache model.
+Groq vẫn cần Internet. Không bật offline khi model còn thiếu.
+`HF_TOKEN` là token Hugging Face tùy chọn, khác với `GROQ_API_KEY`; không cần thêm token chỉ để bỏ cảnh báo.
+Trên Windows, web API và lệnh tải model mặc định dùng file thường cho cache để tránh lỗi quyền tạo symlink (`WinError 1314`).
+
+- Giao diện chat: <http://127.0.0.1:8000>
+- Kiểm tra dữ liệu: <http://127.0.0.1:8000/api/health> (bản dữ liệu hiện có: 1436 product chunks, 109 policy chunks).
+- Swagger API: <http://127.0.0.1:8000/docs>
+
+Web demo cần `GROQ_API_KEY` hợp lệ trong `.env` và Internet để gọi Groq.
+`api.py` mặc định dùng `openai/gpt-oss-120b`; có thể đổi bằng `GROQ_MODEL` trong `.env`.
+Model này đã được kiểm tra gọi API thành công với cấu hình hiện tại và hỗ trợ JSON cho planner
+([tài liệu Groq](https://console.groq.com/docs/structured-outputs)).
+Model Llama cũ ghi trong các phần mô tả và script CLI/evaluation chưa được chuyển đổi; hướng dẫn demo này dùng web API.
+
+### Kịch bản demo 3–5 phút
+
+1. Mở giao diện chat và bật Debug bằng nút hình chữ **i** ở góc trên bên phải trước khi gửi câu hỏi.
+2. Hỏi: `iPhone 16 Pro Max 256GB giá bao nhiêu và có những màu nào?`
+3. Hỏi không dấu: `ip 16 pro max 256gb gia bao nhieu` để xem `cleaned_query` và `sub_queries`.
+4. Hỏi: `Chính sách đổi trả tại CellphoneS thế nào?` để minh họa tìm kiếm chính sách.
+5. Mở nguồn tham khảo và giải thích: chuẩn hóa câu hỏi → định tuyến/lọc sản phẩm → Vector + BM25 → RRF → PhoRanker → Groq sinh câu trả lời từ context.
+
+Lưu ý: dữ liệu có iPhone 16 Pro Max **256GB**, không có bản **128GB** trong bộ chunks hiện tại; nút gợi ý dùng bản 256GB.
+Nếu hỏi giá một dung lượng không có trong dữ liệu (ví dụ `iPhone 16 Pro Max 128GB giá bao nhiêu?`), API kiểm tra danh mục từ ChromaDB trước khi sinh câu trả lời, thông báo dung lượng không được ghi nhận và gợi ý bản gần nhất có giá đã thu thập, kèm nguồn tham khảo. Kiểm tra này áp dụng cho câu hỏi giá đơn giản; câu hỏi so sánh hoặc có thêm yêu cầu vẫn đi qua luồng RAG.
+Giá và tồn kho là dữ liệu đã crawl, không phải truy vấn trực tiếp từ cửa hàng.
+API hiện xử lý từng câu hỏi độc lập, chưa gửi lịch sử chat cho LLM; mỗi câu nên ghi đầy đủ tên sản phẩm.
+
+Trước buổi phỏng vấn, tải xong model và chạy thử các câu hỏi trên. Ngày demo mở server sớm khoảng 10–15 phút, cắm sạc và chuẩn bị mạng dự phòng.
+Nên giữ ảnh chụp hoặc video một lượt demo thành công để dùng nếu mất mạng.
+Với dữ liệu/index hiện có, không cần chạy lại crawler hoặc `utils/build_chroma.py`; script build sẽ xóa và tạo lại hai collection.
+
 ---
 
 ## 🤖 System Architecture & Data Flow
@@ -113,7 +169,7 @@ source .venv/bin/activate
 
 ### 2. Install Project Dependencies
 ```bash
-pip install playwright chromadb sentence-transformers rank_bm25 underthesea numpy requests python-dotenv
+pip install fastapi uvicorn playwright chromadb sentence-transformers rank_bm25 underthesea numpy requests python-dotenv
 ```
 
 ### 3. Install Playwright Web Browsers
@@ -125,6 +181,7 @@ playwright install chromium
 Create a `.env` file in the root directory and configure your Groq API key:
 ```env
 GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=openai/gpt-oss-120b
 ```
 
 ---

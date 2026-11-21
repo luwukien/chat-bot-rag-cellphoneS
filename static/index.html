@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
     <div class="app-shell">
@@ -45,7 +45,7 @@
                             Hỏi tôi về giá, thông số, hoặc chính sách bảo hành / đổi trả.
                         </div>
                         <div class="suggestions">
-                            <button class="chip" onclick="sendSuggestion('iPhone 16 Pro Max 128GB giá bao nhiêu?')">📱 iPhone 16 Pro Max giá?</button>
+                            <button class="chip" onclick="sendSuggestion('iPhone 16 Pro Max 256GB giá bao nhiêu?')">📱 iPhone 16 Pro Max giá?</button>
                             <button class="chip" onclick="sendSuggestion('So sánh iPhone 13 Pro và 14 Pro')">⚖️ So sánh 13 Pro vs 14 Pro</button>
                             <button class="chip" onclick="sendSuggestion('Chính sách đổi trả tại CellphoneS thế nào?')">🛡️ Chính sách đổi trả</button>
                         </div>
@@ -87,6 +87,8 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="vendor/marked.umd.js?v=2"></script>
+    <script src="vendor/purify.min.js?v=2"></script>
+    <script src="app.js?v=2"></script>
 </body>
 </html>

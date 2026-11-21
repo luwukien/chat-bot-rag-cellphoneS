@@ -185,7 +185,8 @@ body {
 .msg {
     display: flex;
     flex-direction: column;
-    max-width: 680px;
+    min-width: 0;
+    max-width: min(680px, 100%);
 }
 
 .msg--user {
@@ -214,6 +215,118 @@ body {
     background: var(--bg-bot-bubble);
     color: var(--text-primary);
     border-bottom-left-radius: 4px;
+}
+
+/* ---- Markdown answers and comparison tables ---- */
+.markdown-content > * + * {
+    margin-top: 12px;
+}
+
+.markdown-content :is(h1, h2, h3, h4, h5, h6) {
+    margin-top: 20px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.markdown-content > :first-child {
+    margin-top: 0;
+}
+
+.markdown-content :is(ul, ol) {
+    padding-left: 22px;
+}
+
+.markdown-content li + li {
+    margin-top: 4px;
+}
+
+.markdown-content a {
+    color: var(--accent-hover);
+    text-underline-offset: 3px;
+}
+
+.markdown-content blockquote {
+    padding: 8px 12px;
+    border-left: 1px solid var(--border-focus);
+}
+
+.markdown-content hr {
+    border: 0;
+    border-top: 1px solid var(--border-focus);
+    margin-block: 16px;
+}
+
+.markdown-content code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    overflow-wrap: anywhere;
+}
+
+.markdown-content pre {
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 12px;
+    background: var(--bg-chat);
+    border-radius: var(--radius-xs);
+}
+
+.markdown-table {
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border-focus);
+    border-radius: var(--radius-sm);
+    background: var(--bg-chat);
+    scrollbar-color: var(--border-focus) var(--bg-input);
+    scrollbar-width: thin;
+}
+
+.markdown-table:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.markdown-table table {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 13px;
+    line-height: 1.6;
+    font-variant-numeric: tabular-nums;
+    word-break: normal;
+    overflow-wrap: anywhere;
+}
+
+.markdown-table :is(th, td) {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+}
+
+.markdown-table :is(th, td) + :is(th, td) {
+    border-left: 1px solid var(--border);
+}
+
+.markdown-table th {
+    background: var(--bg-input);
+    font-weight: 600;
+}
+
+.markdown-table th:first-child {
+    width: 26%;
+}
+
+.markdown-table [align="center"] { text-align: center; }
+.markdown-table [align="right"] { text-align: right; }
+
+.markdown-table tbody tr:nth-child(even) {
+    background: var(--bg-page);
+}
+
+.markdown-table tbody tr:last-child td {
+    border-bottom: 0;
 }
 
 .msg-time {
